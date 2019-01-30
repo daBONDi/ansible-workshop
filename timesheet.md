@@ -13,5 +13,9 @@
     - debian box
 
 26.01.2019
-- 0,5 - 15:30 - 16:00
-- 1,75 - 19:30 - 21:15
+- 0,5 - 15:30 - 16:00 - Arbeiten an Übersicht
+- 1,75 - 19:30 - 21:15 - Arbeiten an Übersicht
+
+31.01.2019
+- 4h - 20:00 - 24:00
+    - Präsentation in reval.js

@@ -1,0 +1,159 @@
+# Vagrant File for Workshop Environment
+
+# Define Boxes
+ANSIBLE = {
+  :'ansible' => {
+    :hostname => 'ansible',
+    :ip => "172.16.233.10"
+  }
+}
+
+DEBIAN = {
+  :'debian1' => {
+    :hostname => 'debian1',
+    :ip => '172.16.233.21'
+  },
+  :'debian2' => {
+    :hostname => 'debian2',
+    :ip => '172.16.233.22'
+  }
+}
+
+CENTOS = {
+  :'centos1' => {
+    :hostname => 'centos1',
+    :ip => '172.16.233.31'
+  },
+  :'centos2' => {
+    :hostname => 'centos2',
+    :ip => '172.16.233.32'
+  }
+}
+
+WS2019 = {
+  :'win1' => {
+    :hostname => 'win1',
+    :ip => '172.16.233.41'
+  },
+  :'win2' => {
+    :hostname => 'win2',
+    :ip => '172.16.233.42'
+  }
+}
+
+# Globals
+PROJECTNAME="ws"
+
+# Configure
+Vagrant.configure("2") do | config |
+
+  # Globals
+  config.vm.box_check_update = false
+
+  # Global Virtualbox Provider Settings
+  config.vm.provider "virtualbox" do | vb |
+    vb.gui = true
+  end
+
+  # Ansible Control Host
+  ANSIBLE.each do | name, cfg |
+    config.vm.define name do | vmconfig |
+      vmconfig.vm.box = 'debian/stretch64'
+      vmconfig.vm.box_version = "9.6.0"
+      vmconfig.vm.hostname = cfg[:hostname]
+      vmconfig.vm.network "private_network", ip: cfg[:ip], virtualbox__intnet: "workshop"
+      vmconfig.vm.provider "virtualbox" do | vb |
+        vb.name = PROJECTNAME + "-" + cfg[:hostname]
+        vb.memory = 1024
+        vb.cpus = 2
+      end
+
+      # Provisioning Ansible control host
+      vmconfig.vm.provision "ansible_local" do | ansible |
+        ansible.install_mode = "pip"
+        ansible.playbook = "vagrant/ansible/install_ansible.yml"
+        ansible.become = true
+        ansible.version = "2.7.6"
+        ansible.compatibility_mode = "2.0"
+      end
+
+      # copy workshop private key to vm
+      vmconfig.vm.provision "file" , source: "vagrant/ssh/workshop.key", destination: "/home/vagrant/workshop.key"
+      vmconfig.vm.provision "shell", inline: "chmod 0600 /home/vagrant/workshop.key"
+
+      # copy workshop public key to vm and inject public key to authorize_file
+      vmconfig.vm.provision "file" , source: "vagrant/ssh/workshop.pub", destination: "/home/vagrant/workshop.pub"
+      vmconfig.vm.provision "shell", inline: "cat /home/vagrant/workshop.pub >> /home/vagrant/.ssh/authorized_keys"
+       
+      # Mount Directorys
+      vmconfig.vm.synced_folder '.', '/vagrant', type: "virtualbox" # Workaround because in the debian image default on rsync WTF(Not good practice!)?
+      # We need Any on xx0 because ansible.cfg should not be in world readable dir
+      vmconfig.vm.synced_folder "workshop/", "/opt/workshop", id: "workshop" , owner: "vagrant", group: "vagrant" , mount_options: ["dmode=770","fmode=770"]
+      vmconfig.vm.synced_folder "demos/", "/opt/demos", id: "demo" , owner: "vagrant", group: "vagrant" , mount_options: ["dmode=770","fmode=770"]
+
+    end
+  end
+
+  # Debian Boxes
+  DEBIAN.each do | name, cfg |
+    config.vm.define name do | vmconfig |
+      vmconfig.vm.box = 'debian/stretch64'
+      vmconfig.vm.box_version = "9.6.0"
+      vmconfig.vm.hostname = cfg[:hostname]
+      vmconfig.vm.network "private_network", ip: cfg[:ip], virtualbox__intnet: "workshop"
+      vmconfig.vm.provider "virtualbox" do | vb |
+        vb.name = PROJECTNAME + "-" + cfg[:hostname]
+        vb.memory = 512
+        vb.cpus = 2
+      end
+
+      # copy workshop public key to vm and inject public key to authorize_file
+      vmconfig.vm.provision "file" , source: "vagrant/ssh/workshop.pub", destination: "/home/vagrant/workshop.pub"
+      vmconfig.vm.provision "shell", inline: "cat /home/vagrant/workshop.pub >> /home/vagrant/.ssh/authorized_keys"
+
+      # Mount Directorys
+      vmconfig.vm.synced_folder '.', '/vagrant', disabled: true
+    end
+  end
+
+  # CentOS Boxes
+  CENTOS.each do | name, cfg |
+    config.vm.define name do | vmconfig |
+      vmconfig.vm.box = 'centos/7'
+      vmconfig.vm.box_version = "1812.01"
+      vmconfig.vm.hostname = cfg[:hostname]
+      vmconfig.vm.network "private_network", ip: cfg[:ip], virtualbox__intnet: "workshop"
+      vmconfig.vm.provider "virtualbox" do | vb |
+        vb.name = PROJECTNAME + "-" + cfg[:hostname]
+        vb.memory = 512
+        vb.cpus = 2
+      end
+
+      # copy workshop public key to vm and inject public key to authorize_file
+      vmconfig.vm.provision "file" , source: "vagrant/ssh/workshop.pub", destination: "/home/vagrant/workshop.pub"
+      vmconfig.vm.provision "shell", inline: "cat /home/vagrant/workshop.pub >> /home/vagrant/.ssh/authorized_keys"
+
+      # Mount Directorys
+      vmconfig.vm.synced_folder '.', '/vagrant', disabled: true
+    end
+  end
+
+
+  # Windows Server 2019 Boxes
+  WS2019.each do | name, cfg |
+    config.vm.define name do | vmconfig |
+      vmconfig.vm.box = 'StefanScherer/windows_2019'
+      vmconfig.vm.box_version = "2019.01.18"
+      vmconfig.vm.hostname = cfg[:hostname]
+      vmconfig.vm.network "private_network", ip: cfg[:ip], virtualbox__intnet: "workshop"
+      vmconfig.vm.provider "virtualbox" do | vb |
+        vb.name = PROJECTNAME + "-" + cfg[:hostname]
+        vb.memory = 2048
+        vb.cpus = 2
+      end
+
+      # Mount Directorys
+      vmconfig.vm.synced_folder '.', '/vagrant', disabled: true
+    end
+  end
+end

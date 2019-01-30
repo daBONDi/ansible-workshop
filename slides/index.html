@@ -1,0 +1,261 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Ansible Workshop</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Font Awesome-->
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown="">
+					# Ansible Workshop
+					
+					https://github.com/daBONDi/ansible-workshop
+				</section>
+
+				<!-- Intro-->
+				<section>
+					<h3>David Baumann</h3>
+					<p>
+						<b>IKT Leiter/Techniker</b><br>
+						HBLFA Francisco Josephinum
+					</p>
+					<p>
+						<ul>
+							<li>IT Automation - Nerd</li>
+							<li>Infrastructure as Code - Lover</li>
+							<li>Open Source Projekte</li>	
+								<ul>
+									<li>Ansible Windows Working Group</li>
+									<li>Custom Ansible Windows Modules</li>
+								</ul>
+						</ul>
+					</p>
+					<p>
+						<small>
+							<i class="fas fa-globe"></i> davidbaumann.at | <i class="fab fa-github"></i> daBONDi <br> <i class="fas fa-at"></i> me@davidbaumann.at | <i class="fab fa-twitter"></i> @daBONDi
+						</small>
+					</p>
+					<aside class="notes">
+						<ul>
+						<li>Was macht das FJ</li>
+						<li>Wie bin ich zu Ansible gekommen</li>
+						</ul>
+					</aside>
+				</section>
+
+				<!-- Workshop Environment -->
+				<section>
+					<section data-markdown="">
+						#### Workshop Umgebung
+						
+						- **Vagrant** > 2.3
+							- debian/strech <small>(9.6.0)</small>
+							- centos/7 (1812.01)
+							- StefanScherer/windows_2019 (2019.01.18)
+						- VSCode
+							- **Plugins** haaaad.ansible
+
+						Note:
+						- Bei jedem alles Installiert?
+						- Boxen heruntergeladen?
+						- Ansible Controller Box gestartet?
+					</section>
+					<section data-markdown="">
+						```bash
+						# Benötigte Vagrant Boxen herunterladen
+						workshop\vagrant-setup\preseed-box.cmd
+						```
+
+						```bash
+						# Ansible Control Box starten
+						vagrant up ansible
+						```
+					</section>
+				</section>
+				
+				<!-- Ansible Intro-->
+				<section>
+					<section data-markdown="">
+						#### Was ist Ansible
+
+						Eine Automatisierungs Engine
+					</section>
+					<section data-markdown="">
+						#### Ansible ist Einfach
+
+						- Lesbar (YAML)
+						- Keine speziellen Programmierkenntnisse (Module)
+						- Aufgaben werden in Reihenfolge ausgeführt
+
+						> BUZZWORD: **Get productive quickly**
+					</section>
+					<section data-markdown="">
+						#### Ansible ist Mächtig
+
+						- Provisioning
+						- Application Deployment
+						- Configuration management
+						- Orchestration
+						- Continous Delivery
+						- Security & Compliance
+						- ...
+
+						> BUZZWORD: **Orchestrate the app lifecycle**
+					</section>
+					<section data-markdown="">
+						#### Ansible ist Agentless!
+
+						- Linux/Network = OpenSSH
+						- Windows = WinRM
+						- Keine Sicherheitslücken im Agent
+						- Kein Agent zu Patchen
+						- ***Kein Agent auf Kundensystemen***
+						
+						> BUZZWORD: **Predictable, reliable and secure**
+					</section>
+					<section>
+							Ansible: The Language of [Imagination]Ops
+							<p>
+								<img src="images/devops-language-diagram.svg" style="background-color:  white"/>
+							</p>
+							<aside class="notes">
+								Kann in then ganzen Application Life Cylce verwendet werden
+							</aside>
+					</section>
+					<section>
+						[Imagination]Ops Tool
+						<p>
+
+							<img src="images/swissarmyknife.jpg" height="400"/>
+						</p>
+						<p>
+							<small>
+							Gibts zu kaufen unter:
+							<a href="https://www.amazon.com/Wenger-16999-Swiss-Knife-Giant/dp/B001DZTJRQ">https://www.amazon.com/Wenger-16999-Swiss-Knife-Giant/dp/B001DZTJRQ</a>
+							</small>
+						</p>
+					</section>
+					<section data-markdown="">
+						#### Batteries Included
+
+						> über 1300 Module
+
+						- cloud
+						- containers
+						- database
+						- files
+						- network
+						- ..
+
+						Und es werden bei jedem Release mehr
+
+
+						
+					</section>
+					<section data-markdown="">
+						#### Ansible Community Stats
+
+						- 34,000+ stars & 10,000+ forks auf GitHub
+						- 4000+ GitHub Contributors
+						- 1200+ users im IRC channel #ansible (freenode)
+						- Top 10 open source projects in 2017
+						- ...
+
+						> Mehr auf
+						> http://ansible.com/community
+
+					</section>
+					<section data-markdown="">
+						#### Warum Ansible
+
+						- Einfach zu Lesen und zu arbeiten
+						- Automatisierung läuft immer von oben nach unten
+						- Modular Entwickelt und einfach erweiterbar
+						- Kein Server benötigt
+						- Kann am Techniker Client laufen
+
+						notes:
+						von oben nach unten im gegensatz zu salt/chef (Kombinierte form)
+					</section>
+					<section data-markdown="">
+						#### Anforderungen						
+						- Linux/Unix Based OS
+							- Windows (WSL) unsupported, aber funktioniert
+						- Python 2.7 / Python 3.5
+					</section>
+					<section data-markdown="">
+						#### Installation
+
+						Per OS Package Managent System
+						```bash
+						sudo yum install ansible
+						sudo apt-get install ansible
+						```
+
+						**Per PIP (Recommended)**
+						```bash
+						sudo pip install ansible
+						
+						### Version Specific
+						sudo pip install git+https://github.com/ansible/ansible.git@devel
+						sudo pip install git+https://github.com/ansible/ansible.git@stable-2.5
+						```
+					</section>
+				</section>
+				
+				<!-- Wie funktioniert Ansible-->
+				<section>
+					<section>
+						Wie funktioniert Ansible?
+					</section>
+					<section>
+
+					</section>
+				</section>
+				
+
+				<!-- Outrow -->
+				<!-- Something like this -->
+				<!-- https://janusworx.com/images/2018/07/i-know-yaml-and-ansible.jpg -->
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>

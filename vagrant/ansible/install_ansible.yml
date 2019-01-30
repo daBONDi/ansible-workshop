@@ -1,0 +1,54 @@
+---
+- hosts: all
+  vars:
+    ansible_branch: v2.7.6
+  tasks:
+    - name: "Configure required Packages"
+      apt:
+        state: latest
+        cache_valid_time: 86400
+        name: "{{ packages }}"
+      vars:
+        packages:
+          - nano
+          - dnsutils
+          - git
+          - sshpass
+          - libkrb5-dev
+          - python-dev
+          - python-pip
+          - software-properties-common
+          - krb5-user
+          - libffi-dev
+          - libssl-dev
+
+    - name: "Configure required Python packages"
+      pip:
+        name: "{{ packages }}"
+      vars:
+        packages:
+          # Required for ipadddr filter in ansible
+          - netaddr
+
+          # Required for WinRM Kerberos Auth
+          - pywinrm[kerberos]
+
+          # Require for PSRP(WinRM Plugin)
+          # https://docs.ansible.com/ansible/2.7/plugins/connection/psrp.html
+          - pypsrp    
+    
+    - name: "Install Ansible"
+      pip:
+        name: "git+git://github.com/ansible/ansible.git@{{ ansible_branch }}"
+
+    - name: "Ensure bash_profile file exists"
+      file:
+        path: "/home/vagrant/.bash_profile"
+        state: touch
+
+    - name: "Ensure we auto-cd into /opt/workshop"
+      lineinfile:
+        path: "/home/vagrant/.bash_profile"
+        regexp: '^cd /opt/workshop'
+        state: present
+        line: 'cd /opt/workshop'

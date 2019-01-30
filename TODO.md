@@ -1,0 +1,7 @@
+- Implement ARA on ansible vm
+- Do the slides
+  - Writeout help desk for slides
+- write up handout
+- Test lenght
+- build docs with sphinx, da wir kein PDF Export haben?
+- Wie machen wir die Slides ?

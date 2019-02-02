@@ -1,6 +1,6 @@
 # ansible-workshop
 
-Ansible Workshop für Antares NetlogiX
+Tages Workshop über Ansible für Entwickler/Techniker
 
 ## Anforderungen
 

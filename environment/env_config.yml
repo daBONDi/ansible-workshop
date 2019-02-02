@@ -10,7 +10,7 @@ workshop_attendant_count: 2
 # Workshop Main Configuration Object
 workshop_configuration:
   name: "{{ workshop_instance_name }}"
-  attendant_count: {{ workshop_attendant_count }}"
+  attendant_count: "{{ workshop_attendant_count }}"
 
   # AWS Setup
   aws:

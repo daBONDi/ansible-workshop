@@ -1,0 +1,8 @@
+aws_region: ""
+instance_type: "t2.medium"
+instance_tags:
+  workshop: "ansible_workshop"
+  workshop_attendant: 1
+instance_name: "win1"
+administrator_password: "start1234#
+ami_id: "ami-0bd3cc88ca8ae88f5"

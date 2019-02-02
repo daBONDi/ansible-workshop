@@ -1,0 +1,14 @@
+- name: "Ensure aws ec2 key pair {{ workshop.aws.keypair.name }}"
+  ec2_key:
+    region: "{{ workshop.aws.region }}"
+    name: "{{ workshop.aws.keypair.name }}"
+    key_material: "{{ workshop.aws.keypair.value }}"
+  when: "not destroy"
+
+- name: "Ensure aws ec2 key pair {{ workshop.aws.keypair.name }} is removed"
+  ec2_key:
+    region: "{{ workshop.aws.region }}"
+    name: "{{ workshop.aws.keypair.name }}"
+    key_material: "{{ workshop.aws.keypair.value }}"
+    state: absent
+  when: "destroy"

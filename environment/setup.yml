@@ -1,0 +1,19 @@
+- name: "Ensure Basic AWS Components for Workshop Environment"
+  hosts: localhost
+  gather_facts: false
+
+  vars_files:
+    - env_config.yml
+
+  roles:
+    - role: aws-keypair
+      workshop: "{{ workshop_configuration }}"
+
+    - role: aws-vpc
+      workshop: "{{ workshop_configuration }}"
+
+    - role: aws-ec2-ansible
+      workshop: "{{ workshop_configuration }}"
+
+    
+

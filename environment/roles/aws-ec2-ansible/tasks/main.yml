@@ -1,0 +1,12 @@
+# Gets Populated
+
+- block:
+  
+- name: "Ensure aws ansible ec2 instance"
+  ec2_instance:
+    name: "{{ workshop_name }}-{{ item }}-ansible"
+    key_name: "{{ key_name }}"
+    instance_type: "{{ instance_type }}"
+    vpc_subnet_
+  with_sequence: start=1 end="{{ attendant_count }}"
+  when: "not destroy"

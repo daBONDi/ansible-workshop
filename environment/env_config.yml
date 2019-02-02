@@ -1,0 +1,25 @@
+# Workshop Setup
+# Change values Here
+workshop_instance_name: 'ansible-workshop'
+workshop_attendant_count: 2
+
+
+# ---------------------------------------------------------------------------------------
+# Don't touch below
+# ---------------------------------------------------------------------------------------
+# Workshop Main Configuration Object
+workshop_configuration:
+  name: "{{ workshop_instance_name }}"
+  attendant_count: {{ workshop_attendant_count }}"
+
+  # AWS Setup
+  aws:
+    region: 'eu-central-1'
+    keypair: 
+      name: 'ansible_workshop_key'
+      value: "{{ lookup('file', 'ssh/workshop.pub') }}"
+    win_administrator_password: 'ansible#workshop1'
+    vpc:
+      base_name: "{{ workshop_instance_name }}"
+      cidr: "10.0.0.0/24"
+    

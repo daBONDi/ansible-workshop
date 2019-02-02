@@ -1,0 +1,17 @@
+# Destroy the hole workshop
+
+- name: "Ensure Basic AWS Components for Workshop Environment"
+  hosts: localhost
+  gather_facts: false
+
+  vars_files:
+    - env_config.yml
+
+  roles:
+    - role: aws-vpc
+      workshop: "{{ workshop_configuration }}"
+      destroy: yes
+      
+    - role: aws-keypair
+      workshop: "{{ workshop_configuration }}"
+      destroy: yes

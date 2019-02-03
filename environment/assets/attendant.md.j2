@@ -1,0 +1,24 @@
+# {{ workshop.name }} - Teilnehmer - {{ attendant_id}}
+
+{% for r in attendant_ec2_instances.results %}
+{% set i = r.instances[0] %}}
+## {{ i.tags.Name }}{% if i.platform %}- {{ i.platform }}{% endif %}}
+
+Public IP: {{ i.public_ip_address }}
+
+Public DNS: {{ i.public_dns_name }}
+
+VPC IP: {{ i.private_ip_address }}
+
+VPC DNS: {{ i.private_dns_name }}
+
+{% if i.platform %}
+{% if i.platform == "windows" %}
+Username: Administrator
+
+Password: {{ workshop_win_administrator_password }}
+
+{% endif %}
+{% endif %}
+
+{% endfor %}

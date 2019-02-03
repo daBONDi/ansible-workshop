@@ -1,17 +1,83 @@
 # Destroy the hole workshop
 
-- name: "Ensure Basic AWS Components for Workshop Environment"
+- name: "Remove Workshop from AWS"
   hosts: localhost
   gather_facts: false
 
   vars_files:
     - env_config.yml
+  vars:
+    workshop: "{{ workshop_configuration}}"
+  tasks:
 
-  roles:
-    - role: aws-vpc
-      workshop: "{{ workshop_configuration }}"
-      destroy: yes
-      
-    - role: aws-keypair
-      workshop: "{{ workshop_configuration }}"
-      destroy: yes
+    - name: "Ensure Remove all EC2 Instances from Workshop"
+      ec2_instance:
+        state: absent
+        region: "{{ workshop.aws.region }}"
+        filters:
+          "tag:workshop": "{{ workshop.name }}"
+
+    # Remove VPC Subnets
+    - name: "Gather Information about Subnets with a specific Tag workshop {{ workshop.name }} wich we should remove"
+      ec2_vpc_subnet_facts:
+        region: "{{ workshop.aws.region }}"
+        filters:
+          "tag:workshop": "{{ workshop.name }}"
+      register: vpc_subnets_to_remove
+
+    - name: "Ensure VPC Subnets are removed from Workshop VCPs"
+      ec2_vpc_subnet:
+        region: "{{ workshop.aws.region }}"
+        vpc_id: "{{ item.vpc_id }}"
+        cidr: "{{ workshop.aws.vpc.cidr }}"
+        state: absent
+      with_items: "{{ vpc_subnets_to_remove.subnets }}"
+      async: 7200
+      poll: 2
+
+    - name: "Ensure VPC Security Group {{ workshop.aws.vpc.base_name }} are removed From Workshop VCPs"
+      ec2_group:
+        name: "{{ workshop.aws.vpc.base_name }}-{{ item }}"
+        vpc_id: "{{ (vpc_networks.results[item | int -1 ]).vpc.id }}"
+        region: region: "{{ workshop.aws.region }}"
+        rules:
+          - proto: tcp
+            port: 80
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            port: 443
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            port: 22
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            port: 5985
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            port: 5986
+            cidr_ip: 0.0.0.0/0
+        tags:
+          workshop: "{{ workshop.name }}"
+          workshop_attendant_id: "{{ item }}"
+        with_sequence: start=1 end="{{ workshop.attendant_count }}"
+
+    - name: "Ensure workshop aws vpc {{ workshop.aws.vpc.base_name }} are removed"
+      ec2_vpc_net:
+        name: "{{ workshop.aws.vpc.base_name }}-attendantid-{{ item }}"
+        region: "{{ workshop.aws.region }}"
+        cidr_block: "{{ workshop.aws.vpc.cidr }}"
+        tags:
+          workshop: "{{ workshop.name }}"
+          workshop_attendant_id: "{{ item }}"
+        state: absent
+      with_sequence: start=1 end="{{ workshop.attendant_count }}"
+      async: 7200
+      poll: 2
+    
+    - name: "Ensure aws ec2 key pair {{ workshop.aws.keypair.name }} is removed"
+      ec2_key:
+        region: "{{ workshop.aws.region }}"
+        name: "{{ workshop.aws.keypair.name }}"
+        key_material: "{{ workshop.aws.keypair.value }}"
+        state: absent
+

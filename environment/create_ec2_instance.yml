@@ -1,0 +1,31 @@
+# Create all EC2 Instances defined in aws.instances for each attendant
+# and output the configuration 
+
+- name: "Ensure EC2 Instances"
+  ec2_instance:
+    name: "{{ workshop.name }}-{{ attendant_id }}-{{ item.name }}"
+    key_name: "{{ workshop.aws.keypair.name }}"
+    region: "{{ workshop.aws.region }}"
+    security_group: "{{ security_group }}"
+    network:
+      assign_public_ip: true
+      private_ip_address: "{{ item.vpc_ip }}"
+    instance_type: "{{ item.instance_type }}"
+    image_id: "{{ item.ami_id }}"
+    tags:
+      workshop: "{{ workshop.name }}"
+      workshop_attendant_id: "{{ attendant_id }}"
+    vpc_subnet_id: "{{ subnet_id }}"
+    user_data: "{{ item.user_data | default(omit)}}"
+    wait: no
+  with_items: "{{ workshop.aws.instances }}"
+  register: attendant_ec2_instances
+
+- copy:
+    content: "{{ attendant_ec2_instances }}"
+    dest:  "output/{{ workshop.name }}-{{ attendant_id }}-aws.json"
+
+- name: "Generate Attendant Instance Configuration"
+  template:
+    src: "assets/attendant.md.j2"
+    dest: "output/{{ workshop.name }}-{{ attendant_id }}-aws.md"

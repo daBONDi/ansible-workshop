@@ -1,19 +1,82 @@
-- name: "Ensure Basic AWS Components for Workshop Environment"
+- name: "Ensure Workshop AWS Setup"
   hosts: localhost
   gather_facts: false
 
   vars_files:
+    # Load var workshop_configuration
     - env_config.yml
+  vars:
+    workshop: "{{ workshop_configuration}}"
 
-  roles:
-    - role: aws-keypair
-      workshop: "{{ workshop_configuration }}"
+  tasks:
+    - name: "Ensure AWS EC2 key pair {{ workshop.aws.keypair.name }}"
+      ec2_key:
+        region: "{{ workshop.aws.region }}"
+        name: "{{ workshop.aws.keypair.name }}"
+        key_material: "{{ workshop.aws.keypair.value }}"
 
-    - role: aws-vpc
-      workshop: "{{ workshop_configuration }}"
+    - name: "Ensure workshop AWS VPC {{ workshop.aws.vpc.base_name }}"
+      ec2_vpc_net:
+        name: "{{ workshop.aws.vpc.base_name }}-attendantid-{{ item }}"
+        region: "{{ workshop.aws.region }}"
+        cidr_block: "{{ workshop.aws.vpc.cidr }}"
+        tags:
+          workshop: "{{ workshop.name }}"
+          workshop_attendant_id: "{{ item }}"
+        state: present
+      with_sequence: start=1 end="{{ workshop.attendant_count }}"
+      register: vpc_networks
+      async: 7200
+      poll: 2
+    
+    - name: "Ensure workshop AWS VPC Subnets {{ workshop.aws.vpc.base_name }}"
+      ec2_vpc_subnet:
+        region: "{{ workshop.aws.region }}"
+        vpc_id: "{{ (vpc_networks.results[item | int -1 ]).vpc.id }}"
+        cidr: "{{ workshop.aws.vpc.cidr }}"
+        tags:
+          workshop: "{{ workshop.name }}"
+          workshop_attendant_id: "{{ item }}"
+      with_sequence: start=1 end="{{ workshop.attendant_count }}"
+      async: 7200
+      poll: 2
+      register: vpc_subnets
+    
+    - name: "Ensure VPC Security Group {{ workshop.aws.vpc.base_name }}"
+      ec2_group:
+        name: "{{ workshop.aws.vpc.base_name }}-{{ item }}"
+        description: "Workshop {{ workshop.aws.vpc.base_name }} - Attendant {{ item }} - Default Security Group"
+        vpc_id: "{{ (vpc_networks.results[item | int -1 ]).vpc.id }}"
+        region: "{{ workshop.aws.region }}"
+        rules:
+          - proto: tcp
+            ports: 
+              - 80
+              - 443
+              - 22
+              - 5985
+              - 5986
+            cidr_ip: 0.0.0.0/0
+            cidr_ipv6: ::/0
+      with_sequence: start=1 end="{{ workshop.attendant_count }}"
 
-    - role: aws-ec2-ansible
-      workshop: "{{ workshop_configuration }}"
-
+    - name: "Ensure EC2 Instances"
+      include_tasks: create_ec2_instance.yml
+      vars:
+        security_group: "{{ workshop.aws.vpc.base_name }}-{{ attendant_id }}"
+        subnet_id: "{{ (vpc_subnets.results[attendant_id | int -1 ]).subnet.id }}"
+      with_sequence: start=1 end="{{ workshop.attendant_count }}"
+      loop_control:
+        loop_var: attendant_id
     
 
+    # TODO We need to Implement a check to see if all instances running, and also wait for it
+
+    # - name: "Wait for all EC2 Instances to be ready"
+    #   ec2_instance_facts:
+    #     filters:
+    #        "tag:workshop": "{{ workshop.name }}"
+    #   register: ec2_instance_result
+    #   until: state	
+    #   retries: 300
+    #   delay: 15

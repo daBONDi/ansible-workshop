@@ -1,2 +1,5 @@
 slides/node_modules
 .vagrant
+environment/output
+!environment/output/README.md
+*.retry

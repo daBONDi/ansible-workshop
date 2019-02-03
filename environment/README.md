@@ -1,5 +1,16 @@
 # Build Workshop Environments in AWS
 
+## Required Python Packages
+
+- ansible
+- boto3
+- boto
+
+## TODO
+
+- why i cannot connect?
+- attendant instance config sheet not working
+
 ## Configure  Workshop Environment
 
 - Edit env_config.yml

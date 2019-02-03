@@ -1,8 +1,0 @@
-# Ensure AWS EC2 Instance
-
-- name: "ensure ec2-instance"
-  ec2_instance:
-    region: "{{ aws_region }}
-    network:
-      assign_public_ip: true
-      

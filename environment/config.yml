@@ -1,0 +1,127 @@
+- name: "Preconfigure Ansible Control EC2 Instances"
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - env_config.yml
+  vars:
+    workshop: "{{ workshop_configuration}}"
+  tasks:
+
+    - name: "Ensure SSH Key is in ~/.ssh/workshop.key"
+      copy:
+        src: "ssh/workshop.key"
+        dest: "~/.ssh/workshop.key"
+
+    - name: "Ensure File Permission"
+      file:
+        path: "~/.ssh/workshop.key"
+        mode: 0600
+
+    - name: "Get all Ansible Control EC2 Instances"
+      ec2_instance_facts:
+        region: "{{ workshop.aws.region }}"
+        filters:
+          "tag:workshop": "{{ workshop.name }}"
+          "tag:workshop_usage": "ansible"
+      register: control_instances
+    
+    - name: "Add Ansible Control Instances to In Memory Inventory"
+      add_host:
+        hostname: "{{ item.public_dns_name }}"
+        inventory_hostname: "{{ item.tags.Name }}"
+        ansible_hostname: "{{ item.public_dns_name }}"
+        ansible_user: "admin"
+        ansible_port: 22
+        ansible_ssh_private_key_file: "~/.ssh/workshop.key"
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+        groups: "ansible"
+      with_items: "{{ control_instances.instances }}"
+      changed_when: false
+
+- name: "Ensure ansible control instances are configured"
+  hosts: ansible
+  gather_facts: false
+  become: yes
+  vars:
+    ansible_branch: v2.7.6
+  tasks:
+    - name: "Configure required apt packages"
+      apt:
+        state: latest
+        cache_valid_time: 86400
+        name: "{{ packages }}"
+      vars:
+        packages:
+          - nano
+          - dnsutils
+          - git
+          - sshpass
+          - libkrb5-dev
+          - python-dev
+          - python-pip
+          - software-properties-common
+          - krb5-user
+          - libffi-dev
+          - libssl-dev
+
+    - name: "Configure required python packages"
+      pip:
+        name: "{{ packages }}"
+      vars:
+        packages:
+          # Required for ipadddr filter in ansible
+          - netaddr
+
+          # Required for WinRM Kerberos Auth
+          - pywinrm[kerberos]
+
+          # Require for PSRP(WinRM Plugin)
+          # https://docs.ansible.com/ansible/2.7/plugins/connection/psrp.html
+          - pypsrp
+
+    - name: "Install ansible from git"
+      pip:
+        name: "git+git://github.com/ansible/ansible.git@{{ ansible_branch }}"
+
+    - name: "Ensure required work folder"
+      file: 
+        path: "{{ item }}"
+        owner: 'admin'
+        group: 'admin'
+        mode: '770'
+        recurse: yes
+        state: directory
+      with_items:
+        - '/opt/workshop'
+        - '/opt/demos'
+    
+    - name: "Ensure bash_profile file exists"
+      become_user: admin
+      file:
+        path: "/home/admin/.bash_profile"
+        owner: 'admin'
+        group: 'admin'
+        mode: 'u=rw,g=r,o=r'
+        state: file
+
+    - name: "Ensure we auto-cd into /opt/workshop"
+      lineinfile:
+        path: "/home/admin/.bash_profile"
+        regexp: '^cd /opt/workshop'
+        state: present
+        line: 'cd /opt/workshop'
+    
+    - name: "Ensure Workshop SSH Key is under ~/.ssh/workshop.key"
+      copy:
+        src: "ssh/workshop.key"
+        dest: "/home/admin/.ssh/workshop.key"
+    
+    - name: "Ensure workshop.key got correct permission"
+      file:
+        path: "/home/admin/.ssh/workshop.key"
+        owner: 'admin'
+        group: 'admin'
+        mode: 0600
+        state: file
+    
+

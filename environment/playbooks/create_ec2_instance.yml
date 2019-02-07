@@ -15,6 +15,8 @@
     tags:
       workshop: "{{ workshop.name }}"
       workshop_attendant_id: "{{ attendant_id }}"
+      workshop_usage: "{{ item.usage }}"
+      workshop_os: "{{ item.os }}"
     vpc_subnet_id: "{{ subnet_id }}"
     user_data: "{{ item.user_data | default(omit)}}"
     wait: no

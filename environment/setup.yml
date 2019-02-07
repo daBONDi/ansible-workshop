@@ -88,7 +88,7 @@
       register: vpc_default_security_group
 
     - name: "Ensure EC2 Instances"
-      include_tasks: create_ec2_instance.yml
+      include_tasks: playbooks/create_ec2_instance.yml
       vars:
         security_group_id: "{{ vpc_default_security_group.group_id }}"
         subnet_id: "{{ vpc_subnet.subnet.id }}"
@@ -101,7 +101,7 @@
         seconds: 10
 
     - name: "Create attendant documents"
-      include_tasks: create_attendant_document.yml
+      include_tasks: playbooks/create_attendant_document.yml
       with_sequence: start=1 end="{{ workshop.attendant_count }}"
       loop_control:
         loop_var: attendant_id

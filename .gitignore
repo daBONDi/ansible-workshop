@@ -3,3 +3,4 @@ slides/node_modules
 environment/output
 !environment/output/README.md
 *.retry
+~$*

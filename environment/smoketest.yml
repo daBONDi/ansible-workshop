@@ -1,0 +1,69 @@
+# Smoketest connections all AWS Workshop Instances
+
+- name: "Prepare Localhost for smoketest"
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - env_config.yml
+  vars:
+    workshop: "{{ workshop_configuration}}"
+  tasks:
+
+    - name: "Ensure SSH Key is in ~/.ssh/workshop.key"
+      copy:
+        src: "ssh/workshop.key"
+        dest: "~/.ssh/workshop.key"
+
+    - name: "Ensure File Permission"
+      file:
+        path: "~/.ssh/workshop.key"
+        mode: 0600
+
+    - name: "Get all Ansible Control EC2 Instances"
+      ec2_instance_facts:
+        region: "{{ workshop.aws.region }}"
+        filters:
+          "tag:workshop": "{{ workshop.name }}"
+      register: control_instances
+    
+    - name: "Create Inventory for Linux Hosts"
+      add_host:
+        hostname: "{{ item.public_dns_name }}"
+        inventory_name: "{{ item.tags.Name }}"
+        ansible_hostname: "{{ item.public_dns_name }}"
+        ansible_user: "admin"
+        ansible_port: 22
+        ansible_ssh_private_key_file: "~/.ssh/workshop.key"
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+        groups: "linux"
+      changed_when: false
+      when: item.platform is not defined
+      with_items: "{{ control_instances.instances }}"
+
+    - name: "Create Inventory for Windows Hosts"
+      add_host:
+        hostname: "{{ item.public_dns_name }}"
+        inventory_name: "{{ item.tags.Name }}"
+        ansible_connection: winrm
+        ansible_hostname: "{{ item.public_dns_name }}"
+        ansible_user: "Administrator"
+        ansible_password: "{{ workshop_win_administrator_password }}"
+        ansible_winrm_transport: basic
+        ansible_winrm_server_cert_validation: ignore
+        ansible_port: 5986
+        groups: "windows"
+      changed_when: false
+      when: item.platform is defined and item.platform == 'windows'
+      with_items: "{{ control_instances.instances }}"
+
+- name: "Smoke-Test: Connection - Linux"
+  hosts: linux
+  gather_facts: false
+  tasks:
+    - ping:
+
+- name: "Smoke-Test: Connection - Windows"
+  hosts: windows
+  gather_facts: false
+  tasks:
+    - win_ping:

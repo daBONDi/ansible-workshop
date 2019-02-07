@@ -5,7 +5,6 @@ workshop_attendant_count: 2
 workshop_ssh_public_key_file: 'ssh/workshop.pub'
 workshop_win_administrator_password: 'ansible#workshop1'
 
-
 # ---------------------------------------------------------------------------------------
 # Don't touch below
 # ---------------------------------------------------------------------------------------
@@ -23,23 +22,35 @@ workshop_configuration:
     vpc:
       base_name: "{{ workshop_instance_name }}"
       cidr: "10.0.0.0/16"
+    
     instances:
       - name: 'ctrl'
         ami_id: 'ami-0ca467408e84df23c'
         instance_type: 't2.medium'
         subnet_ip: '10'
+        usage: 'ansible'
+        os: 'linux'
+
       - name: 'debian1'
         ami_id: 'ami-0ca467408e84df23c'
         instance_type: 't2.micro'
         subnet_ip: '21'
+        usage: 'managed_host'
+        os: 'linux'
+
       - name: 'debian2'
         ami_id: 'ami-0ca467408e84df23c'
         instance_type: 't2.micro'
         subnet_ip: '22'
+        usage: 'managed_host'
+        os: 'linux'
+
       - name: 'win1'
         ami_id: 'ami-0bd3cc88ca8ae88f5'
         instance_type: 't2.medium'
         subnet_ip: '41'
+        usage: 'managed_host'
+        os: 'windows'
         user_data: "{{ lookup('template', 'assets/win_ami_userdata.txt.j2') }}"
 
     

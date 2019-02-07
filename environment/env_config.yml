@@ -1,7 +1,7 @@
 # Workshop Setup
 # Change values Here
 workshop_instance_name: 'ansible-workshop'
-workshop_attendant_count: 2
+workshop_attendant_count: 1
 workshop_ssh_public_key_file: 'ssh/workshop.pub'
 workshop_win_administrator_password: 'ansible#workshop1'
 

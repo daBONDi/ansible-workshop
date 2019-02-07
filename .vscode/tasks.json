@@ -1,20 +1,95 @@
 {
   "version":"2.0.0",
+  "options": {
+    "env": {
+      /* Public FQDN to the Ansible Controller Host*/
+      "ANSIBLEHOST": "ec2-18-185-24-57.eu-central-1.compute.amazonaws.com",
+      /* Path to Win SCP Executable*/
+      "WINSCPEXE": "C:\\Program Files (x86)\\WinSCP\\WinSCP.com",
+      
+      /* DONT EDIT SOMETHING HERE */
+      "SSHKEY_FILE": "${workspaceFolder}\\ssh\\workshop.key",
+      "SSHKEY_PPK_FILE": "${workspaceFolder}\\ssh\\workshop.ppk",
+      "LOCAL_WORKSHOP_FOLDER": "${workspaceFolder}\\workshop",
+      "REMOTE_WORKSHOP_FOLDER": "/opt/workshop",
+      "LOCAL_DEMOS_FOLDER": "${workspaceFolder}\\demos",
+      "REMOTE_DEMOS_FOLDER": "/opt/demos"
+    }
+  },
   "tasks": [
     {
-      "label":"Start WinSCPSync with Ctrl Host",
+      "label":"Connect to Ansible Controller",
+      "type": "shell",
+      "group":{
+        "kind": "test",
+        "isDefault": true
+      },
+      "windows": {
+        "command": "ssh",
+        "args": [
+          "-i","\"$env:SSHKEY_FILE\"","admin@$($env:ANSIBLEHOST)","-oStrictHostKeyChecking=no"
+        ]
+      },
+      "presentation": {
+        "echo": false,
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "Ansible"
+      }
+    },
+    {
+      "label":"Automatic Sync Workshop Folder",
       "type":"shell",
       "group": "test",
       "windows": {
-        "command": ".\\scripts\\mirror.cmd"
+        "command": "C:\\Program Files (x86)\\WinSCP\\WinSCP.com",
+        "args": [
+          "/script=\"${workspaceFolder}\\assets\\mirror-folder-winscp.config\"",
+          "/nointeractiveinput",
+          "/parameter",
+          "\"$env:ANSIBLEHOST\"",
+          "\"$env:SSHKEY_PPK_FILE\"",
+          "\"$env:LOCAL_WORKSHOP_FOLDER\"",
+          "\"$env:REMOTE_WORKSHOP_FOLDER\""
+        ]
       },
       "presentation": {
-        "echo": true,
-        "reveal": "never",
+        "echo": false,
+        "reveal": "silent",
         "focus": false,
-        "panel": "new",
+        "panel": "dedicated",
         "showReuseMessage": false,
-        "clear": false
+        "clear": false,
+        "group": "SCP"
+      }
+    },
+    {
+      "label":"Automatic Sync Demos Folder",
+      "type":"shell",
+      "group": "test",
+      "windows": {
+        "command": "C:\\Program Files (x86)\\WinSCP\\WinSCP.com",
+        "args": [
+          "/script=\"${workspaceFolder}\\assets\\mirror-folder-winscp.config\"",
+          "/nointeractiveinput",
+          "/parameter",
+          "\"$env:ANSIBLEHOST\"",
+          "\"$env:SSHKEY_PPK_FILE\"",
+          "\"$env:LOCAL_DEMOS_FOLDER\"",
+          "\"$env:REMOTE_DEMOS_FOLDER\""
+        ]
+      },
+      "presentation": {
+        "echo": false,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "SCP"
       }
     }
   ]

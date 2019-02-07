@@ -1,3 +1,1 @@
-- Anleitung für Vagrant
-  - Box Download
-  - Test
+- Writeout Steps for Presentation for each Demo stuff

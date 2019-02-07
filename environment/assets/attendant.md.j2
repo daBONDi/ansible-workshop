@@ -13,5 +13,7 @@
 {% if i.platform == "windows" %}
 | **Username**          | Administrator |
 | **Password**          | {{ workshop_win_administrator_password }} |
-{% endif %}{% endif %}
+{% endif %}{% else %}
+| **Username**          | admin |
+{% endif %}
 {% endif %}{% endfor %}

@@ -1,9 +1,5 @@
 # Build Workshop Environments in AWS
 
-## TODO
-
-- RSYNC / SCP?
-
 ## Requirements
 
 ansible

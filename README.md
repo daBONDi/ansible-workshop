@@ -30,9 +30,9 @@ ssh -i vagrant/ssh/workshop.key vagrant@172.16.233.10
 
 Ansible Playbook to
   
-  - Create
-  - Configure
-  - Smoketest
+- Create
+- Configure
+- Smoketest
 
 all attendant ec2 instances for workshop
 

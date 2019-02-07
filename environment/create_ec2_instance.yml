@@ -6,10 +6,10 @@
     name: "{{ workshop.name }}-{{ attendant_id }}-{{ item.name }}"
     key_name: "{{ workshop.aws.keypair.name }}"
     region: "{{ workshop.aws.region }}"
-    security_group: "{{ security_group }}"
+    security_group: "{{ security_group_id }}"
     network:
       assign_public_ip: true
-      private_ip_address: "{{ item.vpc_ip }}"
+      private_ip_address: "10.0.{{ attendant_id }}.{{ item.subnet_ip }}"
     instance_type: "{{ item.instance_type }}"
     image_id: "{{ item.ami_id }}"
     tags:
@@ -20,12 +20,3 @@
     wait: no
   with_items: "{{ workshop.aws.instances }}"
   register: attendant_ec2_instances
-
-- copy:
-    content: "{{ attendant_ec2_instances }}"
-    dest:  "output/{{ workshop.name }}-{{ attendant_id }}-aws.json"
-
-- name: "Generate Attendant Instance Configuration"
-  template:
-    src: "assets/attendant.md.j2"
-    dest: "output/{{ workshop.name }}-{{ attendant_id }}-aws.md"

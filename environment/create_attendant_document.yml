@@ -1,0 +1,17 @@
+- name: "Wait for all EC2 Instances to be ready"
+  ec2_instance_facts:
+    region: "{{ workshop.aws.region }}"
+    filters:
+      "tag:workshop": "{{ workshop.name }}"
+      "tag:workshop_attendant_id": "{{ attendant_id }}"
+      "instance-state-name": "running"
+  register: ec2_instance_result
+
+- copy:
+    content: "{{ ec2_instance_result}}"
+    dest: "output/instanceresult-{{ attendant_id }}.json"
+
+- name: "Generate Attendant Instance Configuration"
+  template:
+    src: "assets/attendant.md.j2"
+    dest: "output/{{ workshop.name }}-{{ attendant_id }}-aws.md"

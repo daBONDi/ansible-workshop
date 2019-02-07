@@ -8,8 +8,7 @@
 
 ## TODO
 
-- why i cannot connect?
-- attendant instance config sheet not working
+- RSYNC / SCP?
 
 ## Configure  Workshop Environment
 

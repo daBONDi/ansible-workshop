@@ -340,6 +340,7 @@ https://ansible.github.io/lightbulb/decks/ansible-essentials.html#/12
   loop:
   with_items:
   with_subelements:
+  with_nested:
 
 - Conditionals
   Unterstützt evalurierung der variablen/facts/task result in der laufzeit

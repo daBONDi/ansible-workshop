@@ -10,22 +10,49 @@
     workshop: "{{ workshop_configuration}}"
   tasks:
 
-    - name: "Ensure Remove all EC2 Instances from Workshop"
+    - name: "Get vpc information for {{ workshop.name }}"
+      ec2_vpc_net_facts:
+        region: "{{ workshop.aws.region }}"
+        filters:
+          "tag:workshop": "{{ workshop.name }}"
+      register: vpc_query
+
+    # Remove EC2 instances
+    - name: "Ensure Remove all EC2 instances from workshop {{ workshop.name }}"
       ec2_instance:
         state: absent
         region: "{{ workshop.aws.region }}"
         filters:
           "tag:workshop": "{{ workshop.name }}"
+      register: ec2_instances
+
+
+    # Remove Security Groups
+    - name: "Get all security groups for workshop {{ workshop.name }} for removal"
+      ec2_group_facts:
+        region: "{{ workshop.aws.region }}"
+        filters:
+          "tag:workshop": "{{ workshop.name }}"
+      register: security_groups_query
+
+    - name: "Remove all security groups for workshop {{ workshop.name }}"
+      ec2_group:
+        group_id: "{{ item.group_id }}"
+        region: "{{ workshop.aws.region }}"
+        state: absent
+      async: 7200
+      poll: 2
+      with_items: "{{ security_groups_query.security_groups }}"
 
     # Remove VPC Subnets
-    - name: "Gather Information about Subnets with a specific Tag workshop {{ workshop.name }} wich we should remove"
+    - name: "Get all subnets from workshop {{ workshop.name }} for removal"
       ec2_vpc_subnet_facts:
         region: "{{ workshop.aws.region }}"
         filters:
           "tag:workshop": "{{ workshop.name }}"
       register: vpc_subnets_to_remove
 
-    - name: "Ensure VPC Subnets are removed from Workshop VCPs"
+    - name: "Remove all subnets for workshop {{ workshop.name }}"
       ec2_vpc_subnet:
         region: "{{ workshop.aws.region }}"
         vpc_id: "{{ item.vpc_id }}"
@@ -35,49 +62,25 @@
       async: 7200
       poll: 2
 
-    - name: "Ensure VPC Security Group {{ workshop.aws.vpc.base_name }} are removed From Workshop VCPs"
-      ec2_group:
-        name: "{{ workshop.aws.vpc.base_name }}-{{ item }}"
-        vpc_id: "{{ (vpc_networks.results[item | int -1 ]).vpc.id }}"
-        region: region: "{{ workshop.aws.region }}"
-        rules:
-          - proto: tcp
-            port: 80
-            cidr_ip: 0.0.0.0/0
-          - proto: tcp
-            port: 443
-            cidr_ip: 0.0.0.0/0
-          - proto: tcp
-            port: 22
-            cidr_ip: 0.0.0.0/0
-          - proto: tcp
-            port: 5985
-            cidr_ip: 0.0.0.0/0
-          - proto: tcp
-            port: 5986
-            cidr_ip: 0.0.0.0/0
-        tags:
-          workshop: "{{ workshop.name }}"
-          workshop_attendant_id: "{{ item }}"
-        with_sequence: start=1 end="{{ workshop.attendant_count }}"
+    # Remove Internet Gateway
+    - name: "Remove igw from workshop {{ workshop.name }} vpc"
+      ec2_vpc_igw:
+        vpc_id: "{{ vpc_query.vpcs[0].vpc_id }}"
+        region: "{{ workshop.aws.region }}"
+        state: absent
 
-    - name: "Ensure workshop aws vpc {{ workshop.aws.vpc.base_name }} are removed"
+    # Remove VPC
+    - name: "Remove vpc for workshop {{ workshop.name }}"
       ec2_vpc_net:
-        name: "{{ workshop.aws.vpc.base_name }}-attendantid-{{ item }}"
+        name: "{{ workshop.name }}"
         region: "{{ workshop.aws.region }}"
         cidr_block: "{{ workshop.aws.vpc.cidr }}"
-        tags:
-          workshop: "{{ workshop.name }}"
-          workshop_attendant_id: "{{ item }}"
         state: absent
-      with_sequence: start=1 end="{{ workshop.attendant_count }}"
-      async: 7200
-      poll: 2
     
-    - name: "Ensure aws ec2 key pair {{ workshop.aws.keypair.name }} is removed"
+    # Remove EC2 Key
+    - name: "Remove ec2 key pair for workshop {{ workshop.name }}"
       ec2_key:
         region: "{{ workshop.aws.region }}"
         name: "{{ workshop.aws.keypair.name }}"
         key_material: "{{ workshop.aws.keypair.value }}"
         state: absent
-

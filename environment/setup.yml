@@ -82,6 +82,7 @@
               - 22
               - 5985
               - 5986
+              - 3389
             cidr_ip: 0.0.0.0/0
             cidr_ipv6: ::/0
         state: present

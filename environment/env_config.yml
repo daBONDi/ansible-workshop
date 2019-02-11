@@ -44,9 +44,9 @@ workshop_configuration:
         subnet_ip: '22'
         usage: 'managed_host'
         os: 'linux'
-
+      
       - name: 'win1'
-        ami_id: 'ami-0bd3cc88ca8ae88f5'
+        ami_id: 'ami-023361bb7fb02858c'
         instance_type: 't2.medium'
         subnet_ip: '41'
         usage: 'managed_host'

@@ -4,6 +4,13 @@
 
 ansible
 
+## Provisioning
+
+- setup.yml
+- config.yml
+- smoketest.yml
+- ansible-workshop-x-aws.md aushändigen(OneDrive?)
+
 ### Python Packages
 
 - boto3

@@ -16,11 +16,6 @@ https://de.slideshare.net/bcoca/ansible-config-mgmt
 - Erste mal als Trainer
 - Wer hat Ansible Erfahrung
 
-- Setup
-  - Vagrant
-  - Download OS Images
-  - Vagrant up
-
 ## Übersicht
 
 - Was ist Ansible

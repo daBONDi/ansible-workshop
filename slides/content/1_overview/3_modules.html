@@ -1,0 +1,102 @@
+<section>
+  <h1>Module</h1>
+  <ul>
+    <li>Module ist Code der auf das Zielsystem <b>kopiert</b> wird und dort im <b>ausgeführt</b> wird.</li>
+    <li>Mehrfache Ausführung sollte immer zum <b>selben Ergebnis</b> führen(idempotent)</li>
+      <ul>
+        <li>Es gibt Module die <b>NICHT idempotent sind! Modul Doku beachten!</b></li>
+      </ul>
+  </ul>
+  <div class="columns">
+    <div class="col">
+        <h2>Linux</h2>
+        <ul>
+          <li>Fast alle Module sind in Python geschrieben</li>
+          <li>Python + benötigen Python Package müssen am Target Host vorhanden sein!</li>
+        </ul>
+    </div>
+    <div class="col">
+        <h2>Windows</h2>
+        <ul>
+          <li>Powershell Scripts</li>
+          <li>Werden per WinRM kopiert und ausgeführt</li>
+          <li>Benötigte Powershell Module müssen vorhanden sein</li>
+        </ul>
+    </div>
+  </div>
+</section>
+<section>
+  <h1>Modul Dokumentation - Ansible Doc Website</h1>
+  <p>
+    https://docs.ansible.com/ansible/latest/modules/modules_by_category.html
+  </p>
+  <img src="images/modules-doc-screenshots.png">
+</section>
+<section data-markdown="">
+  # Modul Dokumentation über die CLI
+
+  ```bash
+  # List out all modules installed
+  ansible-doc -l
+	
+  copy
+  cron
+  ...
+  ```
+
+  ```bash
+  # Read documentation for installed module
+  $ ansible-doc copy
+  > COPY
+    The [copy] module copies a file on the local box to remote locations. Use the [fetch] module to copy files from remote locations to the local
+    box. If you need variable interpolation in copied files, use the [template] module.
+    ...
+  ```
+</section>
+
+<section data-markdown="">
+  # Module: Commands
+
+  Wenn es kein Ansible Modul gibt, können normale Shellbefehle/Scripts ausgeführt werden.
+
+  - **command / win_command:** Einfaches Command(Keine Shell)
+
+  - **shell:** Führt das Command durch eine Shell auf zb. /bin/sh und kann dadurch auch Pipen(**Hier aufpassen**)
+
+  - **script/win_script:** Führt das lokale Script auf den Remote Host aus
+
+  - **raw:** Führt das Command aus OHNE durch das Ansible Modul Subsystem durchzulaufen
+  
+  > - **Sind nicht idempotent!**
+  > - Sollte nur als letzte Möglichkeit verwendet werden!
+  > - Ansible Module schreiben ist nicht schwer! :-)
+</section>
+
+<section>
+  <h1>Meist verwendete Module</h1>
+  <div class="columns">
+    <div class="col">
+      <h2>Linux</h2>
+      <ul>
+        <li><b>copy</b> Kopiert von Controller zu Host</li>
+        <li><b>file</b> Stellt sicher das eine Datei/Ordner/Berechtigung vorhanden ist</li>
+        <li><b>template</b> Baut zb. eine Config File mit Jinja2 Templating zusammen</li>
+        <li><b>apt/yum</b> Package Manager</li>
+        <li><b>service</b> Linux Daemon Management</li>
+        <li>...</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h2>Windows</h2>
+      <ul>
+        <li><b>win_copy</b> Windows Module für copy</li>
+        <li><b>win_file</b> Windows Module für file</li>
+        <li><b>win_template</b> Windows Module für Template</li>
+        <li><b>win_chocolatey</b> Chocolatey Package Manager</li>
+        <li><b>win_acl /win_acl_inheritance</b> Disk/Registry ACL</li>
+        <li><b>win_service</b>Windows Service Management</li>
+        <li>...</li>
+      </ul>
+    </div>
+  </div>
+</section>

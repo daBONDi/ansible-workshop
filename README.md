@@ -4,9 +4,17 @@ Tages Workshop über Ansible für Entwickler/Techniker
 
 ## Anforderungen
 
+### Netzwerkvorraussetzungen
+
+- Schulungs Clients > Outbound
+  - SSH
+  - HTTP/HTTPS
+  - WinRM Port 5985/5986
+  - Ping
+
 **Visual Studio Code** (1.31) mit folgenden Plugins
 
-- haaaad.ansible
+- haaaad.ansible (Plugin Suche: language-ansible)
 
 **WinSCP**
 
@@ -89,5 +97,8 @@ Präsentation
   npm install
   npm start
   ```
+
+- Speaker View
 - drucken http://localhost:8000/?print-pdf
 - Browse http://localhost:8000
+- Presentator Screen Key: **s**

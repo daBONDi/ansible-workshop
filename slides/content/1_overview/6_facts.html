@@ -1,0 +1,47 @@
+<section>
+  <h1>Ansible Facts(Cache)</h1>
+  <ul>
+    <li>Bei Ausführung fragt Ansible einmalig den Host ab(setup), diese Information können später für die Verarbeitung verwendet werden</li>
+    <ul>
+      <li>Hostname</li>
+      <li>IP/Interface Einstellungen</li>
+      <li>OS Type/Version/..</li>
+      <li>Disklayout</li>
+      <li>Hardware</li>
+      <li>...</li>
+    </ul>
+    <li>Facts - Speicherung (Cache Plugins)</li>
+    <ul>
+      <li>JSON/YAML File</li>
+      <li>Redis Server</li>
+      <li>Memcache DB</li>
+      <li>MongoDB</li>
+      <li>...</li>
+    </ul>
+  </ul>
+  <h4>https://docs.ansible.com/ansible/latest/plugins/cache.html#cache-plugins</h4>
+  <aside class="notes">
+    - Später dann mehr bei playbooks
+    - mit addhoc mal ansehen
+  </aside>
+</section>
+<section>
+  <h2>Ansible Facts Example</h2>
+  <pre><code class="lang-bash">
+      $ ansible localhost -m setup
+      localhost | success  {
+        "ansible_facts": {
+            "ansible_default_ipv4": {
+                "address": "192.168.1.37",
+                "alias": "wlan0",
+                "gateway": "192.168.1.1",
+                "interface": "wlan0",
+                "macaddress": "c4:85:08:3b:a9:16",
+                "mtu": 1500,
+                "netmask": "255.255.255.0",
+                "network": "192.168.1.0",
+                "type": "ether"
+            },
+            ...
+  </code></pre>
+</section>

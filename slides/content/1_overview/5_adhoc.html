@@ -1,0 +1,31 @@
+<section data-markdown="">
+  # Ansible Ad-Hoc Commands
+
+  ansible [host/group/all] -m [module] -a [module arguments] -i [inventory/inventory_file]
+
+  Führt einen einzelnen Ansible Task(Module) gegen das Inventory aus
+
+  - Server Neustarten
+  - Eine Datei auf mehreren Servers kopieren
+
+  ### Beispiele
+  ```bash
+  # Connection Test
+  ansible linux -m ping -i inventory.ini
+
+  # Windows Host neustarten
+  ansible win1 -m win_reboot -i inventory.ini
+
+  # Ohne Inventory
+  ansible all -i "172.16.233.21,172.16.233.22," -m ping --private-key=~/.ssh/workshop.key
+  ```
+
+  > Wirklich nur für Single Tasks verwenden, da ein Playbook schnell geschrieben ist :-)
+
+  notes:
+    - nur wirklich für ad-hoc tasks verwenden
+    - playbook ist schnell geschrieben
+    - das Komma am schluss beachten bei ohne inventory
+    - gibt noch mehr parameter, aber das sind die meist verwendeten
+
+</section>

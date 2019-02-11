@@ -1,0 +1,148 @@
+<section data-markdown="">
+  # Was ist Ansible
+
+  Eine Automatisierungs Engine
+</section>
+<section data-markdown="">
+  # Ansible ist Einfach
+
+  - Lesbar (YAML)
+  - Keine speziellen Programmierkenntnisse (Module)
+  - Aufgaben werden in Reihenfolge ausgeführt
+
+  > BUZZWORD: **Get productive quickly**
+</section>
+<section data-markdown="">
+  # Ansible ist Mächtig
+
+  - Provisioning
+  - Application Deployment
+  - Configuration management
+  - Orchestration
+  - Continous Delivery
+  - Security & Compliance
+  - ...
+
+  > BUZZWORD: **Orchestrate the app lifecycle**
+</section>
+<section data-markdown="">
+  # Ansible ist Agentless!
+
+  - Linux/Network = **OpenSSH**
+  - Windows = **WinRM**
+  - Kein Agent zu Patchen
+  - ***Kein Agent auf Kundensystemen***
+  
+  > BUZZWORD: **Predictable, reliable and "secure"**
+</section>
+<section>
+    <h1>Ansible: The Language of <i>[Imagination]</i>Ops</h1>
+    <p>
+      <img src="images/devops-language-diagram.svg" style="background-color:  white"/>
+    </p>
+    <aside class="notes">
+      Kann in then ganzen Application Life Cylce verwendet werden
+    </aside>
+</section>
+<section>
+  <h1>[Imagination]Ops Tool</h1>
+  <p>
+
+    <img src="images/swissarmyknife.jpg" height="400"/>
+  </p>
+  <p>
+    <small>
+    Gibts zu kaufen unter:
+    <a href="https://www.amazon.com/Wenger-16999-Swiss-Knife-Giant/dp/B001DZTJRQ">https://www.amazon.com/Wenger-16999-Swiss-Knife-Giant/dp/B001DZTJRQ</a>
+    </small>
+  </p>
+</section>
+<section data-markdown="">
+  # Batteries Included
+
+  ## über 1300 Module
+
+  - cloud
+  - containers
+  - database
+  - files
+  - network
+  - windows/dsc
+  - ...
+
+  > https://docs.ansible.com/ansible/latest/modules/modules_by_category.html
+
+  Und es werden mehr bei jedem Release.
+</section>
+<section data-markdown="">
+  # Ansible Community Stats
+
+  - 34,000+ stars & 10,000+ forks auf GitHub
+  - 4000+ GitHub Contributors
+  - 1200+ users im IRC channel #ansible (freenode)
+  - Top 10 open source projects in 2017
+  - ...
+
+  > Mehr auf
+  > http://ansible.com/community
+
+</section>
+<section data-markdown="">
+  # Warum Ansible
+
+  - **Einfach zu lesen** und zu verstehen
+  - Automatisierung läuft immer von oben nach unten
+  - Modular Entwickelt und einfach erweiterbar
+  - **Kein Server benötigt**
+  - Kann am **Techniker Client laufen**
+
+  notes:
+    - von oben nach unten im gegensatz zu salt/chef (merged classes/structures)
+</section>
+<section>
+  <h1>Anforderungen</h1>
+  <h2>Controller</h2>
+  <ul>
+    <li>Linux/Unix Based OS</li>
+    <li><b>Windows (WSL) unsupported, aber funktioniert</b></li>
+    <li>CygWin unsupported, noch nicht getestet</li>
+    <li>Python > 2.7  / Python >3.5</li>
+  </ul>
+  <div class="columns">
+    <div class="col">
+      <h2>Managed Linux Host</h2>
+      <ul>
+        <li>ssh + sftp(kann auf scp gewechselt werden)</li>
+        <li>Python > 2.7 / Python > 3.5</li>
+        <li>Zusätzliche Python Module je nach Ansible Modul</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h2>Managed Windows Host</h2>
+      <ul>
+        <li>WinRM Konfiguration</li>
+        <li><b>Powershell > 3.0</b> / .Net Framework 4.0</li>
+        <li>Zusätzliche Powershell Module je nach Ansible Modul</li>
+        <li>> Windows Server 2008</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section data-markdown="">
+  # Installation
+
+  ## Per OS Package Managent System
+  ```sh
+  sudo yum install ansible
+  sudo apt-get install ansible
+  ```
+
+  ## Per PIP **(Recommended)**
+  ```sh
+  sudo pip install ansible
+  
+  ### Version Specific
+  sudo pip install git+https://github.com/ansible/ansible.git@devel
+  sudo pip install git+https://github.com/ansible/ansible.git@stable-2.5
+  ```
+</section>

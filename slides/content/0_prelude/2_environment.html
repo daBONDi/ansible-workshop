@@ -1,0 +1,85 @@
+<section>
+  <h1>Workshop Umgebung</h1>
+  <h2>Vorraussetzungen</h2>
+  
+  <div class="columns">
+    <div class="col">
+      <h3>Git Repo</h3>
+      <p>
+        https://github.com/daBONDi/ansible-workshop
+      </p>
+
+      <h3>Visual Studio Code</h3>
+      <p>  
+        https://code.visualstudio.com/
+      </p>
+    </div>
+    <div class="col">
+      <h3>WinSCP</h3>
+      <p>
+        https://winscp.net
+      </p>
+
+      <h3>Windows SSH Shell Client</h3>
+      <ul>
+        <li>Soll in der PATH Variable enthalten sein.</li>
+        <li>https://git-scm.com/download/win</li>
+    </div>
+  </div>
+  <aside class="notes">
+      - Haben alle die benötigten Assets
+  </aside>
+</section>
+
+<section data-markdown="">
+  # VS Code Umgebung - Tasks
+  
+  ### **STRG** + **P** + **"Tasks: Run Task"**
+
+  ##### Connect to Ansible Controller
+
+  Baut eine SSH Session zum Controller in einem VS Code Terminal auf.
+
+  ##### Automatic Sync Workshop Folder
+
+  Syncronisiert den /workshop Ordner mit dem Ansible Controller(AWS).
+
+  ##### Automatic Sync Demos Folder
+  
+  Syncronisiert den /demos Ordner mit dem Ansible Controller(AWS).
+
+  notes:
+    Gemeinsam die tasks.json anpassen
+    Gemeinsam Workshop Folder Sync Starten
+
+</section>
+
+<section>
+  <h1>AWS Umgebung</h1>
+  <div class="columns">
+    <div class="col">
+        <p>
+          <h2>Ansible Controller (ctrl)</h2>
+          <b>VPC IP:</b> 10.0.<i>X</i>.<b>10</b> / 16
+        </p>
+        <p>
+          <h2>Windows 2016 Host (win1)</h2>
+          <b>VPC IP:</b> 10.0.<i>X</i>.<b>41</b> / 16
+        </p>
+    </div>
+    <div class="col">
+        <p>
+          <h2>Debian 9 Host - 1 (debian1)</h2>
+          <b>VPC IP:</b> 10.0.<i>X</i>.<b>21</b> / 16
+        </p>
+        <p>
+          <h2>Debian 9 Host - 2 (debian2)</h2>
+          <b>VPC IP:</b> 10.0.<i>X</i>.<b>22</b> / 16
+        </p>
+    </div>
+  </div>
+  <aside class="notes">
+    - AWS Umgebung erklären
+    - Info über das Attentand Sheet
+  </aside>
+</section>

@@ -1,0 +1,51 @@
+<section>
+  <h2>Wie funktioniert Ansible?</h2>
+  <img src="images/how-ansible-works-diagram-01.svg">
+  <aside class="notes">
+    - Die Einzelkomponenten wie Ansible zusammenspielt erklären
+  </aside>
+</section>
+<section>
+  <h2>Plays/Playbooks</h2>
+  <img src="images/how-ansible-works-diagram-02.svg">
+  <aside class="notes">
+    - Playbook = Yamlfile
+    - Beschreibt was auszuführen ist
+  </aside>
+</section>
+<section>
+  <h2>Modul</h2>
+  <img src="images/how-ansible-works-diagram-03.svg">
+  <aside class="notes">
+    - Module meist in Python(Linux),Windows(Powershell) geschrieben
+    - Grundsätzlich kann es jede Ausführare Datei sein, die ein JSON retour gibt über den stdout
+  </aside>
+</section>
+<section>
+  <h2>Plugins</h2>
+  <img src="images/how-ansible-works-diagram-04.svg">
+  <aside class="notes">
+    - Bauen die Verbindung zu den Hostsystemen auf
+    - Bestimmen zb. den stdout
+    - Bei jedem Task Result wo abspeichern(ARA)
+    - Inventory Plugins(Inventory File zb. von einer CMDB ziehen)
+    - ...
+  </aside>
+</section>
+<section>
+  <h2>Static Inventory File</h2>
+  <img src="images/how-ansible-works-diagram-05.svg">
+  <aside class="notes">
+    - Typisch ein einzelnes ini file oder ein yaml file
+    - wir werden dies hier so benutzten
+  </aside>
+</section>
+<section>
+  <h2>Dynamic Inventory File (zb. Netbox)</h2>
+  <img src="images/how-ansible-works-diagram-06.svg">
+  <aside class="notes">
+    - Als Inventory Plugin
+    - Kann auch ein Program mit passenden STDOUT sein(JSON)
+    - Wie im Datacenter ein Inventory Plugin das die Daten von Netbox bezieht
+  </aside>
+</section>

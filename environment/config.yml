@@ -102,7 +102,7 @@
         owner: 'admin'
         group: 'admin'
         mode: 'u=rw,g=r,o=r'
-        state: file
+        state: touch
 
     - name: "Ensure we auto-cd into /opt/workshop"
       lineinfile:

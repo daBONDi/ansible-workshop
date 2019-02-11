@@ -11,6 +11,7 @@ Tages Workshop über Ansible für Entwickler/Techniker
   - HTTP/HTTPS
   - WinRM Port 5985/5986
   - Ping
+  - RDP
 
 **Visual Studio Code** (1.31) mit folgenden Plugins
 

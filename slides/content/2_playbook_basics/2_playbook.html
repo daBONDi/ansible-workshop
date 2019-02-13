@@ -1,0 +1,176 @@
+<section data-markdown="">
+## Playbook - Übersicht
+
+### Task/Handler
+
+Task/Handler führen Module mit den angegeben Parameter an(Ad-Hoc).
+
+### Play
+
+Ein Play besteht aus mehreren Task/Handler/Roles die auf einen Host/Gruppe ausgeführt werden
+
+### Playbook
+
+Das Playbook ist eine YAML Datei die mehrer Play's beinhaltet
+
+notes:
+  Kurz über die bezeichnung, danach zeigen wir eh das playbook
+</section>
+
+<section data-markdown="">
+## Playbook - Tasks
+
+```YAML
+tasks:                                      # Task Array for the Play
+  - name: Ensure httpd package is latest    # Task Bezeichnung
+    apt:                                    # Modul
+      name: apache2                         # Modul Parameter
+      state: latest                         # Modul Parameter
+  
+  - name: Ensure latest index.html file is present
+    copy:
+      src: files/index.html
+      dest: /var/www/html
+  
+  - name: Restart httpd
+    service:
+      name: apache2
+      state: restarted    
+```
+
+notes:
+- Erkläre
+  - Name
+  - Module
+  - Modul Parameter
+
+</section>
+
+<section data-markdown="">
+
+## Playbook - Handler Tasks
+
+Handler sind spezielle Tasks die zum Schluss des Plays durchgeführt werden, wen ein Task ein "notify" aussendet
+
+```YAML
+
+tasks:                                      # Task Array for the Play
+  - name: Ensure httpd package is latest    # Task Bezeichnung
+    apt:                                    # Modul
+      name: apache2                         # Modul Parameter
+      state: latest                         # Modul Parameter
+    notify: restart httpd                   # Sende das Notify zum Handler
+  
+  - name: Ensure latest index.html file is present
+    copy:
+      src: files/index.html
+      dest: /var/www/html
+  
+handlers:
+  - name: Restart httpd                     # Handler Name
+    service:                                # Modul
+      name: apache2                         # Modul Parameter
+      state: restarted                      # Modul Parameter
+```
+
+> Wenn Package Installiert oder Aktualisiert wird starte den Dienst neu
+
+notes:
+  - Wird nur einmal per Play ausgeführt
+  - Tasks senden das Notify
+
+</section>
+
+<section data-markdown="">
+## Playbook - Beispiel
+
+```YAML
+---       # Definiert den Datei Typ, ist nicht wirklich Pflicht, aber gute Praxis(ähnlich dem #!)
+- name: Ensure apache is installed and started            # Play Name
+  hosts: web                                              # Host/Group Selector
+  become: yes                                             # use sudo
+  vars:
+    http_port: 80
+
+  tasks:
+    - name: Ensure httpd package is latest
+      apt:
+        name: apache2
+        state: latest 
+      notify: restart httpd
+    
+    - name: Ensure latest index.html file is present
+      copy:
+        src: files/index.html
+        dest: /var/www/html
+    
+  handlers:
+    - name: Restart httpd
+      service:
+        name: apache2
+        state: restarted
+```
+
+notes:
+  - Einrückung von YAML
+    - Was bedeutet das Arrays/Dicts
+  - Play beschreiben
+  - Es können mehrere Plays in einem File(Playbook sein)
+  - Host Selector kurz beschreiben
+  - become
+  - vars kurz beschreiben
+</section>
+
+<section data-markdown="">
+## Playbook - Host Selector
+
+**hosts** definiert auf welche Hosts dieses Play durchzuführen ist
+
+```YAML
+hosts: all                   # Auf alle Hosts im Inventory ausführen
+
+hosts: linux                 # Führt den Task auf die Inventory Group 'linux' aus
+
+hosts: linux:web             # OR: Alle Hosts die in der Group 'linux' oder 'web' sind
+
+hosts: webserver:!eu         # EXCLUDE: Alle Hosts in der Group 'webserver' die aber **NICHT** in der Gruppe 'eu' sind
+
+
+hosts: webserver:&stagging   # INTERSECTION: Alle Hosts die in der Gruppe 'webserver' und in der Gruppe 'stagging' sind
+
+hosts: web*eu                # WILDCARD: Alle Hosts mit inventory_hostname web*eu ( web-production-eu, web-stagging-eu,....)
+
+# Kombinationen
+hosts: web*:&eu   # Alle Hosts die mit 'web' beginnen und in der Group 'eu' sind
+
+```
+
+> https://docs.ansible.com/ansible/latest/user_guide/intro_patterns.html
+
+notes:
+  - Durchbeschreiben der einzelnen
+  - Beschreiben Warum
+    - Mehrer Plays
+      Application
+        - Database Server
+        - Smoke Test
+        - Webserver
+        - Smoke Test
+        - Loadbalance
+        - Smoke Test
+    - Unterschiedliche Inventorys Production/Stagging
+</section>
+
+<section data-markdown="">
+  # Demo/Übung 2
+
+  ** /workshop/2-basic-playbook/README.md **
+
+  ## Lets build something useful! :-)
+
+  > Nicht auf den VS Code Task (STRG + P + Tasks: Run Task > "Automatic Sync Workshop Folder" vergessen :-)
+
+  notes:
+  - alleine machen lassen
+  - und ihnen helfen
+</section>

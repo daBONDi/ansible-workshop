@@ -82,7 +82,7 @@ ansible linux -m command -a "uptime" -i inventory.ini
 ansible windows -m win_ping
 
 # windows version herausfinden
-ansible windows -m win_shell -a "whoami" -i inventory.ini
+ansible windows -m win_command -a "whoami" -i inventory.ini
 
 # Facts abrufen
 ansible all -m setup -i inventory.ini

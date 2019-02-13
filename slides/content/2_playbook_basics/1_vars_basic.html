@@ -1,0 +1,76 @@
+<section data-markdown="">
+  # Playbook - Variablen
+
+  Ansible kann Metadaten von vielen Quellen in Form von Variablen verarbeiten
+
+  ##### Commandline
+
+  ```bash
+  # Yaml
+  ansible all -m win_ping -i inventory.ini -e "myvar=test mysecond=var"
+  # JSON - Dict/Array
+  ansible all -m win_ping -i inventory.ini --extra-vars "[ { app: app1 }, { app: app2 } }"
+  ```
+  
+  ##### Playbook
+  
+  Play und Tasks
+
+  ##### Externe Dateien
+  
+  YAML und JSON Files
+
+  ##### Inventory
+  
+  Statisch / Dynamisches Inventory(inventory_plugins) mit Gruppen oder Host Variablen (ansible_user, ansible_winrm_server_cert_validation)
+
+  ##### Facts (Module: Setup)
+
+  ##### Roles
+
+
+  notes:
+    - Variablen können von mehrern Sourcen Command
+    - Meistens in
+      - inventory group vars
+      - Externe json/yaml Files
+      - Facts
+</section>
+<section>
+<h2>Variablen Vorang</h2>
+<p>Wenn Variablen / Host für an verschiedenen Source vorhanden sind gilt folgende Order</p>
+<div class="columns">
+  <div class="col">
+    <ol>
+      <li>extra vars</li>
+      <li>task vars (only for the task)</li>
+      <li>block vars (only for tasks in block)</li>
+      <li><strong>role and include vars</strong></li>
+      <li><strong>play vars_files</strong></li>
+      <li><strong>play vars_prompt</strong></li>
+      <li><strong>play vars</strong></li>
+      <li>set_facts</li>
+    </ol>
+  </div>
+  <div class="col">
+    <ol start="9" class="col">
+      <li>registered vars</li>
+      <li>host facts</li>
+      <li>playbook host_vars</li>
+      <li>playbook group_vars</li>
+      <li><strong>inventory host_vars</strong></li>
+      <li><strong>inventory group_vars</strong></li>
+      <li>inventory vars</li>
+      <li><strong>role defaults</strong></li>
+    </ol>
+  </div>
+</div>
+<aside class="notes">
+<ul>
+  <li>Variablen werden per Host zusammengefasst</li>
+  <li>Mann sollte die quellen für variablen klein halten</li>
+  <li>Wie wir die Variablen verwenden kommt noch</li>
+  <li>Mal merken das es einen Order gibt</li>
+</ul>
+</aside>
+</section>

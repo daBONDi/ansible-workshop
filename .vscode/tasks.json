@@ -3,7 +3,7 @@
   "options": {
     "env": {
       /* Public FQDN to the Ansible Controller Host*/
-      "ANSIBLEHOST": "ec2-3-122-216-176.eu-central-1.compute.amazonaws.com",
+      "ANSIBLEHOST": "ec2-18-196-100-40.eu-central-1.compute.amazonaws.com",
       /* Path to Win SCP Executable*/
       "WINSCPEXE": "C:\\Program Files (x86)\\WinSCP\\WinSCP.com",
       

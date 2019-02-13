@@ -270,6 +270,8 @@ https://ansible.github.io/lightbulb/decks/ansible-essentials.html#/12
           state: restarted
     ```
 
+- Host Selector
+
 ## Plays & Playbooks
 
 - Was ist ein Playbook
@@ -282,7 +284,6 @@ https://ansible.github.io/lightbulb/decks/ansible-essentials.html#/12
     - Host Selector Examples
       - webservers:!phoenix
   - Privilege Escalation: "become:yes" = Sudo(Default)
-  - delegate_to
   - Playbook Vars
     - http Port angabe vieliecht
 - Debug
@@ -319,7 +320,9 @@ https://ansible.github.io/lightbulb/decks/ansible-essentials.html#/12
     - Gibt noch sehr viel mehr, aber dies sind die üblichen
   - Include Playbook ( Loopen von Includes)
   - Filter
-  
+
+- privilege escalation
+
 - Templates
   - Ansible beinhaltet die Jinja2 Templating Engine
     - Homepage Zeigen
@@ -368,6 +371,8 @@ https://ansible.github.io/lightbulb/decks/ansible-essentials.html#/12
   - Load CSV
   - Special Filter for
     - Network Hostname
+
+- delegate_to
 
 - Demo
   Full Playbook beschreiben
@@ -481,6 +486,13 @@ https://ansible.github.io/lightbulb/decks/ansible-essentials.html#/12
 - powershell script
 - win_dsc
 
+## Module Development
+
+- Pyhton Module
+  - Simples Modul bauen
+- Powershell Module
+  - Simples Modul bauen
+
 ## Best Practice
 
 http://ansible.github.io/lightbulb/decks/ansible-best-practices.html#/2
@@ -508,7 +520,7 @@ Principal 4
   - Verzeichnis Layouts
 - Style Enforcen(Wie?)
 
-## inventory
+### inventory
 
 - human-meaningul names, besser als ip oder dns
 - Group Hosts
@@ -561,13 +573,6 @@ Principal 4
   - Rolen dependencies definieren
     - Immer eine getaggte Version beinhalten
   - Ansible Galaxy Pattern
-
-## Module Development
-
-- Pyhton Module
-  - Simples Modul bauen
-- Powershell Module
-  - Simples Modul bauen
 
 ## Logging
 

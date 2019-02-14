@@ -286,30 +286,21 @@ https://ansible.github.io/lightbulb/decks/ansible-essentials.html#/12
   - Privilege Escalation: "become:yes" = Sudo(Default)
   - Playbook Vars
     - http Port angabe vieliecht
-- Debug
-- Syntax-check
-- Unterschied Dryrun
-  - Windows Modules aufpassen
-- Unterschied Diff
-  - Windows Modules aufpassen
 
-- Demo - Play & Playbooks
-  - Playbooks Ausführen
-    - --Dry Run
-    - --syntax-check
-  - Playbook überprüfen
-    - --syntax-check
-    - --check (dry Run)
 
 - Übungs
   - Simples Playbook bauen
-    - ngnix Webserver
+    - nginx Webserver
     - File Ablegen
-    - ngnix restarten mit handler
+    - nginx restarten mit handler
 
 - Pause
 
 ## Advanced Playbook
+
+- Playbook checks und hilfen
+    --check
+    --syntax-check
 
 - Mehr mit Playbooks machen
   - Templates Jinja2
@@ -425,7 +416,7 @@ https://ansible.github.io/lightbulb/decks/ansible-essentials.html#/12
 
 - Auf Variablen Überschreibung hinweisen!
 
-- Ansible Galaxy 
+- Ansible Galaxy
   - Hub für Rolen
   - Rolen immer mit Vorsicht genießen
     - Zuerst durchschauen, dann anwenden :-)

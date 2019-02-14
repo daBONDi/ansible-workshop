@@ -1,0 +1,65 @@
+<section data-markdown="">
+# Playbook Modus/Syntax Check
+
+## Dry-run
+
+Da die meisten Module Idempotend sind, können wir die Playbooks im "Dry Run" laufen lassen.
+Es werden **keinen Änderungen** vorgenommen von den Tasks, aber welche Task sich **ändern wird zurückgegeben**.
+
+```bash
+ansible-playbook simple.yml -i inventory.ini --check
+```
+
+> Achtung es gibt Preview Module wo zb. die Funktion für einen Dry Run fehlt!! (Ansible Modul Index überprüfen)
+
+## Syntax Check
+
+Der Syntax vom Playbook wird ohne ausführung kontrolliert.
+
+```bash
+ansible-playbook simple.yml -i inventory --syntax-check
+```
+
+notes:
+  - Wenn man vorab wissen will was sich ändert wird
+    
+  - Syntax Check
+
+    Nützlich wenn das Playbook schon ziemlich groß ist, und man vor dem Testrun nur die Syntax controllieren will
+</section>
+<section data-markdown="">
+# Debug Parameter
+
+```bash
+ansible-playbook simple.yml -i inventory.ini -vvv
+```
+
+Es wird der Output bzw. Return Value jedes Tasks/Module ausgegeben
+
+> Mehr **v** in -v setzt den Debug Level höher
+</section>
+<section data-markdown="">
+# Debug in Playbook
+
+```YAML
+tasks:
+  - apt:
+      name: nano
+    register: apt_result        # Speichert den Return Value vom Module in eine Variable apt_result
+  
+  - debug:
+      var: apt_result           # Gibt die Variable apt_result aus
+  
+  - debug:
+      msg: "This is a Output"   # Gibt den Text aus
+  
+  - debug:
+      msg: "Das ist der Output von apt_result stdout: {{ apt_result.stdout }}"  # Gibt den Variablen Inhalt apt_result.stdout mit dem Text aus (String Combine)
+```
+
+notes:
+  - Module Result > register
+  - register
+  - Jinja2 Templating Engine > kommt noch 
+
+</section> 

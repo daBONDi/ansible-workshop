@@ -8,7 +8,7 @@
       apt:
         name: nginx
         state: latest
-      notify: restart ngnix
+      notify: restart nginx
     
     - name: deploy our awesome app - index.html
       copy:
@@ -21,7 +21,7 @@
         dest: /var/www/html/image.jpg
     
   handlers:
-    - name: restart ngnix
+    - name: restart nginx
       service:
         name: nginx.service
         state: restarted

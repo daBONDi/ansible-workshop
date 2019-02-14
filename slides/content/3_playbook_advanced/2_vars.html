@@ -1,0 +1,73 @@
+<section data-markdown="">
+# Variablen - Scope
+
+```ini
+# Inventory File
+host1 ansible_host=10.0.0.1  application=app1 # host_vars
+host2 ansible_host=10.0.0.2  application=app2 # host_vars
+
+[web]   # inventory group
+host1
+host2
+
+[web:vars]    # group_vars
+webserver="apache"
+```
+
+```yaml
+# playbook 
+hosts: all
+vars:
+  size: "big"
+tasks:
+  - debug:                  # Jeder Host hat sein eigenen Variablen Scope!
+      var: application
+    # host1 => application = app1
+    # host2 => application = app2
+
+  - debug:                  # Variable in Inventory Group "web" enthalten, und ist in jedem Scope definiert
+      var: webserver
+    # host1 => apache
+    # host2 => apache
+
+  - debug:                  # Variable ist im Play enthalten, und ist dann in jedem Scope verfügbar
+      var: size
+    # host1 => size = "big"
+    # host2 => size = "big"
+
+  - debug:                  # Variable ist im invenotry per host definiert, daher unterschiedlich im Scope
+      var: ansible_host
+    # host1 => ansible_host = 10.0.0.1 
+    # host2 => ansible_host = 10.0.0.2
+```
+
+notes:
+  - Erkäre den Host Variablen Scope
+    - Alles wird in einem großen Scope per Host zusammengeführt
+  - Variablen Überschreiben sich, siehe playbook basic
+  - Nochmal nachfragen ob es klar ist, **CRITICAL CONCEPT**
+
+</section>
+<section data-markdown="">
+# Variablen von externen Dateien
+
+```yaml
+# config/settings.yml
+webserver:
+  port: 80
+  root: /var/root
+```
+
+```yaml
+- hosts: webserver
+  vars_files:
+    - config/settings.yml
+  tasks:
+    - debug:
+        var: webserver.port
+    # Output: webserver.port => 80
+```
+notes:
+  - Externe Dateien
+
+</section>

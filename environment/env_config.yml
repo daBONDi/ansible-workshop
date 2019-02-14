@@ -38,19 +38,19 @@ workshop_configuration:
         usage: 'managed_host'
         os: 'linux'
 
-      - name: 'debian2'
-        ami_id: 'ami-0ca467408e84df23c'
-        instance_type: 't2.micro'
-        subnet_ip: '22'
-        usage: 'managed_host'
-        os: 'linux'
+      # - name: 'debian2'
+      #   ami_id: 'ami-0ca467408e84df23c'
+      #   instance_type: 't2.micro'
+      #   subnet_ip: '22'
+      #   usage: 'managed_host'
+      #   os: 'linux'
       
-      - name: 'win1'
-        ami_id: 'ami-023361bb7fb02858c'
-        instance_type: 't2.medium'
-        subnet_ip: '41'
-        usage: 'managed_host'
-        os: 'windows'
-        user_data: "{{ lookup('template', 'assets/win_ami_userdata.txt.j2') }}"
+      # - name: 'win1'
+      #   ami_id: 'ami-023361bb7fb02858c'
+      #   instance_type: 't2.medium'
+      #   subnet_ip: '41'
+      #   usage: 'managed_host'
+      #   os: 'windows'
+      #   user_data: "{{ lookup('template', 'assets/win_ami_userdata.txt.j2') }}"
 
     

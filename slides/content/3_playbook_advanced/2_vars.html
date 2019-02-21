@@ -35,7 +35,7 @@ tasks:
     # host1 => size = "big"
     # host2 => size = "big"
 
-  - debug:                  # Variable ist im invenotry per host definiert, daher unterschiedlich im Scope
+  - debug:                  # Variable ist im inventory per host definiert, daher unterschiedlich im Scope
       var: ansible_host
     # host1 => ansible_host = 10.0.0.1 
     # host2 => ansible_host = 10.0.0.2

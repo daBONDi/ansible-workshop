@@ -296,11 +296,12 @@ https://ansible.github.io/lightbulb/decks/ansible-essentials.html#/12
 
 - Pause
 
-## Advanced Playbook
-
+##  Debug/Syntax Check
 - Playbook checks und hilfen
     --check
     --syntax-check
+
+## Advanced Playbook
 
 - Mehr mit Playbooks machen
   - Templates Jinja2
@@ -311,6 +312,7 @@ https://ansible.github.io/lightbulb/decks/ansible-essentials.html#/12
     - Gibt noch sehr viel mehr, aber dies sind die üblichen
   - Include Playbook ( Loopen von Includes)
   - Filter
+  - Lookup Plugins
 
 - privilege escalation
 
@@ -580,6 +582,8 @@ Principal 4
 - Stackstorm
 
 ## Ansible for Network Devices
+
+- https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#network-cli-filters
 
 - Config File Generierung mit Templates
   - Danach Uploaden

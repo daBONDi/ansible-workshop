@@ -1,24 +1,260 @@
 <section data-markdown="">
-# Jinja2 Templating
+# Jinja2 Templating / Ansible Filter
 
 Ansible beinhaltet die Jinja2 Templating Engine
 
 Kann verwendet werden für:
 
-- Variablen setzen / bearbeiten
+- Variablen verändern/filtern
 - Conditional Logic
 - Config Dateien generieren
 
 http://jinja.pocoo.org/docs/2.10/
-  
+
+https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html
+
 notes:
-  - für was verwenden
+  - Variablen
+    - Ändern
+    - Filtern
+  - Conditional Logic
+    - if-then
+    - foreach
+  - Config Files
 </section>
-<section>
-# Jinja2 Filters (Ansible Filters)
+<section data-markdown="">
+# Ansible Filter: Default 
 
+```yaml
+vars:
+  default_ram: "10GB"
+  servers:
+    - name: "sys1"
+      os: "windows"
+    - name: "sys2"
 
+tasks:
+  - awsome_module:
+      name: "{{ item.name | default("server") }}" # Standard Wert
+      os: "{{ item.os | default(omit) }}"   # Modul Parameter wird nicht verarbeitet
+      ram: "{{ item.ram | default( default_ram ) }}" # Standard Wert
+    with_items: "{{ servers }}"
+```
 
+notes:
+  - Default Value
+  - Omitting
+</section>
+<section data-markdown="">
+# Ansible Filter: min/max
 
+```yaml
+vars:
+  list: [1,3,6]
+tasks:
+  - debug:
+      msg: "{{ list | min }}"
+    # Output: 1
 
+  - debug:
+      msg: "{{ list | max }}"
+    # Output: 6
+```
+notes:
+  - Simples minimum maximum
+</section>
+<section data-markdown="">
+# Ansible Filter: unique / union / intersect / difference /..
+
+```yaml
+vars:
+  list1: [1,2,3,3,4]
+  list2: [4,5,6]
+tasks:
+  - debug:
+    msg: "{{ list1 | unique }}" # Filter nur einzigartige Raus
+  # Output: [1,2,3,4]
+
+  - debug:
+    msg: "{{ list1 | union( list2 ) }}" # Kombiniert die 2 Listen
+  # Output: [1,2,3,4,5,6]
+
+  - debug:
+    msg: "{{ list1 | intersect(list2) }}" # Alle die in beiden Listen vorhanden sind
+  # Output: 4
+
+  - debug:
+    msg: "{{ list1 | difference(list2) }}" # Alle Elemente die in List2 nicht vorhanden sind
+  # Output: [1,2,3]
+
+  - debug:
+    msg: "{{ list1 | symmetric_difference(list2) }}" # Alle Elemente die nicht in beiden Listen enthalten sind
+  # Output: [ 1,2,3,5,6]  # 4 ist in beiden Listen vorhanden
+```
+
+> Funktioniert auch mit komplexen Variablen(Dictonary/Lists)
+</section>
+
+<section data-markdown="">
+# Ansible Filter: from_json / from_yaml
+
+```yaml
+vars:
+  api_request_url: "https://awesome.system/api/computer"
+tasks:
+  - uri:
+      url: "{{ api_request_url }}"
+      method: GET
+      body_format: json
+      return_content: true
+    register: http_json_response 
+  
+  # Variable http_json_response.content ist nun ein String
+
+  # from_json konvertiert den json response zu einem python/ansible item
+  - debug:
+      msg: "{{ http_json_response.content | from_json }}"
+```
+
+notes:
+  - Konvertieren von string to object
+</section>
+
+<section data-markdown="">
+# Ansible Filter: dict2items, items2dict
+
+```yaml
+vars:
+  tags:
+    Application: development
+    Environment: dev
+  
+  # Items zu einem Dict
+  dict_tags: "{{ tags | dict2items }}"
+
+  # dict_tags:
+  #   - key: Application
+  #     value: development
+  #   - key: Environment
+  #     value: dev
+
+  # Items zu einem Dict zurückwandeln
+  new_tags: "{{ dict_tags | items2dict(key_name='key', value_name='value') }}
+
+```
+
+notes:
+  Für was braucht man das
+  - zb. Settings bekommt man von einem json http response und muss damit arbeiten
+  - um eine liste für das loopen zu erhalten
+</section>
+<section data-markdown="">
+# Ansible Filter - ipaddr
+
+https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters_ipaddr.html
+
+```yaml
+vars:
+
+# Validate IP
+ip: "172.16.11.10" | ipaddr" 
+validate_ip: "{{ ip | ipaddr }}" # Tested ob der String eine IP ist
+validate_ipv4: "{{ ip | ipv4 }}" # Tested ob der String eine IPv4 ist
+validate_ipv6: "{{ ip | ipv6 }}" # Tested ob der String eine IPv6 ist
+
+# CIDR Handling
+client:           "172.16.11.10/24"
+client_ip:        "{{ client | ipaddr('address') }}" # 172.16.11.10
+client_netmask:   "{{ client | ipaddr('netmask') }}" # 255.255.255.0
+client_network:   "{{ client | ipaddr('network') }}" # 172.16.11.0
+client_broadcast: "{{ client | ipaddr('broadcast') }}" # 172.16.11.255
+```
+
+notes:
+  - ipaddr filter
+    
+</section>
+<section data-markdown="">
+# Ansible Filter: Hashing
+
+```yaml
+vars:
+  password: "1234"
+  md5: "{{ password | hash('md5') }}"   # MD5 Hash
+  checksum: "{{ password | checksum }}" # String Checksum
+
+  # sha512
+  pw_random_salt: "{{ password | password_hash('sha512') }}"
+  pw_with_salt: "{{ password | password_hash('sha512','mysecretsalt') }}"
+```
+
+</section>
+<section data-markdown="">
+# Ansible Filter: Json Query
+
+Basiert auf **jmespath** (http://jmespath.org/examples.html)
+
+```yaml
+vars:
+  config_data:
+    cluster:
+      - name: "cluster1"
+      - name: "cluster2"
+    servers:
+      - name: "server1"
+        port: "8080"
+        cluster: "cluster1"
+      - name: "server2"
+        port: "8090"
+        cluster: "cluster2"
+      - name: "server3"
+        port: "9090"
+        cluster: "cluster2"
+tasks:
+  - name: "All Server Names"
+    debug:
+      msg: "{{ config_data | json_query('servers[*].name') | join(',') }}"
+    # Output "server1,server2"
+
+  - name: "All Ports from Cluster 2"
+    vars:
+      query: "servers[?cluster=='cluster2'].port"
+    debug:
+      msg: "{{ config_data | json_query(query) | join(',') }}"
+    # Output "8090,9090
+```
+
+notes:
+  - bassiert auf jmespath
+  - Query Filter
+  - bei großen Variablen
+
+  - vars per tasks
+  - zb frontend loadbalancer haproxy
+  
+</section>
+<section data-markdown="">
+# Ansible Filter - Comment Filter
+
+Erzeugt ein Comment (Bei Config Template verwendet)
+
+```yaml
+
+{{ "My Comment" | comment }}
+# My Comment
+
+{{ "My Comment" | comment(c) }}
+// My Comment
+
+{{ "My Comment" | comment(cblock) }}
+
+/* My Comment */
+
+{{ "My Comment" | comment(xml) }}
+<!-- My Comment -->
+
+```
+notes:
+  - wird haupsächlich beim Config File(Templating) generien verwendet
+  - Config Template kommt als nächstes
 </section>

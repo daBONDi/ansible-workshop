@@ -1,10 +1,10 @@
 <section>
   <h1>Module</h1>
   <ul>
-    <li>Module ist Code der auf das Zielsystem <b>kopiert</b> wird und dort im <b>ausgeführt</b> wird.</li>
+    <li>Ein Module ist Code, der auf das Zielsystem <b>kopiert</b> und <b>ausgeführt</b> wird.</li>
     <li>Mehrfache Ausführung sollte immer zum <b>selben Ergebnis</b> führen(idempotent)</li>
       <ul>
-        <li>Es gibt Module die <b>NICHT idempotent sind! Modul Doku beachten!</b></li>
+        <li>Es gibt Module die <b>NICHT idempotent sind! Module doc beachten!</b></li>
       </ul>
   </ul>
   <div class="columns">
@@ -26,14 +26,14 @@
   </div>
 </section>
 <section>
-  <h1>Modul Dokumentation - Ansible Doc Website</h1>
+  <h1>Module documentation - Ansible Doc Website</h1>
   <p>
     https://docs.ansible.com/ansible/latest/modules/modules_by_category.html
   </p>
   <img src="images/modules-doc-screenshots.png">
 </section>
 <section data-markdown="">
-  # Modul Dokumentation über die CLI
+  # Module Doc über die CLI
 
   ```bash
   # List out all modules installed
@@ -63,9 +63,9 @@
 
   - **shell/win_shell:** Führt das Command durch eine Shell auf zb. /bin/sh und kann dadurch auch Pipen(**Hier aufpassen**)
 
-  - **script/win_script:** Führt das lokale Script auf den Remote Host aus
+  - **script/win_script:** Führt das lokale Script auf dem Remote Host aus
 
-  - **raw:** Führt das Command aus OHNE durch das Ansible Modul Subsystem durchzulaufen
+  - **raw:** Führt das Command aus, **ohne** das Ansible Modul Subsystem zu verwenden
   
   > - **Sind nicht idempotent!**
   > - Sollte nur als letzte Möglichkeit verwendet werden!

@@ -1,7 +1,57 @@
 <section data-markdown="">
-  # Conditionals
+# Conditional - Basics
 
+Führt den Task aus wenn die **Jinja2 Expression == True** ist
+
+```yaml
+
+# Simple Conditional basierend auf den Ansible Host Facts
+- debug:
+    msg: "I'm a Readhead OS"
+  when: ansible_facts['os_family'] == "RedHat"
+
+- debug:
+    msg: "I'm a Debian OS"
+  when: ansible_facts['os_family'] == "Debian"
+
+# Logical 'and'
+- debug:
+    msg: "I'm a Centos 6 System"
   when:
+    - ansible_facts['distribution'] == "CentOS"
+    - ansible_facts['distribution_major_version'] == "6"
 
+# Logical 'or' and Grouping
+- debug:
+    msg: "I'm a Debian 7 or CentOS 6 System"
+  when: (ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "6") or
+        (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "7")
+```
 
+notes:
+  - Logical Conditions
+  - Grouping
+</section>
+<section data-markdown="">
+# Conditional - Überprüfen ob es die Variable/Property gibt / Negieren
+
+```yaml
+- debug:
+    msg: "We got some FoOoOO"
+  when: foo is defined
+
+- debug:
+    msg: "We got don't have some WuUuU"
+  when: wuu is undefined
+
+  # Negating with not
+- debug:
+    msg: "We don't have some WuUuU too"
+  when: wuu is not defined
+```
+
+notes:
+  - is defined
+  - is undefined
+  - negating mit **not**
 </section>

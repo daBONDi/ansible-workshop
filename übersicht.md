@@ -356,6 +356,12 @@ https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html
 - failed_when
 - changed_when
 
+- Pause Übung mit Template und loop für die 2 webserver
+
+# --------------------------------------------------------
+# Wir sollten hier beim Mittagessen dann sein!!!!
+# --------------------------------------------------------
+
 - Tags
   - Tags sind sinnvoll wenn man nur On-Demand einen Teil des Playbooks ausführen möchte
   - Einfache Form eines Conditional Statments
@@ -364,6 +370,9 @@ https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html
   - Logische Gruppierung
   - Loop über mehrer tasks hinweg
 
+- delegate_to
+- privilege escalation
+
 - Playbook Includen
   - mehrer Playbook files
   - Task Importieren
@@ -371,10 +380,12 @@ https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html
   - Sollte Normalerweise in Rolen durchgeführt werden
   - Unterschied zwischen
 
-- delegate_to
-- privilege escalation
+- Übung
+  - sites.yml
+    - schreiben des motd mit einer group_var all
+    - includiert die webserver
 
-- Demo
+
   Full Playbook beschreiben
   - mit Condition
   - Templates
@@ -388,20 +399,6 @@ https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html
   - Jeweils ein sauberes Handout machen
   - Mit Links zu den Resourcen  
   - Viel Zeit geben
-
-## Ansible Vault - Passwörter
-
-- Beschreibung von Vault
-  - Encryption
-- Ansible.cfg über Vault Password file
-- Ansible Vault File
-- Ansible Vault Encode
-- Ansible Vault Decrypt
-
-- Demo über Vault File / Encode / Decrypt
-
-- Übung:
-  - Encrypted Variable Includieren
 
 ## Roles
 
@@ -440,6 +437,19 @@ https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html
   - Schreiben einer Role?
     - Was beinhaltet die Role
 
+## Ansible Vault - Passwörter
+
+- Beschreibung von Vault
+  - Encryption
+- Ansible.cfg über Vault Password file
+- Ansible Vault File
+- Ansible Vault Encode
+- Ansible Vault Decrypt
+
+- Demo über Vault File / Encode / Decrypt
+
+- Übung:
+  - Encrypted Variable Includieren
 - Pause
 
 - Die Vorarbeit Refactorn für Rollen

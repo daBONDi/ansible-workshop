@@ -1,0 +1,184 @@
+<section>
+
+<h1>Loops - with_items</h1>
+<h3>Simple Loop / For Each</h3>
+<div class="columns">
+  <div class="col">
+<pre><code class="hls powershell">
+  # Pseudo Code :-)
+  for each item in list
+    item
+
+</code></pre>
+  </div>
+</div>
+<div class="columns">
+  <div class="col">
+      <pre><code class="hls yaml">
+  tasks:
+    - copy:
+        src: "{{ item }}"
+        dest: "/myapp/data/"
+      with_items:
+        - "src/data1.txt"
+        - "src/data2.txt"
+
+
+        </code></pre>
+  </div>
+  <div class="col">
+    <pre><code class="hls yaml">
+  vars:
+    data_files:
+      - "src/data1.txt"
+      - "src/data2.txt"
+  tasks:
+    - copy:
+        src: "{{ item }}"
+        dest: "/myapp/data/"
+      with_items: "{{ data_files }}"
+    </code></pre>
+  </div>
+</div>
+<aside class="notes">
+  <ul>
+    <li>Erwartet List / Array</li>
+    <li>Variable <b>item</b></li>
+    <li>Kann auch eine Variable sein</li>
+  </ul>
+</aside>
+</section>
+
+<section data-markdown="">
+
+# Loops: with_subelements 
+### Verschachteltes For Each von einem Item Property
+
+```powershell
+  # Pseudo Code :-)
+  for each item in list
+    for each sub_item in item.my_list
+      sub_item
+```
+
+```yaml
+  vars:
+    app_data:
+      - name: "app1"
+        data:
+          - "data1.txt"
+          - "data2.txt"
+      - name: "app2"
+        data:
+          - "data3.txt"
+          - "data4.txt"
+  tasks:
+    - copy:
+        src: "{{ item[1] }}"
+        dest: "/data/{{ item.0.name }}/"
+      with_subelements:
+        - "{{ app_data }}"
+        - data
+```
+
+notes:
+  - Beschreiben
+  - Achtung es können beide Schreibweisen verwendet werden
+    - "item.1" oder item[1]
+
+</section>
+
+<section data-markdown="">
+
+# Loops: with_nested
+
+### Verschachteltes For Each
+
+```powershell
+  # Pseudo Code :-)
+  for each item_list1 in list1
+    for each item_list2 in list2
+```
+
+```yaml
+  vars:
+    apps:
+      - name: "app1"
+      - name: "app2"
+    default_files:
+      - "default_config.cfg"
+      - "default_app_icon.png"
+
+  tasks:
+    - copy:
+        src: "src/{{ item.1 }}"
+        dest: "src/{{ item.0.name }}/{{ item.1 }}"
+      with_nested: 
+        - "{{ apps }}"
+        - "{{ default_files }}"
+```
+</section>
+
+<section data-markdown="">
+# Loop - Do/Until
+
+Führt das Modul immer wieder aus bis **until == true** oder **retries == 0** eintritt.
+
+```yaml
+  - name: "Wait for Server to Response with 200"
+    uri:
+      url: "https://awesome.net/service1"
+      status_code: 200
+    register: result
+
+    until: result is succeeded  # when das Modul ein success liefert
+    retries: 30  # attempts
+    delay: 5  # seconds
+```
+
+notes:
+  - until Beschreiben
+    - register speichert die den response ab
+</section>
+
+<section data-markdown="">
+
+# Loops: loop_control
+
+## Anderen Variablen Name verwenden für den Loop
+
+```yaml
+- copy:
+    src: "src/{{ config_file_name }}"
+    dest: "/data/{{ config_file_name }}"
+  with_items:
+    - client.cfg
+    - server.cfg
+  loop_control:
+    loop_var: config_file_name
+```
+
+## Output im stdout minimieren bei Loops über größere Objekte
+
+Gibt im Output dann nur mehr **item.name** aus, anstatt der gesamten Datenstruktur als **JSON im stdout** __(Logging!)__
+
+```yaml
+vars:
+  servers:
+    - name: server1
+      config:
+        # Massiv große Datenstruktur
+    - name: server1
+      config:
+        # Massiv große Datenstruktur
+
+tasks:
+  - my_module:
+      server: "{{ item.name }}"
+      config: "{{ item.config }}"
+    with_items: "{{ servers }}"
+    loop_control:
+      label: "{{ item.name }}"
+```
+
+</section>

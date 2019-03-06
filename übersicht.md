@@ -297,6 +297,7 @@ https://ansible.github.io/lightbulb/decks/ansible-essentials.html#/12
 - Pause
 
 ##  Debug/Syntax Check
+
 - Playbook checks und hilfen
     --check
     --syntax-check
@@ -314,7 +315,14 @@ https://ansible.github.io/lightbulb/decks/ansible-essentials.html#/12
   - Filter
   - Lookup Plugins
 
-- privilege escalation
+### Filter
+
+https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html
+- unique
+- union
+- Load CSV
+- Special Filter for
+  - Network Hostname
 
 - Templates
   - Ansible beinhaltet die Jinja2 Templating Engine
@@ -332,6 +340,8 @@ https://ansible.github.io/lightbulb/decks/ansible-essentials.html#/12
   with_items:
   with_subelements:
   with_nested:
+  loop:
+    var:
 
 - Conditionals
   Unterstützt evalurierung der variablen/facts/task result in der laufzeit
@@ -341,6 +351,10 @@ https://ansible.github.io/lightbulb/decks/ansible-essentials.html#/12
       state: latest
     when: ansible_os_family == "RedHat"
   - Es gibt noch andere, aber when: ist normalerweise alles was man braucht
+
+- register
+- failed_when
+- changed_when
 
 - Tags
   - Tags sind sinnvoll wenn man nur On-Demand einen Teil des Playbooks ausführen möchte
@@ -357,15 +371,8 @@ https://ansible.github.io/lightbulb/decks/ansible-essentials.html#/12
   - Sollte Normalerweise in Rolen durchgeführt werden
   - Unterschied zwischen
 
-- Filter
-  https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html
-  - unique
-  - union
-  - Load CSV
-  - Special Filter for
-    - Network Hostname
-
 - delegate_to
+- privilege escalation
 
 - Demo
   Full Playbook beschreiben

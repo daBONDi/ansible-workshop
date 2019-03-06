@@ -1,8 +1,58 @@
-<section data-markdown="">
-# Template Module - Dynamisch Config Dateien erzeugen
+<section>
+<h1>Template Module - Dynamisch Config Dateien erzeugen</h1>
+<div class="columns">
+  <div class="col">
+    <h3>Template config.ini.j2</h3>
+    <pre><code class="hls django">
+    {{ ansible_managed | comment}}
+    [settings]
+    api_url={{ api url }}
+    {% for server in servers %}
+    [{{ server.name }}]
+    url={{ url }}
+    {% if server.name == 'blue' %}blueserver=true{% endif %}
+    {% endfor %}
+    </code></pre>
+  </div>
+  <div class="col">
+    <h3>/etc/matrix/config.ini</h3>
+    <pre><code class="hls ini">
+        # This file is managed by Ansible, all changes will be lost
+        [settings]
+        api_url=https://matrix.cluster.local
+        [blue]
+        url=https://blue.matrix.cluster.local
+        blueserver=true
+        [red]
+        url=https://red.matrix.cluster.local
+    </code></pre>
+  </div>
+</div>
+<div>
+  <h3>Play</h3>
+  <pre><code class="hls yaml">
+    vars:
+      api_url: 'https://matrix.cluster.local'
+      servers: 
+        - name: "blue"
+          url: "https://blue.matrix.cluster.local"
+        - name: "red"
+          url: "https://red.matrix.cluster.local"
+    tasks:
+      - name: "banging out the config to the matrix core service"
+        template:
+          src: config.ini.j2
+          dest: /etc/matrix/config.ini
+  </code></pre>
+</div>
 
-- template / win_template
-- jinja 2 if
-- jinja 2 foreach
-- ansible filter
+<aside class="notes">
+  <ul>
+    <li>Erkläre foreach</li>
+    <li>Erkläre if</li>
+    <li>generate config</li>
+    <li>ansible_managed</li>
+    <li>kann in der ansible.cfg configuriert werden</li>
+  </ul>
+</aside>
 </section>

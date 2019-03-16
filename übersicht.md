@@ -313,7 +313,7 @@ https://ansible.github.io/lightbulb/decks/ansible-essentials.html#/12
     - Gibt noch sehr viel mehr, aber dies sind die üblichen
   - Include Playbook ( Loopen von Includes)
   - Filter
-  - Lookup Plugins
+
 
 ### Filter
 
@@ -380,11 +380,12 @@ https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html
   - Sollte Normalerweise in Rolen durchgeführt werden
   - Unterschied zwischen
 
+- **Lookup Plugins** <<<< Fehlt noch !!!
+
 - Übung
   - sites.yml
     - schreiben des motd mit einer group_var all
     - includiert die webserver
-
 
   Full Playbook beschreiben
   - mit Condition
@@ -437,6 +438,10 @@ https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html
   - Schreiben einer Role?
     - Was beinhaltet die Role
 
+- Die Vorarbeit Refactorn für Rollen
+  - Common
+  - Webserver
+
 ## Ansible Vault - Passwörter
 
 - Beschreibung von Vault
@@ -452,9 +457,6 @@ https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html
   - Encrypted Variable Includieren
 - Pause
 
-- Die Vorarbeit Refactorn für Rollen
-  - Common
-  - Webserver
 
 ## Ansible Config File
 

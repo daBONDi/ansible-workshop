@@ -356,15 +356,11 @@ https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html
 - failed_when
 - changed_when
 
-- Pause Übung mit Template und loop für die 2 webserver
+- Pause Übung mit Template
 
 # --------------------------------------------------------
 # Wir sollten hier beim Mittagessen dann sein!!!!
 # --------------------------------------------------------
-
-- Tags
-  - Tags sind sinnvoll wenn man nur On-Demand einen Teil des Playbooks ausführen möchte
-  - Einfache Form eines Conditional Statments
 
 - Blocks
   - Logische Gruppierung
@@ -380,7 +376,11 @@ https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html
   - Sollte Normalerweise in Rolen durchgeführt werden
   - Unterschied zwischen
 
-- **Lookup Plugins** <<<< Fehlt noch !!!
+- Lookup Plugins
+
+- Tags
+  - Tags sind sinnvoll wenn man nur On-Demand einen Teil des Playbooks ausführen möchte
+  - Einfache Form eines Conditional Statments
 
 - Übung
   - sites.yml

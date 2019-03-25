@@ -74,8 +74,8 @@
           - "data4.txt"
   tasks:
     - copy:
-        src: "{{ item[1] }}"
-        dest: "/data/{{ item.0.name }}/"
+        src: "{{ item[1] }}"              # item[1] == item.1 == Im Pseudocode sub_item
+        dest: "/data/{{ item.0.name }}/"  # item.0 == item[0] == im Pseudocode item
       with_subelements:
         - "{{ app_data }}"
         - data
@@ -111,8 +111,8 @@ notes:
 
   tasks:
     - copy:
-        src: "src/{{ item.1 }}"
-        dest: "src/{{ item.0.name }}/{{ item.1 }}"
+        src: "src/{{ item.1 }}"                     # item.1 == Im Pseudocode item_list2
+        dest: "src/{{ item.0.name }}/{{ item.1 }}"  # item.0 == Im Pseudocode item_list1
       with_nested: 
         - "{{ apps }}"
         - "{{ default_files }}"

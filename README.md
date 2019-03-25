@@ -41,7 +41,7 @@ Datei tasks.json anpassen und folgende Variablen Ändern
 
 ## Automatische Dateisyncronisierung über WinSCP
 
-### Configuration
+### Konfiguration
 
 Datei tasks.json anpassen und folgende Variablen Ändern
 
@@ -65,13 +65,35 @@ SSH Putty key: /vagrant/ssh/putty.workshop.priv.ppk
 
 ### environment
 
-Ansible Playbook to
+Ansible Playbook to manage all attendant ec2 instances for workshop
   
-- Create
-- Configure
-- Smoketest
+#### Create AWS Infrastructure
 
-all attendant ec2 instances for workshop
+```sh
+cd environment
+ansible-playbook setup.yml
+```
+
+#### Configure Ansible Host
+
+```sh
+cd environment
+ansible-playbook config.yml
+```
+
+##### Smoketest
+
+```sh
+cd environment
+ansible-playbook smoketest.yml
+```
+
+##### Destroy
+
+```sh
+cd environment
+ansible-playbook destroy.yml
+```
 
 ### demos
 

@@ -6,7 +6,7 @@
     <pre><code class="hls django">
     {{ ansible_managed | comment}}
     [settings]
-    api_url={{ api url }}
+    api_url={{ api_url }}
     {% for server in servers %}
     [{{ server.name }}]
     url={{ url }}

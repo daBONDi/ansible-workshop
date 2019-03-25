@@ -1,0 +1,28 @@
+---
+
+- name: We make us some Webservers
+  hosts: web
+  become: yes
+  tasks:
+    - name: nginx package is present
+      apt:
+        name: nginx
+        state: latest
+      notify: restart_nginx
+    
+    - name: deploy our awesome app - index.html
+      template:
+        src: index.html
+        dest: /var/www/html/index.html
+    
+    - name: deploy our awesome app - image.jpg
+      copy:
+        src: "{{ app_config.image }}"
+        dest: "/var/www/html/{{ app_config.image }}"
+    
+  handlers:
+    - name: restart_nginx
+      service:
+        name: nginx.service
+        state: restarted
+    

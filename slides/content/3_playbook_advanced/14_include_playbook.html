@@ -1,0 +1,77 @@
+<section>
+  <h1>include_tasks</h1>
+  <div class="columns">
+    <div class="col">
+      <h2>site.yml</h2>
+      <pre><code class="lang_yaml">
+  - hosts: webserver
+    tasks:
+      - name: common setup
+        include_tasks: common.yml
+
+      - name: setup apps
+        include_tasks: apps.yml
+        vars:
+          foo: true   # Variable übergeben
+        with_items:   # Wie bei jedem loop wird als Variable item übergeben
+          - app1
+          - app2
+          - app3
+      </code></pre>
+    </div>
+    <div class="col">
+      <h2>common.yml</h2>
+      <pre><code class="lang_yaml">
+  - debug:
+      msg: "Doing common stuff"
+      </code></pre>
+    </div>
+    <div class="col">
+      <h2>apps.yml</h2>
+      <pre><code class="lang_yaml">
+  - debug:
+      var: foo
+
+  - debug:
+      var: item
+      </code></pre>
+    </div>
+  </div>
+  <aside class="notes">
+    <ul>
+      <li>Dynamisches Includen!</li>
+      <li>Dynamisch = Loop Support</li>
+      <li>Aber kein Tags Support</li>
+      <li>Sollte aber in Playbooks durchführt werden</li>
+    </ul>
+  </aside>
+</section>
+<section data-markdown="">
+# import_playbook
+
+Importiert ein ganzen Playbook
+
+```yaml
+- hosts: localhost
+  tasks:
+    - debug:
+        msg: play1
+
+- name: we include a playbook here
+  import_playbook: otherplays.yml
+
+# Folgendes funktioniert nicht!
+- name: THIS DOES NOT WORK
+  host: all
+  tasks:
+    - debug:
+        msg: task1
+
+    - name: This will fail, I'm inside a play already
+      import_playbook: stuff.yml
+```
+
+notes:
+- Ein ganzen Playbook ganz nur ganz oben in der Struktur verwendet werden
+- kann nicht in plays verwendet werden
+</section>

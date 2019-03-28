@@ -1,0 +1,56 @@
+<section data-markdown="">
+# block - grouping
+  
+```yaml
+tasks:
+  - name: Install Apache
+    block:
+      - yum:
+          name: "{{ item }}"
+        with_items:
+          - httpd
+          - memcached
+      - template:
+          src: templates/src.j2
+          dest: /etc/foo.conf
+      - service:
+          name: bar
+          state: started
+          enabled: True
+    when: ansible_facts['distribution'] == 'CentOS'
+```
+
+notes:
+- Gruppiert die tasks für das when
+- Gruppiert become
+</section>
+
+<section data-markdown="">
+# block - always / rescue
+
+```yaml
+- name: Attempt and graceful roll back demo
+  block:
+    - debug:
+        msg: 'I execute normally'
+    - name: i force a failure
+      command: /bin/false
+    - debug:
+        msg: 'I never execute, due to the above task failing, :-('
+  rescue:
+    - debug:
+        msg: 'I caught an error'
+    - name: i force a failure in middle of recovery! >:-)
+      command: /bin/false
+    - debug:
+        msg: 'I also never execute :-('
+  always:
+    - debug:
+        msg: "This always executes"
+```
+
+notes:
+- rescue reset den Fehler count
+- rescue lässt das playbook weiter ausführen und bricht nicht ab
+- always wird immer ausgeführt
+</section>

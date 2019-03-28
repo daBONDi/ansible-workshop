@@ -376,9 +376,11 @@ https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html
   - Sollte Normalerweise in Rolen durchgeführt werden
   - Unterschied zwischen
 
+- run_once
+
 - Lookup Plugins
 
-- Tags
+- Tags      < offen
   - Tags sind sinnvoll wenn man nur On-Demand einen Teil des Playbooks ausführen möchte
   - Einfache Form eines Conditional Statments
 

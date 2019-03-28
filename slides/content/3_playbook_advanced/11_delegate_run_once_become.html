@@ -1,0 +1,102 @@
+<section data-markdown="">
+# delegate_to
+
+- Für das Modul auf den **delegate_to Host** aus
+- **Variablen Context** ist aber der **derzeitige Host**
+
+```yaml
+hosts: webserver
+tasks:
+
+  - name: "take out the webserver from loadbalancer"
+    command: /usr/bin/remove_host {{ inventory_hostname }}
+    delegate_to: loadbalancer
+  
+  - name: update app
+    yum:
+      name: app-web-stack
+      state: latest
+  
+  - name: add webserver back to load balancer pool
+    command: /usr/bin/add_host {{ inventory_hostname }}
+    delegate_to: loadbalancer
+
+```
+
+notes:
+- fürt das module auf den delegate host aus
+- variablen context ist aber der derzeigte host selbst
+</section>
+
+<section>
+  <h1>become - privilege escalation</h1>
+  <div class="columns">
+    <div class="col">
+      <h2>Linux</h2>
+      <pre><code class="lang-yaml">
+  - name: Run command as apache user
+    command: somecommand
+    become: yes
+    become_user: apache
+      </code></pre>
+    </div>
+    <div class="col">
+      <h2>Windows</h2>
+      <pre><code class="lang-yaml">
+  # Become Local System Account
+  - name: run a command under system account
+    win_whoami:
+    become: yes
+    become_user: System
+
+  # Run as Batchjob
+  # Remove Most WinRM Restrictions! Run as Scheduled Task with Password set
+  - name: run as batch job
+    win_whoami:
+    become: yes
+    become_flags: logon_type=batch
+  
+  # Run with new Credentials
+  # similar to runas.exe /netonly
+  # Access network resource as different users - Inter-Domain Nontrust Scenarios!
+  - name: copy file from remote fileshare with custom credentials
+    win_copy:
+      src: \\server\share\data\file.txt
+      dest: C:\temp\file.txt
+      remote_src: yes
+    vars:
+      ansible_become: yes
+      ansible_become_method: runas
+      ansible_become_user: DOMAIN\user
+      ansible_become_pass: Password01
+      ansible_become_flags: logon_type=new_credentials logon_flags=netcredentials_only
+
+</code></pre>
+    </div>
+  </div>
+  <aside class="notes">
+    <ul>
+      <li>
+          Seit 2.5 sind die WinRM Restriction nicht mehr so tragend, da ein Interactive Process gestartet wird beim Modul call
+      </li>
+      <li>New Credentials mit netcredentials_only - Inter-Domain Scenario</li>
+    </ul>
+  </aside>
+</section>
+
+<section data-markdown="">
+# run_once
+
+Führt das Modul nur einmal aus, auch wenn mehrer Hosts im Play verwendet werden
+
+```yaml
+- hosts: webserver
+  tasks:
+    - command: /opt/app/upgrade_db.py
+      run_once: true
+```
+
+notes: 
+  - Wird nur einmal ausgeführt
+  - Auch wenn mehrer Hosts im host selector enthalten sind
+</section>

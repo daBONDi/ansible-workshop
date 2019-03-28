@@ -1,0 +1,140 @@
+<section data-markdown="">
+  # Lookup / Query Plugins - Jinja2 Filter
+
+  - csv,tsv,ini Dateien Einlesen
+  - file content Einlesen
+  - Environment Variable Einlesen
+  - Content einer URL auslesen
+  - Consul Key Store auslesen
+  - AWS Credstash auslesen
+  - ...
+
+  https://docs.ansible.com/ansible/latest/plugins/lookup.html
+
+  notes:
+    - lookup gibt Inhalt zurück
+</section>
+<section>
+  <h1>Lookup Plugin - file</h1>
+  <p>Lädt den Content eine Datei.</p>
+  <div class="columns">
+    
+    <div class="col">
+      <h2>Playbook</h2>
+      <pre><code class="lang_yaml">
+  vars:
+    file_content: "{{ lookup('file','file=test.txt') }}"
+  tasks: 
+    - debug:
+        var: file_content
+
+  # Output:
+  # Hello World!
+      </code></pre>
+    </div>
+    <div class="col">
+      <h2>test.txt</h2>
+      <pre><code>
+  Hello World!
+      </code></pre>
+    </div>
+  </div>
+
+</section>
+<section>
+  <h1>Lookup Plugin - csvfile</h1>
+  <p>Filtert eine CSV/TSV File nach einem Wert, und gibt den Spaltenwert zurück.</p>
+  <div class="columns">
+    <div class="col">
+      <h2>Playbook</h2>
+      <pre><code class="lang_yaml">
+  - hosts: localhost
+    vars:
+      server: "server2"
+      cpu: "{{ lookup('csvfile','{{ server }} file=test.csv delimiter=, col=1') }}"
+      ram: "{{ lookup('csvfile','{{ server }} file=test.csv delimiter=, col=2') }}"
+    tasks:
+      - debug:
+          var: cpu
+
+        # Output: 2
+
+      - debug:
+          var: ram
+
+        # Output: 8
+
+      </code></pre>
+    </div>
+    <div class="col">
+      <h2>test.csv</h2>
+      <pre><code class="lang_ini">
+  server,cpu,ram
+  server1,1,4
+  server2,2,8
+  server3,4,16        
+      </code></pre>
+    </div>
+  </div>
+</section>
+<section>
+  <h1>Lookup Plugin - ini</h1>
+  <p>Gibt den Wert eines bestimmten Keys in einer bestimmten Section zurück.</p>
+  <div class="columns">
+    <div class="col">
+      <h2>Playbook</h2>
+      <pre><code class="lang_yaml">
+  - hosts: localhost
+    vars:
+      version: "{{ lookup('ini','version section=default file=test.ini') }}"
+      cpu:     "{{ lookup('ini','cpu section=hardware file=test.ini') }}"
+    tasks:
+      - debug:
+          var: cpu
+        
+        # Output: 2
+        
+      - debug:
+          var: version
+        
+        # Output: 22
+
+      </code></pre>
+    </div>
+    <div class="col">
+      <h2>test.ini</h2>
+      <pre><code class="lang_ini">
+  [default]
+  server=server1
+  version=22
+  
+  [hardware]
+  cpu=2
+  ram=4
+      </code></pre>
+    </div>
+  </div>
+</section>
+<section>
+  <h1>Lookup Plugin - env</h1>
+  <p>Liest die angegebene Umgebungsvariable ein</p>
+  <div class="columns">
+    <div class="col">
+      <h2>Playbook</h2>
+      <pre><code class="lang_yaml">
+  - hosts: localhost
+    vars:
+      home_env: "{{ lookup('env','HOME') }}"
+    tasks:
+      - debug:
+          var: home_env
+
+        # Output:
+        # /home/admin
+      </code></pre>
+    </div>
+  </div>
+  <aside class="notes">
+    zb. bei eine CI/CD system werden die Envs dem ansible process übergeben
+  </aside>
+</section>

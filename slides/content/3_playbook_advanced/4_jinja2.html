@@ -216,14 +216,14 @@ tasks:
   - name: "All Server Names"
     debug:
       msg: "{{ config_data | json_query('servers[*].name') | join(',') }}"
-    # Output "server1,server2"
+    # Output "server1,server2,server3"
 
   - name: "All Ports from Cluster 2"
     vars:
       query: "servers[?cluster=='cluster2'].port"
     debug:
       msg: "{{ config_data | json_query(query) | join(',') }}"
-    # Output "8090,9090
+    # Output "8090,9090"
 ```
 
 notes:
@@ -253,6 +253,7 @@ Erzeugt ein Comment (Bei Config Template verwendet)
 /* My Comment */
 
 {{ "My Comment" | comment(xml) }}
+
 <!-- My Comment -->
 
 ```

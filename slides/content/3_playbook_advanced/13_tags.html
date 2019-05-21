@@ -1,3 +1,52 @@
-<section>
-  tags
+<section data-markdown="">
+# Tags
+
+Jeden Task/Play kann ein **Tag** zugewiesen werden
+  
+```yaml
+tasks:
+  - yum:
+      name: httpd
+      state: present
+    tags:
+      - packages
+
+  - template:
+      src: templates/src.j2
+      dest: /etc/foo.conf
+    tags:
+      - configuration
+```
+
+Ausführung beinflussen mit
+
+```bash
+# Nur Tasks mit dem Tag 'packages' ausführen
+ansible-playbook example.yml --tags "packages"
+
+# Es können auch mehrere Tags angegeben werden
+ansible-playbook example.yml --tags "packages,configuration"
+
+# Alle Tasks ausführen auser mit dme Tag 'packages'
+ansible-playbook example.yml --skip-tags "packages"
+```
+</section>
+<section data-markdown="">
+## Special Tags
+### always
+
+- Tasks mit Tag **always** werden immer ausgeführt.
+- Außer bei **--skip-tags always**
+
+### never
+
+- Tasks wird niemals ausgeführt wenn explizit definiert
+- Hilfreich bei Debug
+
+```yaml
+# Wird nur ausgeführt wenn --tags debug oder --tags never
+tasks:
+  - debug: msg="{{ showmevar }}"
+    tags: [ never, debug ]
+```
 </section>

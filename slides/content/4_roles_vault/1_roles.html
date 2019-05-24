@@ -1,0 +1,248 @@
+<section data-markdown="">
+# Ansible Role
+
+Rollen sind **zusammengefasste Pakete(Ordner)** von
+ - Variablen
+ - Dateien
+ - Templates
+ - Playbooks
+
+Erleichtert die Lesbarkeit sowie die Wartung von komplexen Playbooks.
+
+- Einfache Verteilung = **Git/SVN Repo per Role**
+- Wiederverwendung = **Einbindung der Role über Ansible Galaxy / Git im Projekt**
+- Standardisierung = **Definieren von Vorgabewerten für Plays**
+
+</section>
+<section data-markdown="">
+# Ansible Role - Ordnerstruktur
+
+```yaml
+
+my_special_role/
+  files/      # Dateien für die Rolle
+  templates/  # Jinja2 Config Templates
+  tasks/      # Playbooks
+  vars/       # Variablen
+  defaults/   # Standardwerte / Variablen
+  meta/       # Meta Daten für die Rolle (Ansible Galaxy)
+  library/    # Custom Ansible Modules
+  *_plugins/  # Custom Callback / Lookup Plugins
+
+```
+
+notes:
+  - Welche Ordner für was sind
+
+</section>
+
+<section data-markdown="">
+# Ansible Role - Projektstruktur
+
+```yaml
+webserver.yml
+roles/
+  my_web_app/
+    files/      # Dateien für die Rolle
+    templates/  # Jinja2 Config Templates
+    handlers/   # Handlers
+    tasks/      # Playbooks
+    vars/       # Variablen
+    defaults/   # Standardwerte / Variablen
+    meta/       # Meta Daten für die Rolle (Ansible Galaxy) / Abhängigkeiten von anderen Rollen
+    library/    # Custom Ansible Modules
+    *_plugins/  # Custom Callback / Lookup Plugins / ...
+```
+
+notes:
+  - Relativ zum Playbook / Execution
+  - Es müssen nicht alle Ordner definiert sein
+  - Custom Module
+    - Wenn die Role includiert ist steht das Modul zur verfügung
+
+</section>
+
+<section data-markdown="">
+# Ansible Role - Rollen Einbinden
+
+## Ansible sucht bei Ausführung in
+
+- Ordner **"roles"** **relativ** zum Playbook File
+- Standardordner **'/etc/ansible/roles'**
+- ansible.cfg - config file (dazu später)
+
+## Ansible Roles in Playbook laden
+
+```yaml
+
+# Post Ansible 2.4 - USE THIS WAY
+- hosts: all
+  tasks:
+    - include_role: my_epic_app_role
+    - include_role:
+        name: my_epic_app_role
+      vars:
+        version: 1.2
+        stage: dev
+```
+
+```yaml
+# Pre Ansible 2.4
+- hosts: all
+  roles:
+    - role: my_epic_app_role
+```
+
+notes:
+  - Alte und neue Schreibweise
+    - Beachte include_role
+</section>
+
+<section data-markdown="">
+# Ansible Role - tasks
+
+Default Import File:  **/tasks/main.yml**
+
+- Standardmässig wird main.yml beim include/import verwendet
+- Nur Task/Module angeben
+
+```yaml
+# /tasks/main.yml
+
+# Wir sind auf einem Windows OS
+- include_playbook: windows.yml
+  when: ansible_distribution == "Windows"
+
+# Wir sind auf einem Debian OS
+- include_playbook: debian.yml
+  when: ansible_distribution == "Debian"
+```
+
+```yaml
+# /tasks/windows.yml
+- name: ensure iis
+  win_feature:
+    name:
+      - Web-Server
+      - Web-Common-Http
+    state: present
+```
+
+```yaml
+# /tasks/debian.yml
+- name: ensure apache
+  apt:
+    name: nginx
+  state: present
+```
+
+notes:
+  - main.yml
+    - wird als übergeordnetes Playbook verwendet
+  - Aufsplitten
+  - Keine Pfad angabe, da Automatisch in Tasks gesucht wird
+
+</section>
+
+<section data-markdown="">
+# Ansible Role - defaults / vars
+
+Default Import File:  **/defaults/main.yml /vars/main.yml**
+
+```yaml
+# /defaults/main.yml
+my_app_version: 1.1
+```
+
+```yaml
+# /vars/main.yml
+my_app_download_url:  "https://my_release_server.myapp.com/download/{{ my_app_version }}.zip"
+```
+
+```yaml
+# /tasks/main.yml
+- name: create temp space
+    tempfile: directory
+    suffix: "build_{{ my_app_version }}"
+  register: install_source
+
+- name: download binary
+  get_url:
+    url: "{{ my_app_download_url }}"
+    dest: "{{ install_source.path }}/{{ my_app_version}}.zip"
+
+- name: cleanup temp space
+  file: "{{ install_source.path }}"
+  state: absent
+```
+
+notes:
+  - main.yml
+  - defaults = Variablen die von extern überschrieben werden
+  - vars = Variablen die Statisch / Generisch sind
+
+  - example
+    - full blown - Vieleicht schwierig?
+    - tempfile beschreiben
+    - my_app_version: überschreiben von außen
+    - file beschreiben
+</section>
+
+<section data-markdown="">
+# Ansible Role: templates / files
+
+```ini
+# /templates/config.ini.j2
+[settings]
+server={{ application_server }}
+```
+
+```yaml
+# /tasks/main.yml
+- template:
+  src: config.ini.j2
+  dest: /opt/myapp/{{ my_app_version }}/config.ini
+```
+
+```yaml
+# /defaults/main.yml
+application_server: appserver1.myapp.com
+```
+
+
+notes:
+  - Standardspeicherort für Dateien und Templates
+  - Pfade werden automatisch aufgeschlüsselt
+</section>
+<section data-markdown="">
+# Ansible Role - Tips
+
+- **Docs, Docs and Docs :-)**
+- Min. README.md!
+- Ansible Galaxy - Metadaten
+  - https://galaxy.ansible.com/docs/contributing/creating_role.html
+
+### Example README.md
+```
+# PTC Flexnet Licencing Service
+
+- Download and Install the PTC Licence Server
+- Deploy Licence and Install if needed
+
+## Role Parameters
+
+| Property            | Description                                     | Defaults                        | Required  |
+| ------------------- | ----------------------------------------------- | ------------------------------- | --------- |
+| flexnet_version     | Version Number to Download                      | 11.14.1.2                       | No        |
+| service_name        | Service Name to use                             | flexnet-ptc                     | No        |
+| server_root         | Where to Install the Flexnet Servier            | c:/flexnet-ptc                  | No        |
+| service_displayname | Displayname in Service Manager                  | FlexNet PTC Licence Service     | No        |
+
+## Hints
+https://support.ptc.com/appserver/wcms/standards/freefull_cskdb.jsp?&im_dbkey=123883&im_language=en
+https://support.ptc.com/WCMS/files/121640/en/PTC_LMS_Download.pdf
+```
+notes:
+  - Docs
+  - README.md Example
+</section>

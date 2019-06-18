@@ -1,3 +1,113 @@
-<section data-markdown="">
-  # Ansible Galaxy
+<section>
+  <h1>Ansible Galaxy - galaxy.ansible.com</h1>
+
+  <ul>
+    <li>Finden / Herunterladen / Teilen von Rolen der Ansible Community</li>
+    <li>Commandline Tool zum Download der Rollen sowie die abhängigen Rolen(Meta File)</li>
+  </ul>
+  <p>
+    <img src="images/galaxy-screenshots.png" style="background-color:  white"/>
+  </p>
 </section>
+<section data-markdown="">
+# Ansible Galaxy
+
+- Rolle **NICHT** blind benutzen!
+  - **DON'T TRUST THE SOURCE, LUKE! (Github)**
+- Vieleicht Rolen nur von __renomierten__ Ansible Usern verwenden:
+  - geerlinguy (https://galaxy.ansible.com/geerlingguy)
+  - robertdebock (https://galaxy.ansible.com/robertdebock)
+  - debops (https://docs.debops.org/en/master/)
+  - Rolen mit einer hohen Download Anzahl?
+</section>
+<section data-markdown="">
+# Ansible Galaxy - CLI
+
+```bash
+# Installiert die Role ins erste beschreibbare Rolen Verzeichnis
+# ~/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles
+ansible-galaxy install username.role_name
+
+# Installiert die Role in Pfad
+ansible-galaxy --roles-path ./roles geerlingguy.apache
+
+# Role suchen
+ansible-galaxy search elasticsearch --author geerlingguy
+
+# Rolen Meta/Info Daten anzeigen
+ansible-galaxy info username.role_name
+```
+
+notes:
+  - Installiert die Rolle ins erste beschreibbar verzeichniss
+  - Angabe von Pfad
+  - Rolen Pfad kann in ansible.cfg definiert werden
+  - Umgebungsvariable 'ansible_roles_path'
+  - Ansible Role suchen
+  - Rolen Meta daten ausgeben
+
+</section>
+
+<section data-markdown="">
+# Ansible Galaxy - requirements.yml
+
+Installiert mehrer angegebenen Rolen für das Projektverzeichnis
+
+```bash
+ansible-galaxy install -r requirements.yml
+```
+
+```yaml
+# requirements.yml
+# from galaxy
+- src: yatesr.timezone
+
+# from GitHub
+- src: https://github.com/bennojoy/nginx
+
+# from GitHub, overriding the name and specifying a specific tag
+- src: https://github.com/bennojoy/nginx
+  version: master
+  name: nginx_role
+
+# from GitLab or other git-based scm, using git+ssh
+- src: git@gitlab.company.com:mygroup/ansible-base.git
+  scm: git
+  version: "0.1"  # quoted, so YAML doesn't parse this as a floating-point value
+
+# Zusätzliches Yaml file mit role requirements
+- include: <path_to_requirements>/webserver.yml
+```
+
+notes:
+  - Requriements file wie bei Python
+  - von
+    - Galaxy
+    - Github
+    - role name override
+    - version
+  - Zusätzliches yaml file
+</section>
+
+<section data-markdown="">
+# Ansible Galaxy - Role Skeleton
+
+```bash
+# Erstellt eine Rolen Struktur mit main.yml files
+ansible-galaxy init role_name
+
+# Custom Skeleton
+ansible-galaxy init --role-skeleton=/path/to/skeleton role_name
+```
+
+notes:
+  - Alle Ordner/Metadaten/yaml sowie benötigte dateien werden Erstellt
+  - custom Skeleton Ordner möglich
+    - Kopiert Alles
+    - alle j2 files auserhalb von templates werden als Templates gerendet
+      - Variable **role_name**
+    - Ignoriert .git / .git_keep files
+
+
+</section>
+

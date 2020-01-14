@@ -30,7 +30,6 @@ https://docs.ansible.com/ansible/latest/modules/modules_by_category.html?highlig
 
 - name: "Make me an awesome webserver"
   hosts: web
-  become: yes     # We need sudo!
   tasks:
     - name: <Beschreibung>
       <Module>:

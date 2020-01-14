@@ -100,20 +100,30 @@
     - von oben nach unten im gegensatz zu salt/chef (merged classes/structures)
 </section>
 <section>
+  <div class="columns">
+    <div class="col">
+      <img src="images/super_ansible.jpg" style="height: 800px; text-align: center"/>
+    </div>
+    <div class="col">
+      <img src="images/ansible-all-of-the-things.jpg" style="height: 800px; text-align: center">
+    </div>
+  </div>    
+</section>
+<section>
   <h1>Anforderungen</h1>
   <h2>Controller</h2>
   <ul>
     <li>Linux/Unix Based OS</li>
     <li><b>Windows (WSL) unsupported, aber funktioniert</b></li>
     <li>CygWin unsupported, noch nicht getestet</li>
-    <li>Python > 2.7  / Python >3.5</li>
+    <li><strike>Python > 2.7</strike>  / Python >3.5</li>
   </ul>
   <div class="columns">
     <div class="col">
       <h2>Managed Linux Host</h2>
       <ul>
         <li>ssh + sftp(kann auf scp gewechselt werden)</li>
-        <li>Python > 2.7 / Python > 3.5</li>
+        <li><strike>Python > 2.7</strike> / Python > 3.5</li>
         <li>Zusätzliche Python Module je nach Ansible Modul</li>
       </ul>
     </div>
@@ -123,7 +133,7 @@
         <li>WinRM Konfiguration</li>
         <li><b>Powershell > 3.0</b> / .Net Framework 4.0</li>
         <li>Zusätzliche Powershell Module je nach Ansible Modul</li>
-        <li>> Windows Server 2008</li>
+        <li>> Windows Server <strike>2008</strike>2012</li>
       </ul>
     </div>
   </div>
@@ -143,6 +153,6 @@
   
   ### Version Specific
   sudo pip install git+https://github.com/ansible/ansible.git@devel
-  sudo pip install git+https://github.com/ansible/ansible.git@stable-2.5
+  sudo pip install git+https://github.com/ansible/ansible.git@stable-2.9
   ```
 </section>

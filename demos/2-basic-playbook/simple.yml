@@ -2,7 +2,6 @@
 
 - name: We make us some Webservers
   hosts: web
-  become: yes
   tasks:
     - name: nginx package is present
       apt:

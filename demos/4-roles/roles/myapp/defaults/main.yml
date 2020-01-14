@@ -1,0 +1,5 @@
+config:
+  pill: blue
+  image: bluepill.png
+
+iis_default_root: "c:/inetpub/wwwroot"

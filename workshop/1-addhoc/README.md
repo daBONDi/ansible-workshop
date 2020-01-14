@@ -55,6 +55,7 @@ ansible_user=admin
 ansible_port=22
 ansible_ssh_private_key_file="~/.ssh/workshop.key"
 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+ansible_become=yes
 
 [windows:vars]
 ansible_connection=winrm

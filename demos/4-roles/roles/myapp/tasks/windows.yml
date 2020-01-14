@@ -1,0 +1,13 @@
+- name: "windows: ensure iis role is installed"
+  win_feature:
+    name: Web-Server
+
+- name: "windows: ensure index.html is present as default.htm"
+  win_template:
+    src: "index.html"
+    dest: "{{ iis_default_root }}/default.htm"
+
+- name: "windows: ensure image.png exists in webroot"
+  win_copy:
+    src: "{{ config.image }}"
+    dest: "{{ iis_default_root }}/{{ config.image }}"

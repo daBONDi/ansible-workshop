@@ -1,0 +1,7 @@
+---
+- name: We make us some Webservers
+  hosts: web,win1
+  tasks:
+    - import_role: name=myapp
+      vars:
+        config: "{{ app_config }}"

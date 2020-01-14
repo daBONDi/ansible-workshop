@@ -1,7 +1,7 @@
 <section data-markdown="">
 # Jinja2 Templating / Ansible Filter
 
-Ansible beinhaltet die Jinja2 Templating Engine
+Ansible beinhaltet die Jinja2 Template Engine
 
 Kann verwendet werden für:
 
@@ -159,7 +159,7 @@ https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters_ipaddr.html
 vars:
 
 # Validate IP
-ip: "172.16.11.10" | ipaddr" 
+ip: "172.16.11.10"
 validate_ip: "{{ ip | ipaddr }}" # Tested ob der String eine IP ist
 validate_ipv4: "{{ ip | ipv4 }}" # Tested ob der String eine IPv4 ist
 validate_ipv6: "{{ ip | ipv6 }}" # Tested ob der String eine IPv6 ist

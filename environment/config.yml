@@ -43,7 +43,7 @@
   gather_facts: false
   become: yes
   vars:
-    ansible_branch: v2.7.6
+    ansible_branch: stable-2.9
   tasks:
     - name: "Configure required apt packages"
       apt:

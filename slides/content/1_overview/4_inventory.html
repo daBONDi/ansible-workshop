@@ -48,7 +48,7 @@
   [web]
   debian[1:5] ansible_host=10.0.1.[21:25]
 
-  [linux]
+  [linux:children]
   web
   control
 

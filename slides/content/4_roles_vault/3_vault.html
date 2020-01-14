@@ -1,4 +1,87 @@
 <section data-markdown="">
-  # Ansible Vault
+# Ansible Vault
+
+- Symetrische Verschlüsselung (AES Chiper) von
+  - Dateien
+  - Text
+
+  https://docs.ansible.com/ansible/latest/user_guide/vault.html#vault-payload-format-1-1-1-2
+
+- Password wird bei Playbook Execution übergeben
+  ```yaml
+  # Fragt nach dem Passwort vor ausführung
+  ansible-playbook myplaybook.yml --ask-vault-pass
+
+  # Liest die Datei ein als Vault Password
+  ansible-playbook myplaybook.yml --vault-password-file ".vaultpass"
+  ```
+
+- Kann über ENV Variable __DEFAULT_VAULT_PASSWORD_FILE__ übergeben werden
+
+> Aufpassen das Ihr KEIN Password File in das Sourcecontrol übergibt!
+
+> .gitignore verwenden!
+
+</section>
+<section data-markdown="">
+# Ansible Vault - Password von Executable
+
+Python **vault_pass.py**
+
+```python
+#!/usr/bin/python
+print 'my-ultra-secret-password'
+```
+
+Ansible erkennt ob vault-password-file als Executable markiert ist und führt dieses aus
+
+```bash
+ansible-playbook --vault-password-file vault_pass.py
+```
+
+</section>
+<section data-markdown="">
+# Ansible Vault - Dateien
+
+```yaml
+# Datei Verschlüsseln
+ansible-vault encrypt my_secret_file --vault-password-file mypass
+
+# Datei Entschlüsseln
+ansible-vault decrypt my_secret_file --vault-password-file mypass
+```
+
+Dateien werden automatisch von Ansible bei Verwendung in Modulen entschlüsselt!
+
+</section>
+<section data-markdown="">
+# Ansible Vault - Text
+
+### Verschlüsselten Text Ausgeben
+```yaml
+
+ansible-vault encrypt_string --vault-password-file mypass
+# mit CTRL-D die eingabe beenden
+
+# Ausgabe in Vault String
+$ANSIBLE_VAULT;1.2;AES256;dev
+37636561366636643464376336303466613062633537323632306566653533383833366462366662
+6565353063303065303831323539656138653863353230620a653638643639333133306331336365
+62373737623337616130386137373461306535383538373162316263386165376131623631323434
+3866363862363335620a376466656164383032633338306162326639643635663936623939666238
+3161
+```
+
+#### Verwenden im yaml
+
+```yaml
+new_user_password: !vault |
+          $ANSIBLE_VAULT;1.2;AES256;dev
+          37636561366636643464376336303466613062633537323632306566653533383833366462366662
+          6565353063303065303831323539656138653863353230620a653638643639333133306331336365
+          62373737623337616130386137373461306535383538373162316263386165376131623631323434
+          3866363862363335620a376466656164383032633338306162326639643635663936623939666238
+          3161
+```
 
 </section>

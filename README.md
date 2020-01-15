@@ -122,6 +122,13 @@ Präsentation
   ```
 
 - Speaker View
-- drucken http://localhost:8000/?print-pdf
 - Browse http://localhost:8000
 - Presentator Screen Key: **s**
+
+#### Drucken
+- drucken http://localhost:8000/?print-pdf
+- drucken mit speaker notes http://localhost:8000/?print-pdf&showNotes=true
+  - Chrome > Print
+
+- Nur Speaker Notes Durucken
+  javascript Console > PrintRevealNotes();

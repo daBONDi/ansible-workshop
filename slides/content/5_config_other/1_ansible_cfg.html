@@ -1,0 +1,53 @@
+<section data-markdown="">
+# ansible.cfg
+
+Konfigurationsdatei für Ansible
+
+- Wird in das Projektverzeichniss abgelegt ./ansible.cfg
+- Speicherorte für Rollen / Module / Plugins festlegen
+- Standard Inventory festlegen, usw..
+
+
+```ini
+# ansible.cfg
+# Example
+# https://raw.githubusercontent.com/ansible/ansible/devel/examples/ansible.cfg
+
+[defaults]
+
+# Fail on not defined Variables
+error_on_undefined_vars = True
+
+# Standard Inventory
+inventory = ./inventory.ini
+
+# Mehrere Rolen Ordner
+roles_path = ./roles:./galaxy_roles
+
+# Include Lookup Plugins
+lookup_plugins = ./lookup_plugins
+
+# Include /library, pfad für Custom Module
+library = ./library
+
+# Vault Passwort File
+vault_password_file = vault_password
+
+# stdout Callback Plugin
+# https://docs.ansible.com/ansible/devel/plugins/callback.html
+stdout_callback=skippy
+
+```
+
+> Fast alle ansible.cfg Parameter können auch über Environment Variablen übergeben werden( CI/CD )
+
+note:
+  - Übergabe von ansible.cfg
+    - ANSIBLE_CONFIG 
+    - ansible.cfg
+    - ~/.ansible.cfg
+    - /etc/ansible/ansible.cfg
+  
+  - Fast alle Ansible.cfg parameter können über ENV Variablen übergeben werden
+
+</section>

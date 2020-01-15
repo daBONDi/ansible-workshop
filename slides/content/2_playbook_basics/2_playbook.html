@@ -13,7 +13,7 @@ Ein Play besteht aus mehreren Task/Handler/Roles die auf einen Host/Gruppe ausge
 
 Das Playbook ist eine YAML Datei die mehrer Play's beinhaltet
 
-notes:
+note:
   Kurz über die bezeichnung, danach zeigen wir eh das playbook
 </section>
 
@@ -38,7 +38,7 @@ tasks:                                      # Task Array
       state: restarted    
 ```
 
-notes:
+note:
 - Erkläre
   - Name
   - Module
@@ -75,7 +75,7 @@ handlers:
 
 > Wenn Package Installiert oder Aktualisiert wird starte den Dienst neu
 
-notes:
+note:
   - Wird nur einmal per Play ausgeführt
   - Tasks senden das Notify
 
@@ -111,14 +111,14 @@ notes:
         state: restarted
 ```
 
-notes:
-  - Einrückung von YAML
-    - Was bedeutet das Arrays/Dicts
-  - Play beschreiben
-  - Es können mehrere Plays in einem File(Playbook sein)
-  - Host Selector kurz beschreiben
-  - become
-  - vars kurz beschreiben
+note:
+- Einrückung von YAML
+  - Was bedeutet das Arrays/Dicts
+- Play beschreiben
+- Es können mehrere Plays in einem File(Playbook sein)
+- Host Selector kurz beschreiben
+- become
+- vars kurz beschreiben
 </section>
 
 <section data-markdown="">
@@ -147,18 +147,19 @@ hosts: web*:&eu   # Alle Hosts die mit 'web' beginnen und in der Group 'eu' sind
 
 > https://docs.ansible.com/ansible/latest/user_guide/intro_patterns.html
 
-notes:
-  - Durchbeschreiben der einzelnen
-  - Beschreiben Warum
-    - Mehrer Plays
-      Application
-        - Database Server
+note:
+- Durchbeschreiben der einzelnen
+- Beschreiben Warum
+  - Mehrer Plays
+  - Für jede App Deployment Stage ein Play wie zb.
+    - Application
+      - Database Server
         - Smoke Test
-        - Webserver
+      - Webserver
         - Smoke Test
-        - Loadbalance
+      - Loadbalance
         - Smoke Test
-    - Unterschiedliche Inventorys Production/Stagging
+  - Unterschiedliche Inventorys Production/Stagging
 </section>
 
 <section data-markdown="">
@@ -170,7 +171,7 @@ notes:
 
   > Nicht auf den VS Code Task (STRG + P + Tasks: Run Task > "Automatic Sync Workshop Folder" vergessen :-)
 
-  notes:
+  note:
   - alleine machen lassen
   - und ihnen helfen
 </section>

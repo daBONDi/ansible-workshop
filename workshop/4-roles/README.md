@@ -38,8 +38,8 @@
       - handlers
           main.yml
       - files
-          bluepill.png
-          redpill.png
+          image1.jpg
+          image2.jpg
           windows.png
       - templates
           index.html
@@ -57,7 +57,7 @@
 
 - Windows IIS Pfad für Index.html
   ```
-  c:\inetpub\wwwroot\index.html
+  c:\inetpub\wwwroot\default.html
   c:\inetpub\wwwroot\image.png
   ```
 

@@ -20,12 +20,10 @@ Der Syntax vom Playbook wird ohne ausführung kontrolliert.
 ansible-playbook simple.yml -i inventory --syntax-check
 ```
 
-notes:
+note:
   - Wenn man vorab wissen will was sich ändert wird
-    
   - Syntax Check
-
-    Nützlich wenn das Playbook schon ziemlich groß ist, und man vor dem Testrun nur die Syntax controllieren will
+    - Nützlich wenn das Playbook schon ziemlich groß ist, und man vor dem Testrun nur die Syntax controllieren will
 </section>
 <section data-markdown="">
 # Debug Parameter
@@ -57,9 +55,9 @@ tasks:
       msg: "Das ist der Output von apt_result stdout: {{ apt_result.stdout }}"  # Gibt den Variablen Inhalt apt_result.stdout mit dem Text aus (String Combine)
 ```
 
-notes:
-  - Module Result > register
-  - register
-  - Jinja2 Templating Engine > kommt noch 
+note:
+- Module Result > register
+- register
+- Jinja2 Templating Engine > kommt noch 
 
 </section> 

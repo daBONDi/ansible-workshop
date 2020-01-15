@@ -18,7 +18,7 @@ https://docs.ansible.com/ansible/latest/modules/stat_module.html
   when: haproxy_config.stat.exists == true
 ```
 
-notes:
+note:
   - Jedes modul gibt einen Rückgabewert zurück
     - .success == true
     - .failed == true
@@ -40,7 +40,7 @@ notes:
   failed_when: "'FAILED' in command_result.stderr"
   changed_when: "'SUCCESS' in command_result.stdout
 ```
-notes:
+note:
   - zb. bei ausführung eines commands
     - command liefert stdout sowie stderr zurück als property
     - wenn String in stderr
@@ -62,7 +62,7 @@ Ignoriert es wenn das Modul ein **Failure** liefert.
   when: "'FAILED' in epic_command_result.stderr"
 ```
 
-notes:
+note:
   ignore_errors: kann auch True, yes, 1 sein 
 
 </section>

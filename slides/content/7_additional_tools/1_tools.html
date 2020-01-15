@@ -1,0 +1,116 @@
+<section data-markdown="">
+  # Shell Completion
+
+  https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#shell-completion
+
+  ```bash
+  sudo apt install python-argcomplete
+  pip install argcomplete
+  sudo activate-global-python-argcomplete
+  ```  
+</section>
+<section>
+  <h1>Ansible Tower / AWX</h1>
+  <p>
+    <b>Ansible Tower</b> <small>(Enterprise Stable)</small> <a href="https://www.ansible.com/products/tower">https://www.ansible.com/products/tower</a><br>
+    <b>AWX</b> <small>(Open Source Unstable)</small> <a href="https://github.com/ansible/awx">https://github.com/ansible/awx</a>
+  </p>
+  <img src="images/ansible-tower.webp">
+  <aside class="notes">
+    <ul>
+      <li>Ansible Tower kann man verwenden</li>
+      <li>Enteprise Features (SAML, LDAP Auth, Role based access)</li>
+      <li>AWX für Produktion derzeit noch nicht Brauchbar</li>
+    </ul>
+  </aside>
+</section>
+<section>
+  <h1>ARA</h1>
+  <p>
+    <a href="https://ara.recordsansible.org/">https://ara.recordsansible.org/</a> 
+  </p>
+  <ul>
+    <li>Schönes Logging inkl. Module Input sowie Output und Result</li>
+    <li>Logging von mehreren Ansible Controllern in eine ARA Datenbank möglich</li>
+  </ul>
+  <img src="images/ara.png">
+  <aside class="notes">
+    <ul>
+      <li>Tolles Logging</li>
+      <li>Kann von mehreren Ansible Controllern Verwendet werden</li>
+      <li>Ansible Callback Plugin Sended die Results und Exection zum ARA Server</li>
+    </ul>
+  </aside>
+</section>
+<section>
+  <h1>Rundeck - Job Engine (Java)</h1>
+  <p>
+
+    <a href="https://www.rundeck.com/open-source">https://www.rundeck.com/open-source</a>  
+  </p>
+  <p>Enterprise Runbook Execution Engine mit unterstützung für Ansible</p>
+  <img src="images/rundeck.jpg">
+  <aside class="notes">
+    <ul>
+      <li>Java Based Service</li>
+      <li>Enterprise Features in der Open Source Variante</li>
+      <li>Tolle Runbook Eingabe Form</li>
+      <li>Advanced cronjob Tool</li>
+    </ul>
+  </aside>
+</section>
+<section>
+  <h1>Stackstorm</h1>
+  <p>
+    <b>Eventdriven</b> Enteprise Runbook Execution Engine
+  </p>
+  <p>
+    <a href="https://stackstorm.com/">https://stackstorm.com/</a>
+  </p>
+  <img src="images/st2.png">
+  <aside class="notes">
+    <ul>
+      <li>Python Service</li>
+      <li>Event Driven, mit Message Bus</li>
+      <li>Ein API Call kann mehrere Runbooks Starten usw.</li>
+      <li>Opensource Variante hat kein Rolebased Access</li>
+      <li>Opensource Variante nur simples login</li>
+      <li>HA möglich</li>
+      <li>Playbooks sind auch in YAML geschrieben</li>
+      <li>Passt besser zum Ansible Ökosystem finde ich, da Python und Playbooks sind auch in Yaml geschrieben</li>
+    </ul>
+  </aside>
+</section>
+<section>
+  <h1>Node-CI / Ansible UI</h1>
+  <p>
+    Simple NodeJS Anwendung/CI für das Ausführen von Ansible Playbooks
+  </p>
+  <img src="images/nci-ansible.png">
+  <aside class="notes">
+    <ul>
+      <li>Sehr simples REST Interface für das ausführen von Playbooks</li>
+      <li>Erweiterbar mit anderen Node-CI Plugins</li>
+      <li>Für simple sachen mehr als ausreichend</li>
+    </ul>
+  </aside>
+</section>
+<section>
+  <h1>Molecule - Testing Ansible Roles</h1>
+  <img src="images/molecule.png">
+  <p>
+    Test Engine für Ansible Rollen mit Docker/Vagrant support
+  </p>
+  <p>
+    <a href="https://molecule.readthedocs.io/en/stable/">https://molecule.readthedocs.io/en/stable/</a>
+  </p>
+  <aside class="notes">
+    <ul>
+      <li>Super zum einbinden in eine CI</li>
+      <li>Komplette Tests / Smoketest / Integration Test möglich</li>
+      <li>Ansible Community Role Testing Framework</li>
+      <li>Nur wirklich auf Linux nutzbar / in WSL sehr quirky</li>
+      <li>Arbeitet sehr gut mit Vagrant und Docker zusammen</li>
+    </ul>
+  </aside>
+</section>

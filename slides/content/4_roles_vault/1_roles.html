@@ -32,7 +32,7 @@ my_special_role/
 
 ```
 
-notes:
+note:
   - Welche Ordner für was sind
 
 </section>
@@ -55,7 +55,7 @@ roles/
     *_plugins/  # Custom Callback / Lookup Plugins / ...
 ```
 
-notes:
+note:
   - Relativ zum Playbook / Execution
   - Es müssen nicht alle Ordner definiert sein
   - Custom Module
@@ -80,7 +80,7 @@ notes:
 # Post Ansible 2.4 - USE THIS WAY
 - hosts: all
   tasks:
-    - include_role: my_epic_app_role
+    - import_role: name = my_epic_app_role
     - include_role:
         name: my_epic_app_role
       vars:
@@ -95,9 +95,14 @@ notes:
     - role: my_epic_app_role
 ```
 
-notes:
+note:
   - Alte und neue Schreibweise
-    - Beachte include_role
+    - Beachte import_role
+  - Import / include_role sind in 
+    - Import vor dem Ansible Parser
+      - Kein Support von Loops
+    - inlcude = Dynamic wird bei Ausführung hinzugefügt
+      - Kein Support von Tags
 </section>
 
 <section data-markdown="">
@@ -138,7 +143,7 @@ Default Import File:  **/tasks/main.yml**
   state: present
 ```
 
-notes:
+note:
   - main.yml
     - wird als übergeordnetes Playbook verwendet
   - Aufsplitten
@@ -178,7 +183,7 @@ my_app_download_url:  "https://my_release_server.myapp.com/download/{{ my_app_ve
   state: absent
 ```
 
-notes:
+note:
   - main.yml
   - defaults = Variablen die von extern überschrieben werden
   - vars = Variablen die Statisch / Generisch sind
@@ -212,7 +217,7 @@ application_server: appserver1.myapp.com
 ```
 
 
-notes:
+note:
   - Standardspeicherort für Dateien und Templates
   - Pfade werden automatisch aufgeschlüsselt
 </section>
@@ -244,7 +249,7 @@ notes:
 https://support.ptc.com/appserver/wcms/standards/freefull_cskdb.jsp?&im_dbkey=123883&im_language=en
 https://support.ptc.com/WCMS/files/121640/en/PTC_LMS_Download.pdf
 ```
-notes:
+note:
   - Docs
   - README.md Example
 </section>

@@ -1,30 +1,22 @@
-- genug gehipped nach einführung
 
-- Hinzufügen was mir noch einfällt was ich erzählen will per folie
 
-- Änderungen bei Ansible 2.9, alles mit Ansible 2.9 testen
-- auf Starwars Ändern, Matrix kennt keiner...!!!
-- https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#shell-completion
-
+- Slogan für Schulungs start folie
 
 - loop , da dies nun die default sache ist
   https://docs.ansible.com/ansible/latest/user_guide/playbooks_loops.html#standard-loops
 
-- Demo Übung 4
-
-- Ansible Vault
-
 - Yaml Basics
 
-- Best Practice
-  http://ansible.github.io/lightbulb/decks/ansible-best-practices.html#/2
+- Übersicht liste nochmal durchgehen ob wir nochwas vergessen haben
 
-- Scaling / Rest API
 - Ansible for Network Devices
-- Slogang
 
-- Ausdrucken der Speak notes
-- Ausdrucken der Folien
+
+
+- Hinzufügen was mir noch einfällt was ich erzählen will per folie
+
+- Ausdrucken der Speak notes >  javascript Console > PrintRevealNotes();
+- Ausdrucken der Folien > Drucken wir nicht aus > Entweder Ansible controler = Webserver für nodejs, oder über port 8000 vom Trainer Laptop >> Testen
 
 - Ansible Cheat sheet hergeben
   - eines schreiben?
@@ -32,6 +24,8 @@
   https://linuxacademy.com/site-content/uploads/2019/05/Linux-Academy-Ansible-Roles-Cheatsheet.pdf
 
 - Bonus task? HA Proxy auf ctrl ec2 instance
+
+
 
 
 - Implement ARA on ansible vm

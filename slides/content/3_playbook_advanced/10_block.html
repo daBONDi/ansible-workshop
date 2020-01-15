@@ -20,7 +20,7 @@ tasks:
     when: ansible_facts['distribution'] == 'CentOS'
 ```
 
-notes:
+note:
 - Gruppiert die tasks für das when
 - Gruppiert become
 </section>
@@ -49,7 +49,7 @@ notes:
         msg: "This always executes"
 ```
 
-notes:
+note:
 - rescue reset den Fehler count
 - rescue lässt das playbook weiter ausführen und bricht nicht ab
 - always wird immer ausgeführt

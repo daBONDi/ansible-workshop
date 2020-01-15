@@ -16,15 +16,15 @@ ansible-playbook simple.yml -i inventory.ini
 ```yaml
 # host_vars/debian1.yml
 app_config:
-  pill: blue
-  image: bluepill.png
+  title: "Automate all the things!"
+  image: image1.jpg
 ```
 
 ```yaml
 # host_vars/debian2.yml
 app_config:
-  pill: red
-  image: redpill.png
+  title: "I know Ansible and Yaml!"
+  image: image2.jpg
 ```
 
 ### Aufgabe
@@ -33,21 +33,21 @@ Adaptiere das Playbook **simple.yml** das die index.html Dateien der Server anpa
 
 #### Bild Datei
 
-Stelle sicher das die richtige Bild Datei auf dem Server kopiert wird (copy, Variable **app_config.pill** verwenden)
+Stelle sicher das die richtige Bild Datei auf dem Server kopiert wird (copy, Variable **app_config.image** verwenden)
 
-debian1:  bluepill.png
-debian2:  redpill.png
+debian1:  image1.jpg
+debian2:  image2.jpg
 
 ##### index.html
 
 - Kopiere die **index.html** Datei der vorherigen Übung in das neue Arbeitsverzeichniss
 - Adaptiere die **index.html** mithilfe des Modules **template** damit folgendes erscheint (jinja2 templating)
   - debian1:
-    - Als HTML Text "Here you got a blue pill!" anzeigen
-    - Es sollte auch das Bild "bluepill.png" verwendet werden
+    - Als HTML Text "Automate all the things!" anzeigen
+    - Es sollte auch das Bild "image1.jpg" verwendet werden
   - debian2:
-    - Als HTML Text "Here you got a red pill!" anzeigen
-    - Es sollte auch das Bild "redpill.png" verwendet werden
+    - Als HTML Text "I know Ansible and Yaml!" anzeigen
+    - Es sollte auch das Bild "image2.jpg" verwendet werden
 
 - Teste ob die beiden Debian Hosts eine Website bereitstellen mit dem Browser über den Public FQDN.
 - Überprüfe ob der richtige Text sowie das richtige Bild angezeigt wird.
@@ -69,7 +69,7 @@ https://docs.ansible.com/ansible/latest/modules/modules_by_category.html?highlig
     <title>Ansible Configured Host</title>
   </head>
   <body>
-    <h2>Here, you have a {{ variable.variable }} pill!</h2>
+    <h2>{{ variable.variable }}</h2>
     <img src="{{ variable.variable }}"/>
   </body>
 </html>
@@ -81,7 +81,6 @@ https://docs.ansible.com/ansible/latest/modules/modules_by_category.html?highlig
 
 - name: "Make me an awesome webserver"
   hosts: web
-  become: yes     # We need sudo!
   tasks:
     - name: <Beschreibung>
       <Module>:

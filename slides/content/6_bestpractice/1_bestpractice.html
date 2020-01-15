@@ -1,0 +1,405 @@
+<section data-markdown="">
+  # Best Practice - Complexity Kills Productivity
+
+  - Einfache Automation ist gute Automation
+  - Playbooks einfach halten
+  - Gut dokumentieren im Playbook file!
+
+</section>
+<section data-markdown="">
+  # Best Practice - Optimize for Readability
+
+  Man erspart sich die Dokumentation wenn es gut lesbar ist!
+</section>
+
+<section data-markdown="">
+  # Best Practice - Think Declaratively
+
+  Ansible ist eine "Desired State Engine"
+
+  Sobald man anfängt wie "Code" mit "ifs" und "when" zu arbeiten wäre ein Modul vieleicht besser ?
+</section>
+
+<section data-markdown="">
+# Workflow
+
+- Ansible Content in Version Control Packen
+- So einfach wie möglich anfangen
+  - Static Inventory
+  - Simple Playbooks
+- "Refactor and modularize later!"
+</section>
+
+<section data-markdown="">
+# Workflow 
+
+## Do it with Style!
+
+- Whitespaces
+- Tagging
+- Namen von Tasks, Plays, Vars, Roles, ...
+- Ordner Layouts
+</section>
+
+<section data-markdown="">
+# Inventory
+
+"Single source of truth" verwenden
+
+- CMDB
+- Netbox
+- AWS Inventory
+- ...
+
+</section>
+
+<section data-markdown="">
+
+# Variablen
+
+- "descriptive, unique **human-meaningful** variable names"
+- **Prefix** für Rollen Variablen zb. **rolename_variable**, **package_variable**
+
+```yaml
+apache_max_keepalive: 25
+
+apache_port: 80
+
+tomcat_port: 8080
+```
+
+</section>
+
+<section>
+<h1>Logic von Variablen Trennen</h1>
+<div class="columns">
+  <div class="col">
+    <pre><code class="hls yaml">
+- name: Clone student lesson app for a user
+  host: nodes
+  tasks:
+    - name: Create ssh dir
+      file:
+        state: directory
+        path: /home/{{ username }}/.ssh
+
+    - name: Set Deployment Key
+      copy:
+        src: files/deploy_key
+        dest: /home/{{ username }}/.ssh/id_rsa
+
+    - name: Clone repo
+      git:
+        accept_hostkey: yes
+        clone: yes
+        dest: /home/{{ username }}/exampleapp
+        key_file: /home/{{ username }}/.ssh/id_rsa
+        repo: git@github.com:example/apprepo.git
+    </code></pre>
+    <aside class="notes">
+      <ul>
+        <li>vars ganz oben verwenden</li>
+        <li>erleichtert die lesbarkeit bei den Tasks selbst</li>
+      </ul>
+    </aside>
+  </div>
+  <div class="col">
+    <pre><code class="hls yaml">
+- name: Clone student lesson app for a user
+  host: nodes
+  vars:
+    user_home_dir: "/home/{{ username }}"
+    user_ssh_dir: "{{ user_home_dir }}/.ssh"
+    deploy_key: "{{ user_ssh_dir }}/id_rsa"
+    app_dir: "{{ user_home_dir }}/exampleapp"
+  tasks:
+    - name: Create ssh dir
+      file:
+        state: directory
+        path: "{{ user_ssh_dir }}"
+  
+    - name: Set Deployment Key
+      copy:
+        src: files/deploy_key
+        dest: "{{ deploy_key }}"
+  
+    - name: Clone repo
+      git:
+        dest: "{{ app_dir }}"
+        key_file: "{{ deploy_key }}"
+        repo: git@github.com:example/exampleapp.git
+        accept_hostkey: yes
+        clone: yes
+    </code></pre>
+  </div>
+</div>
+</section>
+<section>
+  <h1>Natives YAML für bessere lesbarkeit verwenden</h1>
+  <ul>
+    <li>Vertikal liest es sich leichter</li>
+    <li>Besser für Komplexe Parameter Werte</li>
+    <li>Funktioniert besser mit Syntax Higlighting im Editor</li>
+  </ul>
+  <pre><code class="hls yaml">
+    - debug:
+        msg: |
+          Multiline
+          mit New Line
+          Char \n
+    
+    - debug:
+        msg: >
+          Kein Multiline
+          und kein
+          New Line Char
+  </code></pre>
+</section>
+<section>
+<h1> Vertikal liest es sich besser</h1>
+<div class="columns">
+  <div class="col">
+    <pre><code class="hls yaml">
+- name: install telegraf
+  yum: name=telegraf-{{ telegraf_version }} state=present update_cache=yes disable_gpg_check=yes enablerepo=telegraf
+  notify: restart telegraf
+
+- name: configure telegraf
+  template: src=telegraf.conf.j2 dest=/etc/telegraf/telegraf.conf
+
+- name: start telegraf
+  service: name=telegraf state=started enabled=yes
+    </code></pre>
+  </div>
+  <div class="col">
+    <pre><code class="hls yaml">
+- name: install telegraf
+  yum:
+    name: telegraf-{{ telegraf_version }}
+    state: present
+    update_cache: yes
+    disable_gpg_check: yes
+    enablerepo: telegraf
+  notify: restart telegraf
+  
+- name: configure telegraf
+  template:
+    src: telegraf.conf.j2
+    dest: /etc/telegraf/telegraf.conf
+  notify: restart telegraf
+  
+- name: start telegraf
+  service:
+    name: telegraf
+    state: started
+    enabled: yes
+    </code></pre>
+  </div>
+</div>
+</section>
+<section>
+
+  <h1>Namen für Tasks und Plays vergeben</h1>
+  <div class="columns">
+    <div class="col">
+      <pre><code class="hls yaml">
+- hosts: web
+  tasks:
+  - yum:
+      name: httpd
+      state: latest
+
+  - service:
+      name: httpd
+      state: started
+      enabled: yes
+
+
+
+
+      </code></pre>
+    </div>
+    <div class="col">
+      <pre><code class="hls bash">
+PLAY [web]
+********************************
+
+TASK [setup]
+********************************
+ok: [web1]
+
+TASK [yum]
+********************************
+ok: [web1]
+
+TASK [service]
+********************************
+ok: [web1]
+      </code></pre>
+    </div>
+  </div>
+  <div class="columns">
+    <div class="col">
+      <pre><code class="hls yaml">
+- hosts: web
+  name: installs and starts apache
+  tasks:
+    - name: install apache packages
+      yum:
+        name: httpd
+        state: latest
+
+    - name: starts apache service
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+      </code></pre>
+    </div>
+    <div class="col">
+      <pre><code class="hls bash">
+PLAY [install and starts apache]
+********************************
+
+TASK [setup]
+********************************
+ok: [web1]
+
+TASK [install apache packages]
+********************************
+ok: [web1]
+
+TASK [starts apache service]
+********************************
+ok: [web1]
+      </code></pre>
+    </div>
+  </div>
+</section>
+<section data-markdown="">
+# Debug Statments
+
+- Debug Statments mit Verbosity Parameter versehen
+
+```yaml
+- debug:
+    msg: "This always displays"
+
+- debug:
+    msg: "This only displays with ansible-playbook -vv+"
+    verbosity: 2
+
+```
+</section>
+<section data-markdown="">
+# Smoke Tests
+
+Nicht einfach nur einen Service Starten, Smoketest einfügen!
+
+```yaml
+- name: ensure apache started
+  service:
+    name: apache
+    state: restarted
+
+- name: check for proper response
+  uri:
+    url: http://localhost/myapp
+    return_content: yes
+  register: result
+  until: '"Hello World" in result.content'
+  retries: 10
+  delay: 1
+```
+
+</section>
+<section>
+<h1>Gibt es ein Modul?</h1>
+<p>Immer zuerst nachschauen ob es ein Modul gibt bevor man "command" verwendet</p>
+<div class="columns">
+  <div class="col">
+
+    <pre><code class="hls yaml">
+- name: add user
+  command: useradd appuser
+
+- name: install apache
+  command: yum install httpd
+
+- name: start apache
+  shell: |
+    service httpd start && chkconfig httpd on   
+    </code></pre>
+  </div>
+  <div class="hls yaml">
+    <pre><code class="hls yaml">
+- name: add user
+  user:
+    name: appuser
+    state: present
+  
+- name: install apache
+  yum:
+    name: httpd
+    state: latest
+
+- name: start apache
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+    </code></pre>
+  </div>
+</div>
+</section>
+<section data-markdown="">
+# Provision und Configuration nicht in ein Playbook!
+
+```yaml
+app
+  configure.yml
+  provision.yml
+  site.yml
+```
+
+```yaml
+# site.yml
+
+- include_playbook: provision.yml
+- include_playbook: configure.yml
+
+```
+
+note:
+  - Trennen
+  - Provision machen wir einmal
+  - Config öfters!
+</section>
+<section data-markdown="">
+# Rollen
+
+Single Project Roles = /roles
+
+Interne oder Galaxy Roles = /galaxy_roles
+
+**requirements.yml** verwenden um die benötigen Rollen für das Projekt nachzuladen!
+
+```yaml
+- src: geerlingguy.certbot
+  version: 3.0.3
+
+- src: christiangda.amazon_cloudwatch_agent
+  version: 1.0.0
+
+- src: git+https://bitbucket.org/ursuad/sample_role_oracle-java
+  version: v1.1.6
+````
+
+```bash
+ansible-galaxy install -r requirements.yml --roles-path /opt/dev/galaxy_roles
+```
+note:
+  - requiremnents.yml verwenden
+  - immer auf eine version pinnen!
+</section>

@@ -2,50 +2,60 @@
   <h2>Wie funktioniert Ansible?</h2>
   <img src="images/how-ansible-works-diagram-01.svg">
   <aside class="notes">
-    - Die Einzelkomponenten wie Ansible zusammenspielt erklären
+    <ul><li>Die Einzelkomponenten wie Ansible zusammenspielt erklären</li></ul>
   </aside>
 </section>
 <section>
   <h2>Plays/Playbooks</h2>
   <img src="images/how-ansible-works-diagram-02.svg">
   <aside class="notes">
-    - Playbook = Yamlfile
-    - Beschreibt was auszuführen ist
+    <ul>
+      <li>Playbook = Yamlfile</li>
+      <li>Beschreibt was auszuführen ist</li>
+    </ul>
   </aside>
 </section>
 <section>
   <h2>Modul</h2>
   <img src="images/how-ansible-works-diagram-03.svg">
   <aside class="notes">
-    - Module meist in Python(Linux),Windows(Powershell) geschrieben
-    - Grundsätzlich kann es jede Ausführare Datei sein, die ein JSON retour gibt über den stdout
+    <ul>
+      <li>Module meist in Python(Linux),Windows(Powershell) geschrieben</li>
+      <li>Grundsätzlich kann es jede Ausführare Datei sein, die ein JSON retour gibt über den stdout</li>
+    </ul>
   </aside>
+
 </section>
 <section>
   <h2>Plugins</h2>
   <img src="images/how-ansible-works-diagram-04.svg">
   <aside class="notes">
-    - Bauen die Verbindung zu den Hostsystemen auf
-    - Bestimmen zb. den stdout
-    - Bei jedem Task Result wo abspeichern(ARA)
-    - Inventory Plugins(Inventory File zb. von einer CMDB ziehen)
-    - ...
+    <ul>
+      <li>Bauen die Verbindung zu den Hostsystemen auf</li>
+      <li>Bestimmen zb. den stdout</li>
+      <li>Bei jedem Task Result wo abspeichern(ARA)</li>
+      <li>Inventory Plugins(Inventory File zb. von einer CMDB ziehen)</li>
+    </ul>
   </aside>
 </section>
 <section>
   <h2>Static Inventory File</h2>
   <img src="images/how-ansible-works-diagram-05.svg">
   <aside class="notes">
-    - Typisch ein einzelnes ini file oder ein yaml file
-    - wir werden dies hier so benutzten
+    <ul>
+      <li>Typisch ein einzelnes ini file oder ein yaml file</li>
+      <li>wir werden dies hier so benutzten</li>
+    </ul>
   </aside>
 </section>
 <section>
   <h2>Dynamic Inventory File (zb. Netbox)</h2>
   <img src="images/how-ansible-works-diagram-06.svg">
   <aside class="notes">
-    - Als Inventory Plugin
-    - Kann auch ein Program mit passenden STDOUT sein(JSON)
-    - Wie im Datacenter ein Inventory Plugin das die Daten von Netbox bezieht
+    <ul>
+      <li>Als Inventory Plugin</li>
+      <li>Kann auch ein Program mit passenden STDOUT sein(JSON)</li>
+      <li>Wie im Datacenter ein Inventory Plugin das die Daten von Netbox bezieht</li>
+    </ul>
   </aside>
 </section>

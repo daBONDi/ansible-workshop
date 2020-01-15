@@ -23,8 +23,10 @@
     <li>Angabe als String "192.168.1.1,192.168.1,"</li>
   </ul>
   <aside class="notes">
-    - das komma ist kein Tippfehler, es muss eine Liste ein
-    - gegen die Hosts und Gruppen werden dann die Plays/Tasks ausgeführt
+    <ul>
+      <li>das komma ist kein Tippfehler, es muss eine Liste ein</li>
+      <li>gegen die Hosts und Gruppen werden dann die Plays/Tasks ausgeführt</li>
+    </ul>
   </aside>
 </section>
 <section data-markdown="">
@@ -63,12 +65,12 @@
   ### ansible_host
   Der für die Verbindung verwendeter Name/IP Adresse
 
-  notes:
-    - Unterscheid zwischen 
-    - Angabe von [1:5]
-    - geschachtelte Gruppen
-    - Gruppen Variablen
-    - Host variablen my_custom_var=hello
+  note:
+  - Unterscheid zwischen 
+  - Angabe von [1:5]
+  - geschachtelte Gruppen
+  - Gruppen Variablen
+  - Host variablen my_custom_var=hello
 </section>
 <section data-markdown="">
   # Inventory Testen/Abfragen - ansible-inventory
@@ -91,8 +93,8 @@
   ansible_user: admin
   ```
   
-  notes:
-    - verarbeitete Inventory ansehen und kontrollieren
-    - überprüfen wenn gruppen sehr verschachtelnt sind
-    - settings von dynamic inventory plugins überprüfen
+  note:
+  - verarbeitete Inventory ansehen und kontrollieren
+  - überprüfen wenn gruppen sehr verschachtelnt sind
+  - settings von dynamic inventory plugins überprüfen
 </section>

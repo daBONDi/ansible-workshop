@@ -13,7 +13,7 @@ http://jinja.pocoo.org/docs/2.10/
 
 https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html
 
-notes:
+note:
   - Variablen
     - Ändern
     - Filtern
@@ -41,10 +41,10 @@ tasks:
     with_items: "{{ servers }}"
 ```
 
-notes:
-  - with_items (kommt später noch mehr)
-  - Default Value
-  - Omitting
+note:
+- with_items (kommt später noch mehr)
+- Default Value
+- Omitting
   
 </section>
 <section data-markdown="">
@@ -62,8 +62,8 @@ tasks:
       msg: "{{ list | max }}"
     # Output: 6
 ```
-notes:
-  - Simples minimum maximum
+note:
+- Simples minimum maximum
 </section>
 <section data-markdown="">
 # Ansible Filter: unique / union / intersect / difference /..
@@ -118,8 +118,8 @@ tasks:
       msg: "{{ http_json_response.content | from_json }}"
 ```
 
-notes:
-  - Konvertieren von string to object
+note:
+- Konvertieren von string to object
 </section>
 
 <section data-markdown="">
@@ -145,10 +145,10 @@ vars:
 
 ```
 
-notes:
-  Für was braucht man das
-  - zb. Settings bekommt man von einem json http response und muss damit arbeiten
-  - um eine liste für das loopen zu erhalten
+note:
+Für was braucht man das
+- zb. Settings bekommt man von einem json http response und muss damit arbeiten
+- um eine liste für das loopen zu erhalten
 </section>
 <section data-markdown="">
 # Ansible Filter - ipaddr
@@ -172,8 +172,8 @@ client_network:   "{{ client | ipaddr('network') }}" # 172.16.11.0
 client_broadcast: "{{ client | ipaddr('broadcast') }}" # 172.16.11.255
 ```
 
-notes:
-  - ipaddr filter
+note:
+- ipaddr filter
     
 </section>
 <section data-markdown="">
@@ -226,7 +226,7 @@ tasks:
     # Output "8090,9090"
 ```
 
-notes:
+note:
   - basiert auf jmespath
   - Query Filter
   - bei großen Variablen
@@ -257,7 +257,7 @@ Erzeugt ein Comment (Bei Config Template verwendet)
 <!-- My Comment -->
 
 ```
-notes:
-  - wird haupsächlich beim Config File(Templating) generien verwendet
-  - Config Template kommt als nächstes
+note:
+- wird haupsächlich beim Config File(Templating) generien verwendet
+- Config Template kommt als nächstes
 </section>

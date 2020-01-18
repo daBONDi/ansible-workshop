@@ -1,4 +1,22 @@
 <section>
+  <h1>Loops - loop</h1>
+  <p>
+    Fürt das Modul für für jedes Element in der Liste auf den Host aus.
+  </p>
+  <p>
+    <pre><code class="hls yaml">
+      - name: add serveral users
+        user:
+          name: "{{ item }}"
+          state: present
+          groups: "wheel"
+        loop:
+          - testuser1
+          - testuser2
+    </code></pre>
+  </p>
+</section>
+<section>
 
 <h1>Loops - with_items</h1>
 <h3>Simple Loop / For Each</h3>
@@ -42,6 +60,7 @@
 </div>
 <aside class="notes">
   <ul>
+    <li>Ist eine erweiterung zu loop, kann auch mit jinj2 filters und loop durchgeführt werden</li>
     <li>Erwartet List / Array</li>
     <li>Variable <b>item</b></li>
     <li>Kann auch eine Variable sein</li>
@@ -120,7 +139,7 @@ note:
 </section>
 
 <section data-markdown="">
-# Loop - Do/Until
+# Do/Until
 
 Führt das Modul immer wieder aus bis **until == true** oder **retries == 0** eintritt.
 
@@ -143,9 +162,9 @@ note:
 
 <section data-markdown="">
 
-# Loops: loop_control
+# loop_control - **loop_var**
 
-## Anderen Variablen Name verwenden für den Loop
+**Benutzerdefinierten Variablen Name** verwenden für den Loop.
 
 ```yaml
 - copy:
@@ -156,9 +175,30 @@ note:
     - server.cfg
   loop_control:
     loop_var: config_file_name
+
 ```
 
-## Output im stdout minimieren bei Loops über größere Objekte
+</section>
+<section data-markdown="">
+# loop_control - **index_var**
+
+**Index Variable** für den loop.
+
+```yaml
+- debug: 
+    msg "{{ item }} with index {{ my_idx }}"
+  loop:
+    - item1
+    - item2
+  loop_control:
+    index_var: my_idx
+```
+
+</section>
+<section data-markdown="">
+# loop_control - **label**
+
+Output im stdout minimieren bei Loops über größere Objekte 
 
 Gibt im Output dann nur mehr **item.name** aus, anstatt der gesamten Datenstruktur als **JSON im stdout** __(Logging!)__
 
@@ -167,10 +207,12 @@ vars:
   servers:
     - name: server1
       config:
-        # Massiv große Datenstruktur
+        # Große Yaml Datenstruktur
+        # ...
     - name: server2
       config:
-        # Massiv große Datenstruktur
+        # Große Yaml Datenstruktur
+        # ...
 
 tasks:
   - my_module:

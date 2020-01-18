@@ -66,6 +66,8 @@ SSH Putty key: /vagrant/ssh/putty.workshop.priv.ppk
 ### environment
 
 Ansible Playbook to manage all attendant ec2 instances for workshop
+
+> It takes ~15min to build the Infra on AWS
   
 #### Create AWS Infrastructure
 

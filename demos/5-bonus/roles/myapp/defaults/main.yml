@@ -1,0 +1,5 @@
+config:
+  title: "Automate all the things!"
+  image: image1.jpg
+
+iis_default_root: "c:/inetpub/wwwroot"

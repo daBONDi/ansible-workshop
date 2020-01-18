@@ -1,0 +1,91 @@
+<section data-markdown="">
+# Windows - Connection Setup
+
+https://docs.ansible.com/ansible/latest/user_guide/windows_setup.html
+
+## Setup Script
+
+```powershell
+$url = "https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1"
+$file = "$env:temp\ConfigureRemotingForAnsible.ps1"
+
+(New-Object -TypeName System.Net.WebClient).DownloadFile($url, $file)
+
+powershell.exe -ExecutionPolicy ByPass -File $file
+```
+
+- Selfsigned SSL Cert
+- Listener HTTPS auf 5986
+- Basic Auth über HTTPS Enabled
+
+notes: 
+- Setup Script von Ansible Repo
+  - HTTPS Selfsign Certificate + SSL Listener
+  - Basic Authentication
+  - Link für WinRM Debugging
+</section>
+
+<section data-markdown="">
+## WinRM Settings
+
+```powershell
+
+# WinRM Listener Anzeigen
+#  - Interface Listeners für den WinRM Service
+#    - Interface
+#    - Port
+winrm enum winrm/config/Listener
+
+# WinRM Service Settings
+#  - Auth Methos
+#  - Session Limits
+#  - IP Filters
+winrm get winrm/config/Service
+winrm get winrm/config/Winrs
+```
+
+notes:
+ - winrm config tool, wichtigsten befehle
+ - zu kurze zeit um alles zu zeigen
+ - Certificate sowie WinRM Settings über GPO verteilbar
+</section>
+
+<section data-markdown="">
+# Ansible - Powershell DSC
+
+- https://github.com/dsccommunity
+
+- https://docs.ansible.com/ansible/latest/user_guide/windows_dsc.html
+
+```yaml
+- name: "Ensure DFSDsc is installed"
+  delegate_to: "{{ default_domain_working_host }}"
+  win_psmodule:
+    name: DFSDsc
+    state: present
+
+- name: "Ensure dfs link for projects share"
+  delegate_to: "{{ default_domain_working_host }}"
+  win_dsc:
+    resource_name: "DFSNamespaceFolder"
+    Path: "\\dfs.company.local\file\projects}"
+    Description: "Company Projects"
+    TargetPath: "\\\\fileserver.company.local\projects"
+    Ensure: Present
+```
+
+notes:
+- x = Community Module
+- Ansible kann Powershell DSC Module ausführen
+- Gibt einige Powershell DSC Module (Googlen nach Powershell xDFS zb.)
+- Sind idempotent
+- Gibt es für 
+  - Exchange Server
+  - DFS
+  - iSCSI
+  - FSRM
+  - DNS
+  - DHCP
+  - ...
+
+</section>

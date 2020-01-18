@@ -1,0 +1,56 @@
+<section data-markdown="">
+# Assert
+
+Überprüft eine Jinja2 Expression
+
+```yaml
+- assert:
+  that:
+    - my_param <=100
+    - my_param >=0
+  fail_msg: "'my_param' must be between 0 and 100"
+  success_msg: "'my_param' is between 0 and 100"
+
+# quiet = true, Gibt das Assert nicht im Output aus
+- assert:
+  that:
+    - my_param <=100
+    - my_param >=0
+  quiet: true
+```
+
+note:
+  - Überprüfung von Eingabevariablen
+    - zb. wenn das playbook von einem anderen System aufgerufen wird
+    - Rollen Variablen
+
+</section>
+<section data-markdown="">
+# Pause / Input
+
+Hält das Playbook an und wartet auf Keypress bzw. Ablauf der zeit
+
+```yaml
+# Wartet 5 Minuten
+- pause:
+    minutes: 5
+
+# Als Erinnerung
+- pause:
+    prompt: "Überprüfe ob der Tomcat Server die Anwendung geladen hat"
+
+# Erwartet eingabe, aber gibt kein char echo aus
+# Speichert die Eingabe unter in die Variable my_ultra_secert.user_input
+- pause:
+    prompt: Enter a secret
+    echo: no
+  register: my_ultra_secret
+```
+
+note:
+  - Pause mit Warten
+  - Pause unendlich warten mit prompt
+  - eingabe erfassen
+    - echo aus
+
+</section>

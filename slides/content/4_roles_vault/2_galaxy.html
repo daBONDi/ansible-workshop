@@ -12,29 +12,29 @@
 <section data-markdown="">
 # Ansible Galaxy
 
-- Rolle **NICHT** blind benutzen!
+- Rollen **NICHT** blind benutzen!
   - **DON'T TRUST THE SOURCE, LUKE! (Github)**
-- Vieleicht Rolen nur von __renomierten__ Ansible Usern verwenden:
+- Vieleicht Rollen nur von __renomierten__ Ansible Usern verwenden:
   - geerlinguy (https://galaxy.ansible.com/geerlingguy)
   - robertdebock (https://galaxy.ansible.com/robertdebock)
   - debops (https://docs.debops.org/en/master/)
-  - Rolen mit einer hohen Download Anzahl?
+  - Rollen mit einer hohen Download Anzahl und guter Bewertung
 </section>
 <section data-markdown="">
 # Ansible Galaxy - CLI
 
 ```bash
-# Installiert die Role ins erste beschreibbare Rolen Verzeichnis
+# Installiert die Rolle ins erste beschreibbare Rollen Verzeichnis
 # ~/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles
 ansible-galaxy install username.role_name
 
-# Installiert die Role in Pfad
+# Installiert die Rolle in Pfad
 ansible-galaxy --roles-path ./roles geerlingguy.apache
 
-# Role suchen
+# Rolle suchen
 ansible-galaxy search elasticsearch --author geerlingguy
 
-# Rolen Meta/Info Daten anzeigen
+# Rollen Meta/Info Daten anzeigen
 ansible-galaxy info username.role_name
 ```
 
@@ -51,7 +51,7 @@ note:
 <section data-markdown="">
 # Ansible Galaxy - requirements.yml
 
-Installiert mehrer angegebenen Rolen für das Projektverzeichnis
+Installiert mehrere angegebene Rollen für das Projektverzeichnis
 
 ```bash
 ansible-galaxy install -r requirements.yml

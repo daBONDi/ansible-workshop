@@ -1,7 +1,7 @@
 <section data-markdown="">
 # Ansible Vault
 
-- Symetrische Verschlüsselung (AES256) von
+- Symmetrische Verschlüsselung (AES256) von
   - Dateien
   - Text
 
@@ -18,7 +18,7 @@
 
 - Kann über ENV Variable __DEFAULT_VAULT_PASSWORD_FILE__ übergeben werden
 
-> Aufpassen das Ihr KEIN Password File in das Sourcecontrol übergibt!
+> Aufpassen das ihr KEIN Password File in das Sourcecontrol übergebt!
 
 > .gitignore verwenden!
 
@@ -33,7 +33,7 @@ Python **vault_pass.py**
 print 'my-ultra-secret-password'
 ```
 
-Ansible erkennt ob vault-password-file als Executable markiert ist und führt dieses aus
+Ansible erkennt, ob vault-password-file als Executable markiert ist und führt dieses aus
 
 ```bash
 ansible-playbook --vault-password-file vault_pass.py
@@ -44,15 +44,20 @@ ansible-playbook --vault-password-file vault_pass.py
 # Ansible Vault - Dateien
 
 ```yaml
-# Datei Verschlüsseln
+# Datei verschlüsseln
 ansible-vault encrypt my_secret_file --vault-password-file mypass
 
-# Datei Entschlüsseln
+# Datei entschlüsseln
 ansible-vault decrypt my_secret_file --vault-password-file mypass
 ```
 
 Dateien werden automatisch von Ansible bei Verwendung in Modulen entschlüsselt!
 
+note:
+    - Entschlüsselt automatisch
+        - template
+        - copy
+    - Achtung entschlüsselte Datei wird im User Temp am Host abgelegt
 </section>
 <section data-markdown="">
 # Ansible Vault - Text

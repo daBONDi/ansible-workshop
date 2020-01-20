@@ -1,14 +1,14 @@
 <section data-markdown="">
 # Ansible Role
 
-Rollen sind **zusammengefasste Pakete(Ordner)** von
+Rollen sind **zusammengefasste Pakete (Ordner)** von
  - Variablen
  - Dateien
  - Templates
  - Playbooks
  - Module / Plugins
 
-Erleichtert die Lesbarkeit sowie die Wartung von komplexen Playbooks.
+Erleichtert die Lesbarkeit und Wartung von komplexen Playbooks.
 
 - Einfache Verteilung = **Git/SVN Repo per Role**
 - Wiederverwendung = **Einbindung der Role über Ansible Galaxy / Git im Projekt**
@@ -64,7 +64,7 @@ note:
 </section>
 
 <section data-markdown="">
-# Ansible Role - Rollen Einbinden
+# Ansible Role - Rolle verwenden
 
 ## Ansible sucht bei Ausführung in
 
@@ -106,7 +106,7 @@ note:
 </section>
 
 <section data-markdown="">
-# Ansible Role - tasks
+# Ansible Role - Tasks
 
 Default Import File:  **/tasks/main.yml**
 
@@ -214,6 +214,7 @@ server={{ application_server }}
 ```yaml
 # /defaults/main.yml
 application_server: appserver1.myapp.com
+my_app_version: 1.2
 ```
 
 

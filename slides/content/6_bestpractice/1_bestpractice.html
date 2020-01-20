@@ -9,7 +9,7 @@
 <section data-markdown="">
   # Best Practice - Optimize for Readability
 
-  Man erspart sich die Dokumentation wenn es gut lesbar ist!
+  Man erspart sich die Dokumentation, wenn es gut lesbar ist!
 </section>
 
 <section data-markdown="">
@@ -17,17 +17,17 @@
 
   Ansible ist eine "Desired State Engine"
 
-  Sobald man anfängt wie "Code" mit "ifs" und "when" zu arbeiten wäre ein Modul vieleicht besser ?
+  Sobald man anfängt, "Code" mit "if's" und "when's" zu schreiben, wäre ein Modul vielleicht besser
 </section>
 
 <section data-markdown="">
 # Workflow
 
-- Ansible Content in Version Control Packen
+- Ansible Content in Version Control packen
 - So einfach wie möglich anfangen
   - Static Inventory
   - Simple Playbooks
-- "Refactor and modularize later!"
+- "Refactor later!"
 </section>
 
 <section data-markdown="">
@@ -71,7 +71,7 @@ tomcat_port: 8080
 </section>
 
 <section>
-<h1>Logic von Variablen Trennen</h1>
+<h1>Logik von Variablen trennen</h1>
 <div class="columns">
   <div class="col">
     <pre><code class="hls yaml">
@@ -135,11 +135,11 @@ tomcat_port: 8080
 </div>
 </section>
 <section>
-  <h1>Natives YAML für bessere lesbarkeit verwenden</h1>
+  <h1>Natives YAML für bessere Lesbarkeit verwenden</h1>
   <ul>
     <li>Vertikal liest es sich leichter</li>
-    <li>Besser für Komplexe Parameter Werte</li>
-    <li>Funktioniert besser mit Syntax Higlighting im Editor</li>
+    <li>Besser für komplexe Parameterwerte</li>
+    <li>Funktioniert besser mit Syntax Highlighting im Editor</li>
   </ul>
   <pre><code class="hls yaml">
     - debug:
@@ -295,7 +295,7 @@ ok: [web1]
 <section data-markdown="">
 # Smoke Tests
 
-Nicht einfach nur einen Service Starten, Smoketest einfügen!
+Nicht einfach nur einen Service starten sondern Smoke Tests einfügen!
 
 ```yaml
 - name: ensure apache started
@@ -316,7 +316,7 @@ Nicht einfach nur einen Service Starten, Smoketest einfügen!
 </section>
 <section>
 <h1>Gibt es ein Modul?</h1>
-<p>Immer zuerst nachschauen ob es ein Modul gibt bevor man "command" verwendet</p>
+<p>Immer zuerst nachschauen, ob es ein Modul gibt, bevor man "command" verwendet</p>
 <div class="columns">
   <div class="col">
 
@@ -383,7 +383,7 @@ Single Project Roles = /roles
 
 Interne oder Galaxy Roles = /galaxy_roles
 
-**requirements.yml** verwenden um die benötigen Rollen für das Projekt nachzuladen!
+**requirements.yml** verwenden, um die benötigen Rollen für das Projekt nachzuladen!
 
 ```yaml
 - src: geerlingguy.certbot

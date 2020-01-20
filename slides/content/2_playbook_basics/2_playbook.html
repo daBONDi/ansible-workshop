@@ -3,15 +3,15 @@
 
 ### Task/Handler
 
-Task/Handler führen Module mit den angegeben Parameter an(Ad-Hoc).
+Task/Handler führen Module mit den angegeben Parameter aus (Ad-Hoc).
 
 ### Play
 
-Ein Play besteht aus mehreren Task/Handler/Roles die auf einen Host/Gruppe ausgeführt werden
+Ein Play besteht aus mehreren Task/Handler/Roles, die auf einen Host/Gruppe ausgeführt werden
 
 ### Playbook
 
-Das Playbook ist eine YAML Datei die mehrer Play's beinhaltet
+Das Playbook ist eine YAML Datei, die mehrere Play's beinhaltet
 
 note:
   Kurz über die bezeichnung, danach zeigen wir eh das playbook
@@ -50,7 +50,7 @@ note:
 
 ## Playbook - Handler Tasks
 
-Handler sind spezielle Tasks die zum Schluss des Plays durchgeführt werden, wen ein Task ein "notify" aussendet
+Handler sind spezielle Tasks, die zum Schluss des Plays durchgeführt werden, wenn ein Task ein "notify" aussendet
 
 ```YAML
 
@@ -73,7 +73,7 @@ handlers:
       state: restarted                      # Modul Parameter
 ```
 
-> Wenn Package Installiert oder Aktualisiert wird starte den Dienst neu
+> Wenn Package installiert oder aktualisiert wird, starte den Dienst neu
 
 note:
   - Wird nur einmal per Play ausgeführt
@@ -151,7 +151,7 @@ note:
 - Durchbeschreiben der einzelnen
 - Beschreiben Warum
   - Mehrer Plays
-  - Für jede App Deployment Stage ein Play wie zb.
+  - Für jede App Deployment Stage ein Play wie z.B.
     - Application
       - Database Server
         - Smoke Test

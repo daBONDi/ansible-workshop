@@ -3,18 +3,18 @@
 
 ## Dry-run
 
-Da die meisten Module Idempotend sind, können wir die Playbooks im "Dry Run" laufen lassen.
-Es werden **keinen Änderungen** vorgenommen von den Tasks, aber welche Task sich **ändern wird zurückgegeben**.
+Da die meisten Module **idempotend** sind, können wir die Playbooks im **Dry Run** laufen lassen.
+Es werden **keinen Änderungen** vorgenommen von den Tasks, aber welche Tasks sich ändern, wird zurückgegeben.
 
 ```bash
 ansible-playbook simple.yml -i inventory.ini --check
 ```
 
-> Achtung es gibt Preview Module wo zb. die Funktion für einen Dry Run fehlt!! (Ansible Modul Index überprüfen)
+> Achtung! Es gibt Preview Module, wo die Funktion für einen Dry Run fehlt!! (Ansible Modul Index überprüfen)
 
 ## Syntax Check
 
-Der Syntax vom Playbook wird ohne ausführung kontrolliert.
+Die Syntax vom Playbook wird überprüft (ohne Ausführung).
 
 ```bash
 ansible-playbook simple.yml -i inventory --syntax-check
@@ -37,7 +37,7 @@ Es wird der Output bzw. Return Value jedes Tasks/Module ausgegeben
 > Mehr **v** in -v setzt den Debug Level höher
 </section>
 <section data-markdown="">
-# Debug in Playbook
+# Debug im Playbook
 
 ```YAML
 tasks:

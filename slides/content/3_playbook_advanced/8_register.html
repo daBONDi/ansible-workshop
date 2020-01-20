@@ -3,7 +3,7 @@
 
 Speichert die Rückgabe eines Moduls in eine Variable.
 
-Jedes Modul liefert bestimmten Rückgabewert/Objekt mit dem gearbeitet werden kann.
+Jedes Modul liefert ein Objekt zurück mit dem gearbeitet werden kann.
 
 https://docs.ansible.com/ansible/latest/modules/stat_module.html
 
@@ -30,8 +30,8 @@ note:
 # Error Handling: failed_when / changed_when
 
 - Success when Errorlevel == 0
-- Changed wenn Errorlevel == 0 und stdout beinhaltet **SUCCESS**
-- Failed when Errorlevel <> 0 und stderr beinhaltet **FAILED**
+- Changed wenn Errorlevel == 0 und stdout **SUCCESS** beinhaltet  
+- Failed when Errorlevel <> 0 und stderr **FAILED** beinhaltet 
 
 ```yaml
 - name: "Fail Task when the command error output prints FAILED"
@@ -41,7 +41,7 @@ note:
   changed_when: "'SUCCESS' in command_result.stdout
 ```
 note:
-  - zb. bei ausführung eines commands
+  - z.B. bei ausführung eines commands
     - command liefert stdout sowie stderr zurück als property
     - wenn String in stderr
 
@@ -50,7 +50,7 @@ note:
 <section data-markdown="">
 # Error Handling: ignore_errors
 
-Ignoriert es wenn das Modul ein **Failure** liefert.
+Ignoriert es, wenn das Modul ein **Failure** liefert.
 
 ```yaml
 - name: "This will fail"

@@ -1,23 +1,23 @@
 <section>
   <h1>Inventory</h1>
   <ul>
-    <li>Beschreibt die Hosts(Nodes)</li>
+    <li>Beschreibt die Hosts (Nodes)</li>
     <ul>
-      <li>IP/DNS/Connection Setup(SSH/WinRM)</li>
+      <li>IP/DNS/Connection Setup (SSH/WinRM)</li>
       <li>Host spezifische Variablen</li>
     </ul>
     <li>Gruppen</li>
       <ul>
-        <li>Ein Host kann in mehreren Gruppen sein(zb. frontend, application, database)</li>
+        <li>Ein Host kann in mehreren Gruppen sein (z.B. frontend, application, database)</li>
         <li>Gruppen können auch verschachtelt werden</li>
       </ul>
   </ul>
   <h3>Quelle</h3>
   <ul>
-    <li>Statisch File (INI, YAML, JSON)</li>
+    <li>Statisches File (INI, YAML, JSON)</li>
     <li>Dynamisch</li>
     <ul>
-      <li>Inventory Plugin(zb. Netbox, AWS, Azure)</li>
+      <li>Inventory Plugin (z.B. Netbox, AWS, Azure)</li>
       <li>Shell Tool das INI/YAML/JSON in stdout ausgibt</li>
     </ul>
     <li>Angabe als String "192.168.1.1,192.168.1,"</li>
@@ -60,10 +60,10 @@
   ```
 
   ### inventory_hostname
-  Der für Ansible interner festgelegter Name(für Filterung, Playbook Host Angaben usw.)
+  Der für Ansible interne festgelegte Name (für Filterung, Playbook Host Angaben usw.)
 
   ### ansible_host
-  Der für die Verbindung verwendeter Name/IP Adresse
+  Der für die Verbindung verwendete Name/IP Adresse
 
   note:
   - Unterscheid zwischen 

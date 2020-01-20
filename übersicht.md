@@ -157,7 +157,7 @@ https://ansible.github.io/lightbulb/decks/ansible-essentials.html#/12
   - Für was sind Ad-Hoc
   - Kurzbeschreibung von -m -a -b -e --version --help
   - Wann Ad-hoc nehmen gegenüber einem Playbook
-    - zb. Neustarten der Server, geht schneller als ein playbook schreiben
+    - z.B. Neustarten der Server, geht schneller als ein playbook schreiben
 
 - Demo
   - Inventory File
@@ -225,7 +225,7 @@ https://ansible.github.io/lightbulb/decks/ansible-essentials.html#/12
 ### Tasks
 
 - Tasks
-  - Sind die anwendung von Modulen wie zb.
+  - Sind die anwendung von Modulen wie z.B.
     - file
     - yum
     - service
@@ -331,7 +331,7 @@ https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html
     - Variablen Setzen/Bearbeiten
     - Logic
     - Dateien Erzeugen von einem Template aus
-      - zb. Config Files
+      - z.B. Config Files
   - Wir kommen noch später dazu
 
 - Loops
@@ -410,7 +410,7 @@ https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html
   - Sind einfach zu teilen, wiederverwenden und zum standrtisieren
   - Kann unabhängig vom Playbook/Projekt/Organisation sein
   - Biete funktionen wie
-    - Dateipfad auflösung(zb. Template files)
+    - Dateipfad auflösung(z.B. Template files)
     - Möglichkeit zur vorgabe von Standart Werten
 
 - Herzeigen einer Typsichen Ansible Role und die Ordner Struktur

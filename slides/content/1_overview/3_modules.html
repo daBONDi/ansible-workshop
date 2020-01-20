@@ -2,7 +2,7 @@
   <h1>Module</h1>
   <ul>
     <li>Ein Module ist Code, der auf das Zielsystem <b>kopiert</b> und <b>ausgeführt</b> wird.</li>
-    <li>Mehrfache Ausführung sollte immer zum <b>selben Ergebnis</b> führen(idempotent)</li>
+    <li>Mehrfache Ausführung sollte immer zum <b>selben Ergebnis</b> führen (idempotent)</li>
       <ul>
         <li>Es gibt Module die <b>NICHT idempotent sind! Module doc beachten!</b></li>
       </ul>
@@ -12,7 +12,7 @@
         <h2>Linux</h2>
         <ul>
           <li>Fast alle Module sind in Python geschrieben</li>
-          <li>Python + benötigen Python Package müssen am Target Host vorhanden sein!</li>
+          <li>Python + benötigte Python Packages müssen am Target Host vorhanden sein!</li>
         </ul>
     </div>
     <div class="col">
@@ -59,9 +59,9 @@
 
   Wenn es kein Ansible Modul gibt, können normale Shellbefehle/Scripts ausgeführt werden.
 
-  - **command / win_command:** Einfaches Command(Keine Shell)
+  - **command / win_command:** Einfaches Command (Keine Shell)
 
-  - **shell/win_shell:** Führt das Command durch eine Shell auf zb. /bin/sh und kann dadurch auch Pipen(**Hier aufpassen**)
+  - **shell/win_shell:** Führt das Command durch eine Shell auf z.B. /bin/sh und kann dadurch auch pipen (**hier aufpassen**)
 
   - **script/win_script:** Führt das lokale Script auf dem Remote Host aus
 
@@ -80,7 +80,7 @@
       <ul>
         <li><b>copy</b> Kopiert von Controller zu Host</li>
         <li><b>file</b> Stellt sicher das eine Datei/Ordner/Berechtigung vorhanden ist</li>
-        <li><b>template</b> Baut zb. eine Config File mit Jinja2 Templating zusammen</li>
+        <li><b>template</b> Baut z.B. eine Config File mit Jinja2 Templating zusammen</li>
         <li><b>apt/yum</b> Package Manager</li>
         <li><b>service</b> Linux Daemon Management</li>
         <li>...</li>

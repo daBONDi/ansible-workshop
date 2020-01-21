@@ -101,10 +101,6 @@ ansible-playbook destroy.yml
 
 Demo Sourcen für Presentator
 
-### doc
-
-Handout für die Schulungsteilnehmer
-
 ### workshop
 
 Alle Sourcen für jeden Übungsschritt

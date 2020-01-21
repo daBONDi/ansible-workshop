@@ -54,6 +54,7 @@
   Benutze das **win_feature Modul** für die IIS Installation: 
   https://docs.ansible.com/ansible/latest/modules/win_feature_module.html
   
+  Windows Feature Name: Web-Server
 
 - Windows IIS Pfad für Index.html
   ```

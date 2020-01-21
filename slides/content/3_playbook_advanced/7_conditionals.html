@@ -7,7 +7,7 @@ Führt den Task aus, wenn die **Jinja2 Expression == True** ist
 
 # Simple Conditional basierend auf den Ansible Host Facts
 - debug:
-    msg: "I'm a Readhead OS"
+    msg: "I'm a RedHat OS"
   when: ansible_facts['os_family'] == "RedHat"
 
 - debug:

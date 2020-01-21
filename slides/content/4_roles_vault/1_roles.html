@@ -169,7 +169,8 @@ my_app_download_url:  "https://my_release_server.myapp.com/download/{{ my_app_ve
 ```yaml
 # /tasks/main.yml
 - name: create temp space
-    tempfile: directory
+  tempfile: 
+    state: directory
     suffix: "build_{{ my_app_version }}"
   register: install_source
 
@@ -179,8 +180,9 @@ my_app_download_url:  "https://my_release_server.myapp.com/download/{{ my_app_ve
     dest: "{{ install_source.path }}/{{ my_app_version}}.zip"
 
 - name: cleanup temp space
-  file: "{{ install_source.path }}"
-  state: absent
+  file: 
+    path: "{{ install_source.path }}"
+    state: absent
 ```
 
 note:
@@ -207,8 +209,8 @@ server={{ application_server }}
 ```yaml
 # /tasks/main.yml
 - template:
-  src: config.ini.j2
-  dest: /opt/myapp/{{ my_app_version }}/config.ini
+    src: config.ini.j2
+    dest: /opt/myapp/{{ my_app_version }}/config.ini
 ```
 
 ```yaml

@@ -9,7 +9,7 @@
     api_url={{ api_url }}
     {% for server in servers %}
     [{{ server.name }}]
-    url={{ url }}
+    url={{ server.url }}
     {% if server.name == 'blue' %}blueserver=true{% endif %}
     {% endfor %}
     </code></pre>

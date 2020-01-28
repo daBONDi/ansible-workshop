@@ -48,7 +48,7 @@
   ctrl ansible_host=10.0.1.10 my_custom_var=hello
 
   [web]
-  debian[1:5] ansible_host=10.0.1.[21:25]
+  debian[1:5].myserver.com
 
   [linux:children]
   web

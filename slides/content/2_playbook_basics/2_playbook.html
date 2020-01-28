@@ -1,6 +1,10 @@
 <section data-markdown="">
 ## Playbook - Übersicht
 
+```bash
+ansible-playbook playbook.yml -i inventory.ini
+```
+
 ### Task/Handler
 
 Task/Handler führen Module mit den angegeben Parameter aus (Ad-Hoc).
@@ -12,6 +16,8 @@ Ein Play besteht aus mehreren Task/Handler/Roles, die auf einen Host/Gruppe ausg
 ### Playbook
 
 Das Playbook ist eine YAML Datei, die mehrere Play's beinhaltet
+
+
 
 note:
   Kurz über die bezeichnung, danach zeigen wir eh das playbook

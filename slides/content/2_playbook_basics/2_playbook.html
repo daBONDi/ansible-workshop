@@ -65,7 +65,7 @@ tasks:                                      # Task Array for the Play
     apt:                                    # Modul
       name: apache2                         # Modul Parameter
       state: latest                         # Modul Parameter
-    notify: restart httpd                   # Sende das Notify zum Handler
+    notify: restart_httpd                   # Sende das Notify zum Handler
   
   - name: Ensure latest index.html file is present
     copy:
@@ -73,7 +73,7 @@ tasks:                                      # Task Array for the Play
       dest: /var/www/html
   
 handlers:
-  - name: Restart httpd                     # Handler Name
+  - name: restart_httpd                     # Handler Name
     service:                                # Modul
       name: apache2                         # Modul Parameter
       state: restarted                      # Modul Parameter

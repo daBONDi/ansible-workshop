@@ -11,6 +11,6 @@
 
 - name: deploy our awesome app - image.jpg
   copy:
-    src: "{{ app_config.image }}"
-    dest: "/var/www/html/{{ app_config.image }}"
+    src: "{{ config.image }}"
+    dest: "/var/www/html/{{ config.image }}"
     
